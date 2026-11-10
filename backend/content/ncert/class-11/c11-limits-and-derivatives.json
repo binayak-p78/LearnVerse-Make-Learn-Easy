@@ -1,0 +1,117 @@
+{
+  "id": "c11-limits-and-derivatives",
+  "grade": 11,
+  "number": 12,
+  "title": "Limits and Derivatives",
+  "summary": "The intuitive idea of a limit, standard limits, and derivatives from first principles.",
+  "topics": [
+    {
+      "id": "limits",
+      "title": "Limits",
+      "notes": "$\\lim_{x \\to a} f(x) = L$ means $f(x)$ gets as close to $L$ as we like when $x$ is close enough to $a$ (but not equal to it).\n\nThe limit exists only when the **left-hand** and **right-hand** limits are equal:\n$$\\lim_{x \\to a^-} f(x) = \\lim_{x \\to a^+} f(x)$$\n\n**Standard limits**\n$$\\lim_{x \\to a} \\frac{x^n - a^n}{x - a} = n a^{n-1} \\qquad \\lim_{x \\to 0} \\frac{\\sin x}{x} = 1 \\qquad \\lim_{x \\to 0} \\frac{1 - \\cos x}{x} = 0$$",
+      "widget": {
+        "module": "calculus",
+        "label": "Watch sin(x)/x approach 1",
+        "params": {
+          "mode": "limit",
+          "f": "sin(x)/x",
+          "a": "0"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Evaluate $\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}$.",
+          "solution": "Factor: $\\frac{(x-2)(x+2)}{x-2} = x + 2 \\to 4$."
+        },
+        {
+          "problem": "Evaluate $\\lim_{x \\to 0} \\frac{\\sin 3x}{x}$.",
+          "solution": "$= 3 \\cdot \\lim_{x\\to 0}\\frac{\\sin 3x}{3x} = 3$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "l1",
+          "type": "numeric",
+          "prompt": "lim (x→2) (x² − 4)/(x − 2) = ?",
+          "answer": 4,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "l2",
+          "type": "numeric",
+          "prompt": "lim (x→0) sin(3x)/x = ?",
+          "answer": 3,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "l3",
+          "type": "numeric",
+          "prompt": "lim (x→1) (x⁵ − 1)/(x − 1) = ?",
+          "answer": 5,
+          "hint": "Use n·aⁿ⁻¹.",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    },
+    {
+      "id": "derivatives",
+      "title": "Derivatives",
+      "notes": "The **derivative** of $f$ at $a$ is the slope of the tangent there:\n$$f'(a) = \\lim_{h \\to 0} \\frac{f(a + h) - f(a)}{h}$$\n\n**Algebra of derivatives**\n- $(u \\pm v)' = u' \\pm v'$\n- $(uv)' = u'v + uv'$  (product rule)\n- $\\left(\\dfrac{u}{v}\\right)' = \\dfrac{u'v - uv'}{v^2}$  (quotient rule)\n\n**Standard derivatives:** $\\frac{d}{dx}x^n = nx^{n-1}$, $\\frac{d}{dx}\\sin x = \\cos x$, $\\frac{d}{dx}\\cos x = -\\sin x$.\n\nDrag the tangent in the visualizer to see $f'(x)$ as a slope.",
+      "widget": {
+        "module": "calculus",
+        "label": "Tangent to y = x³",
+        "params": {
+          "mode": "derivative",
+          "f": "x^3",
+          "x0": "1"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find the derivative of $x^2$ from first principles.",
+          "solution": "$\\frac{(x+h)^2 - x^2}{h} = 2x + h \\to 2x$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "d1",
+          "type": "numeric",
+          "prompt": "If f(x) = x³, what is f′(2)?",
+          "answer": 12,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "d2",
+          "type": "numeric",
+          "prompt": "What is d/dx (sin x · cos x) at x = 0?",
+          "answer": 1,
+          "hint": "",
+          "explanation": "The derivative is cos 2x, and cos 0 = 1.",
+          "tolerance": 0.01
+        },
+        {
+          "id": "d3",
+          "type": "mcq",
+          "prompt": "What is d/dx (1/x)?",
+          "answer": 1,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01,
+          "options": [
+            "1/x²",
+            "−1/x²",
+            "ln x",
+            "−1/x"
+          ]
+        }
+      ]
+    }
+  ]
+}

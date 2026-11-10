@@ -1,0 +1,3363 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "MAKE LEARN EASY API",
+  "description": "Content, symbolic calculus and automata services for MAKE LEARN EASY.",
+  "version": "0.1.0"
+ },
+ "paths": {
+  "/api/health": {
+   "get": {
+    "tags": [
+     "meta"
+    ],
+    "summary": "Health",
+    "operationId": "health_api_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": {
+          "type": "string"
+         },
+         "type": "object",
+         "title": "Response Health Api Health Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/automata/examples": {
+   "get": {
+    "tags": [
+     "automata"
+    ],
+    "summary": "List Examples",
+    "operationId": "list_examples_api_automata_examples_get",
+    "parameters": [
+     {
+      "name": "kind",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "enum": [
+          "dfa",
+          "nfa",
+          "pda",
+          "tm"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Kind"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/ExampleSummary"
+         },
+         "title": "Response List Examples Api Automata Examples Get"
+        }
+       }
+      }
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      },
+      "description": "Unprocessable Content"
+     }
+    }
+   }
+  },
+  "/api/automata/examples/{example_id}": {
+   "get": {
+    "tags": [
+     "automata"
+    ],
+    "summary": "Get Example",
+    "operationId": "get_example_api_automata_examples__example_id__get",
+    "parameters": [
+     {
+      "name": "example_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Example Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Example"
+        }
+       }
+      }
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      },
+      "description": "Bad Request"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      },
+      "description": "Unprocessable Content"
+     }
+    }
+   }
+  },
+  "/api/automata/validate": {
+   "post": {
+    "tags": [
+     "automata"
+    ],
+    "summary": "Validate Machine",
+    "operationId": "validate_machine_api_automata_validate_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MachineRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ValidationReport"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad Request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/automata/simulate": {
+   "post": {
+    "tags": [
+     "automata"
+    ],
+    "summary": "Simulate",
+    "operationId": "simulate_api_automata_simulate_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SimulateRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "oneOf": [
+          {
+           "$ref": "#/components/schemas/FiniteResult"
+          },
+          {
+           "$ref": "#/components/schemas/PDAResult"
+          },
+          {
+           "$ref": "#/components/schemas/TMResult"
+          }
+         ],
+         "title": "Response Simulate Api Automata Simulate Post",
+         "discriminator": {
+          "propertyName": "kind",
+          "mapping": {
+           "dfa": "#/components/schemas/FiniteResult",
+           "nfa": "#/components/schemas/FiniteResult",
+           "pda": "#/components/schemas/PDAResult",
+           "tm": "#/components/schemas/TMResult"
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad Request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/automata/convert/nfa-to-dfa": {
+   "post": {
+    "tags": [
+     "automata"
+    ],
+    "summary": "Convert Nfa To Dfa",
+    "operationId": "convert_nfa_to_dfa_api_automata_convert_nfa_to_dfa_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MachineRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ConvertResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad Request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/automata/minimize": {
+   "post": {
+    "tags": [
+     "automata"
+    ],
+    "summary": "Minimize",
+    "operationId": "minimize_api_automata_minimize_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MachineRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/MinimizeResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad Request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/automata/export": {
+   "post": {
+    "tags": [
+     "automata"
+    ],
+    "summary": "Export Machine",
+    "operationId": "export_machine_api_automata_export_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MachineRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/MachineDocument-Output"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad Request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/automata/import": {
+   "post": {
+    "tags": [
+     "automata"
+    ],
+    "summary": "Import Machine",
+    "operationId": "import_machine_api_automata_import_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MachineDocument-Input"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ImportResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad Request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/calculus/derivative": {
+   "post": {
+    "tags": [
+     "calculus"
+    ],
+    "summary": "Derivative",
+    "operationId": "derivative_api_calculus_derivative_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DerivativeRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CalculusResult"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad Request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/calculus/integral": {
+   "post": {
+    "tags": [
+     "calculus"
+    ],
+    "summary": "Integral",
+    "operationId": "integral_api_calculus_integral_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/IntegralRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CalculusResult"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad Request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/calculus/limit": {
+   "post": {
+    "tags": [
+     "calculus"
+    ],
+    "summary": "Limit",
+    "operationId": "limit_api_calculus_limit_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/LimitRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CalculusResult"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad Request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Content",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/content/classes": {
+   "get": {
+    "tags": [
+     "content"
+    ],
+    "summary": "List Classes",
+    "operationId": "list_classes_api_content_classes_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/ClassSummary"
+         },
+         "type": "array",
+         "title": "Response List Classes Api Content Classes Get"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/content/classes/{grade}": {
+   "get": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Get Class",
+    "operationId": "get_class_api_content_classes__grade__get",
+    "parameters": [
+     {
+      "name": "grade",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Grade"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ClassDetail"
+        }
+       }
+      }
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/content/chapters/{chapter_id}": {
+   "get": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Get Chapter",
+    "operationId": "get_chapter_api_content_chapters__chapter_id__get",
+    "parameters": [
+     {
+      "name": "chapter_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Chapter Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ChapterPublic"
+        }
+       }
+      }
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/content/search": {
+   "get": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Search",
+    "operationId": "search_api_content_search_get",
+    "parameters": [
+     {
+      "name": "q",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "minLength": 2,
+       "maxLength": 60,
+       "title": "Q"
+      }
+     },
+     {
+      "name": "grade",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer",
+         "maximum": 12,
+         "minimum": 11
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Grade"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/SearchHit"
+         },
+         "title": "Response Search Api Content Search Get"
+        }
+       }
+      }
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/quiz/check": {
+   "post": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Check Answer",
+    "operationId": "check_answer_api_quiz_check_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AnswerRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/AnswerResult"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/labs": {
+   "get": {
+    "tags": [
+     "labs"
+    ],
+    "summary": "List Labs",
+    "operationId": "list_labs_api_labs_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/LabSummary"
+         },
+         "type": "array",
+         "title": "Response List Labs Api Labs Get"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/labs/{lab_id}": {
+   "get": {
+    "tags": [
+     "labs"
+    ],
+    "summary": "Get Lab",
+    "operationId": "get_lab_api_labs__lab_id__get",
+    "parameters": [
+     {
+      "name": "lab_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Lab Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LabDetail"
+        }
+       }
+      }
+     },
+     "404": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      },
+      "description": "Not Found"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "AnswerRequest": {
+    "properties": {
+     "chapterId": {
+      "type": "string",
+      "title": "Chapterid"
+     },
+     "topicId": {
+      "type": "string",
+      "title": "Topicid"
+     },
+     "questionId": {
+      "type": "string",
+      "title": "Questionid"
+     },
+     "answer": {
+      "type": "number",
+      "title": "Answer"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "chapterId",
+     "topicId",
+     "questionId",
+     "answer"
+    ],
+    "title": "AnswerRequest"
+   },
+   "AnswerResult": {
+    "properties": {
+     "correct": {
+      "type": "boolean",
+      "title": "Correct"
+     },
+     "correctAnswer": {
+      "type": "number",
+      "title": "Correctanswer"
+     },
+     "explanation": {
+      "type": "string",
+      "title": "Explanation"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "correct",
+     "correctAnswer",
+     "explanation"
+    ],
+    "title": "AnswerResult"
+   },
+   "CalculusResult": {
+    "properties": {
+     "inputLatex": {
+      "type": "string",
+      "title": "Inputlatex"
+     },
+     "result": {
+      "type": "string",
+      "title": "Result"
+     },
+     "resultLatex": {
+      "type": "string",
+      "title": "Resultlatex"
+     },
+     "numeric": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Numeric"
+     },
+     "steps": {
+      "items": {
+       "$ref": "#/components/schemas/Step"
+      },
+      "type": "array",
+      "title": "Steps"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "inputLatex",
+     "result",
+     "resultLatex",
+     "numeric",
+     "steps"
+    ],
+    "title": "CalculusResult"
+   },
+   "ChapterPublic": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "grade": {
+      "type": "integer",
+      "title": "Grade"
+     },
+     "number": {
+      "type": "integer",
+      "title": "Number"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "summary": {
+      "type": "string",
+      "title": "Summary"
+     },
+     "topics": {
+      "items": {
+       "$ref": "#/components/schemas/TopicPublic"
+      },
+      "type": "array",
+      "title": "Topics"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "grade",
+     "number",
+     "title",
+     "summary",
+     "topics"
+    ],
+    "title": "ChapterPublic"
+   },
+   "ChapterSummary": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "number": {
+      "type": "integer",
+      "title": "Number"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "available": {
+      "type": "boolean",
+      "title": "Available"
+     },
+     "summary": {
+      "type": "string",
+      "title": "Summary",
+      "default": ""
+     },
+     "topicCount": {
+      "type": "integer",
+      "title": "Topiccount",
+      "default": 0
+     },
+     "topicIds": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Topicids"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "number",
+     "title",
+     "available",
+     "summary",
+     "topicCount",
+     "topicIds"
+    ],
+    "title": "ChapterSummary"
+   },
+   "ClassDetail": {
+    "properties": {
+     "grade": {
+      "type": "integer",
+      "title": "Grade"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "book": {
+      "type": "string",
+      "title": "Book"
+     },
+     "chapters": {
+      "items": {
+       "$ref": "#/components/schemas/ChapterSummary"
+      },
+      "type": "array",
+      "title": "Chapters"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "grade",
+     "title",
+     "book",
+     "chapters"
+    ],
+    "title": "ClassDetail"
+   },
+   "ClassSummary": {
+    "properties": {
+     "grade": {
+      "type": "integer",
+      "title": "Grade"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "book": {
+      "type": "string",
+      "title": "Book"
+     },
+     "chapterCount": {
+      "type": "integer",
+      "title": "Chaptercount"
+     },
+     "availableCount": {
+      "type": "integer",
+      "title": "Availablecount"
+     },
+     "topicCount": {
+      "type": "integer",
+      "title": "Topiccount"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "grade",
+     "title",
+     "book",
+     "chapterCount",
+     "availableCount",
+     "topicCount"
+    ],
+    "title": "ClassSummary"
+   },
+   "ConvertResponse": {
+    "properties": {
+     "dfa": {
+      "$ref": "#/components/schemas/FiniteMachine-Output"
+     },
+     "mapping": {
+      "additionalProperties": {
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      },
+      "type": "object",
+      "title": "Mapping"
+     },
+     "steps": {
+      "items": {
+       "$ref": "#/components/schemas/SubsetStep"
+      },
+      "type": "array",
+      "title": "Steps"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "dfa",
+     "mapping",
+     "steps"
+    ],
+    "title": "ConvertResponse"
+   },
+   "DerivativeRequest": {
+    "properties": {
+     "expression": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Expression"
+     },
+     "variable": {
+      "type": "string",
+      "pattern": "^[a-z]$",
+      "title": "Variable",
+      "default": "x"
+     },
+     "order": {
+      "type": "integer",
+      "maximum": 5.0,
+      "minimum": 1.0,
+      "title": "Order",
+      "default": 1
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "expression"
+    ],
+    "title": "DerivativeRequest"
+   },
+   "ErrorBody": {
+    "properties": {
+     "code": {
+      "type": "string",
+      "title": "Code"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "code",
+     "message"
+    ],
+    "title": "ErrorBody"
+   },
+   "ErrorResponse": {
+    "properties": {
+     "detail": {
+      "$ref": "#/components/schemas/ErrorBody"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "detail"
+    ],
+    "title": "ErrorResponse"
+   },
+   "Example": {
+    "properties": {
+     "machine": {
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/FiniteMachine-Output"
+       },
+       {
+        "$ref": "#/components/schemas/PDAMachine-Output"
+       },
+       {
+        "$ref": "#/components/schemas/TMMachine-Output"
+       }
+      ],
+      "title": "Machine",
+      "discriminator": {
+       "propertyName": "kind",
+       "mapping": {
+        "dfa": "#/components/schemas/FiniteMachine-Output",
+        "nfa": "#/components/schemas/FiniteMachine-Output",
+        "pda": "#/components/schemas/PDAMachine-Output",
+        "tm": "#/components/schemas/TMMachine-Output"
+       }
+      }
+     },
+     "cases": {
+      "items": {
+       "$ref": "#/components/schemas/ExampleCase"
+      },
+      "type": "array",
+      "title": "Cases"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "machine",
+     "cases"
+    ],
+    "title": "Example"
+   },
+   "ExampleCase": {
+    "properties": {
+     "input": {
+      "type": "string",
+      "title": "Input"
+     },
+     "accepted": {
+      "type": "boolean",
+      "title": "Accepted"
+     },
+     "output": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Output"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "input",
+     "accepted",
+     "output"
+    ],
+    "title": "ExampleCase"
+   },
+   "ExampleSummary": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "description": {
+      "type": "string",
+      "title": "Description"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "dfa",
+       "nfa",
+       "pda",
+       "tm"
+      ],
+      "title": "Kind"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "description",
+     "kind"
+    ],
+    "title": "ExampleSummary"
+   },
+   "FiniteMachine-Input": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 64,
+      "title": "Id",
+      "default": "untitled"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "Name",
+      "default": "Untitled"
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 400,
+      "title": "Description",
+      "default": ""
+     },
+     "alphabet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 32,
+      "title": "Alphabet"
+     },
+     "states": {
+      "items": {
+       "$ref": "#/components/schemas/State-Input"
+      },
+      "type": "array",
+      "maxItems": 64,
+      "title": "States"
+     },
+     "start": {
+      "type": "string",
+      "title": "Start"
+     },
+     "accept": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Accept"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "dfa",
+       "nfa"
+      ],
+      "title": "Kind"
+     },
+     "transitions": {
+      "items": {
+       "$ref": "#/components/schemas/FiniteTransition"
+      },
+      "type": "array",
+      "maxItems": 512,
+      "title": "Transitions"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "alphabet",
+     "states",
+     "start",
+     "kind"
+    ],
+    "title": "FiniteMachine"
+   },
+   "FiniteMachine-Output": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 64,
+      "title": "Id",
+      "default": "untitled"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "Name",
+      "default": "Untitled"
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 400,
+      "title": "Description",
+      "default": ""
+     },
+     "alphabet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 32,
+      "title": "Alphabet"
+     },
+     "states": {
+      "items": {
+       "$ref": "#/components/schemas/State-Output"
+      },
+      "type": "array",
+      "maxItems": 64,
+      "title": "States"
+     },
+     "start": {
+      "type": "string",
+      "title": "Start"
+     },
+     "accept": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Accept"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "dfa",
+       "nfa"
+      ],
+      "title": "Kind"
+     },
+     "transitions": {
+      "items": {
+       "$ref": "#/components/schemas/FiniteTransition"
+      },
+      "type": "array",
+      "maxItems": 512,
+      "title": "Transitions"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "description",
+     "alphabet",
+     "states",
+     "start",
+     "accept",
+     "kind",
+     "transitions"
+    ],
+    "title": "FiniteMachine"
+   },
+   "FiniteResult": {
+    "properties": {
+     "kind": {
+      "type": "string",
+      "enum": [
+       "dfa",
+       "nfa"
+      ],
+      "title": "Kind"
+     },
+     "accepted": {
+      "type": "boolean",
+      "title": "Accepted"
+     },
+     "halted": {
+      "type": "boolean",
+      "title": "Halted"
+     },
+     "reason": {
+      "type": "string",
+      "title": "Reason"
+     },
+     "steps": {
+      "items": {
+       "$ref": "#/components/schemas/FiniteStep"
+      },
+      "type": "array",
+      "title": "Steps"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "kind",
+     "accepted",
+     "halted",
+     "reason",
+     "steps"
+    ],
+    "title": "FiniteResult"
+   },
+   "FiniteStep": {
+    "properties": {
+     "states": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "States"
+     },
+     "inputIndex": {
+      "type": "integer",
+      "title": "Inputindex"
+     },
+     "symbol": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Symbol"
+     },
+     "transitionIds": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Transitionids"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "states",
+     "inputIndex",
+     "symbol",
+     "transitionIds"
+    ],
+    "title": "FiniteStep"
+   },
+   "FiniteTransition": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "title": "Id"
+     },
+     "from": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "From"
+     },
+     "to": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "To"
+     },
+     "read": {
+      "type": "string",
+      "maxLength": 8,
+      "title": "Read"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "from",
+     "to",
+     "read"
+    ],
+    "title": "FiniteTransition"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "ImportResponse": {
+    "properties": {
+     "machine": {
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/FiniteMachine-Output"
+       },
+       {
+        "$ref": "#/components/schemas/PDAMachine-Output"
+       },
+       {
+        "$ref": "#/components/schemas/TMMachine-Output"
+       }
+      ],
+      "title": "Machine",
+      "discriminator": {
+       "propertyName": "kind",
+       "mapping": {
+        "dfa": "#/components/schemas/FiniteMachine-Output",
+        "nfa": "#/components/schemas/FiniteMachine-Output",
+        "pda": "#/components/schemas/PDAMachine-Output",
+        "tm": "#/components/schemas/TMMachine-Output"
+       }
+      }
+     },
+     "validation": {
+      "$ref": "#/components/schemas/ValidationReport"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "machine",
+     "validation"
+    ],
+    "title": "ImportResponse"
+   },
+   "IntegralRequest": {
+    "properties": {
+     "expression": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Expression"
+     },
+     "variable": {
+      "type": "string",
+      "pattern": "^[a-z]$",
+      "title": "Variable",
+      "default": "x"
+     },
+     "lower": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 40
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lower"
+     },
+     "upper": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 40
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Upper"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "expression"
+    ],
+    "title": "IntegralRequest"
+   },
+   "Issue": {
+    "properties": {
+     "code": {
+      "type": "string",
+      "title": "Code"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     },
+     "ref": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Ref"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "code",
+     "message",
+     "ref"
+    ],
+    "title": "Issue"
+   },
+   "LabDetail": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "subject": {
+      "type": "string",
+      "enum": [
+       "physics",
+       "electrical"
+      ],
+      "title": "Subject"
+     },
+     "order": {
+      "type": "integer",
+      "title": "Order"
+     },
+     "aim": {
+      "type": "string",
+      "title": "Aim"
+     },
+     "minutes": {
+      "type": "integer",
+      "title": "Minutes"
+     },
+     "apparatus": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Apparatus"
+     },
+     "theory": {
+      "type": "string",
+      "title": "Theory"
+     },
+     "formula": {
+      "type": "string",
+      "title": "Formula"
+     },
+     "procedure": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Procedure"
+     },
+     "precautions": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Precautions"
+     },
+     "viva": {
+      "items": {
+       "$ref": "#/components/schemas/VivaQuestion"
+      },
+      "type": "array",
+      "title": "Viva"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "title",
+     "subject",
+     "order",
+     "aim",
+     "minutes",
+     "apparatus",
+     "theory",
+     "formula",
+     "procedure",
+     "precautions",
+     "viva"
+    ],
+    "title": "LabDetail"
+   },
+   "LabSummary": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "subject": {
+      "type": "string",
+      "enum": [
+       "physics",
+       "electrical"
+      ],
+      "title": "Subject"
+     },
+     "order": {
+      "type": "integer",
+      "title": "Order"
+     },
+     "aim": {
+      "type": "string",
+      "title": "Aim"
+     },
+     "minutes": {
+      "type": "integer",
+      "title": "Minutes"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "title",
+     "subject",
+     "order",
+     "aim",
+     "minutes"
+    ],
+    "title": "LabSummary"
+   },
+   "LimitRequest": {
+    "properties": {
+     "expression": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Expression"
+     },
+     "variable": {
+      "type": "string",
+      "pattern": "^[a-z]$",
+      "title": "Variable",
+      "default": "x"
+     },
+     "point": {
+      "type": "string",
+      "maxLength": 40,
+      "title": "Point"
+     },
+     "direction": {
+      "type": "string",
+      "enum": [
+       "+",
+       "-",
+       "+-"
+      ],
+      "title": "Direction",
+      "default": "+-"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "expression",
+     "point"
+    ],
+    "title": "LimitRequest"
+   },
+   "MachineDocument-Input": {
+    "properties": {
+     "schemaVersion": {
+      "type": "integer",
+      "title": "Schemaversion",
+      "default": 1
+     },
+     "exportedAt": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Exportedat"
+     },
+     "machine": {
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/FiniteMachine-Input"
+       },
+       {
+        "$ref": "#/components/schemas/PDAMachine-Input"
+       },
+       {
+        "$ref": "#/components/schemas/TMMachine-Input"
+       }
+      ],
+      "title": "Machine",
+      "discriminator": {
+       "propertyName": "kind",
+       "mapping": {
+        "dfa": "#/components/schemas/FiniteMachine-Input",
+        "nfa": "#/components/schemas/FiniteMachine-Input",
+        "pda": "#/components/schemas/PDAMachine-Input",
+        "tm": "#/components/schemas/TMMachine-Input"
+       }
+      }
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "machine"
+    ],
+    "title": "MachineDocument"
+   },
+   "MachineDocument-Output": {
+    "properties": {
+     "schemaVersion": {
+      "type": "integer",
+      "title": "Schemaversion",
+      "default": 1
+     },
+     "exportedAt": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Exportedat"
+     },
+     "machine": {
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/FiniteMachine-Output"
+       },
+       {
+        "$ref": "#/components/schemas/PDAMachine-Output"
+       },
+       {
+        "$ref": "#/components/schemas/TMMachine-Output"
+       }
+      ],
+      "title": "Machine",
+      "discriminator": {
+       "propertyName": "kind",
+       "mapping": {
+        "dfa": "#/components/schemas/FiniteMachine-Output",
+        "nfa": "#/components/schemas/FiniteMachine-Output",
+        "pda": "#/components/schemas/PDAMachine-Output",
+        "tm": "#/components/schemas/TMMachine-Output"
+       }
+      }
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "schemaVersion",
+     "exportedAt",
+     "machine"
+    ],
+    "title": "MachineDocument"
+   },
+   "MachineRequest": {
+    "properties": {
+     "machine": {
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/FiniteMachine-Input"
+       },
+       {
+        "$ref": "#/components/schemas/PDAMachine-Input"
+       },
+       {
+        "$ref": "#/components/schemas/TMMachine-Input"
+       }
+      ],
+      "title": "Machine",
+      "discriminator": {
+       "propertyName": "kind",
+       "mapping": {
+        "dfa": "#/components/schemas/FiniteMachine-Input",
+        "nfa": "#/components/schemas/FiniteMachine-Input",
+        "pda": "#/components/schemas/PDAMachine-Input",
+        "tm": "#/components/schemas/TMMachine-Input"
+       }
+      }
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "machine"
+    ],
+    "title": "MachineRequest"
+   },
+   "MinimizeResponse": {
+    "properties": {
+     "dfa": {
+      "$ref": "#/components/schemas/FiniteMachine-Output"
+     },
+     "partitions": {
+      "items": {
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      },
+      "type": "array",
+      "title": "Partitions"
+     },
+     "removedUnreachable": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Removedunreachable"
+     },
+     "addedTrap": {
+      "type": "boolean",
+      "title": "Addedtrap"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "dfa",
+     "partitions",
+     "removedUnreachable",
+     "addedTrap"
+    ],
+    "title": "MinimizeResponse"
+   },
+   "PDAMachine-Input": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 64,
+      "title": "Id",
+      "default": "untitled"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "Name",
+      "default": "Untitled"
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 400,
+      "title": "Description",
+      "default": ""
+     },
+     "alphabet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 32,
+      "title": "Alphabet"
+     },
+     "states": {
+      "items": {
+       "$ref": "#/components/schemas/State-Input"
+      },
+      "type": "array",
+      "maxItems": 64,
+      "title": "States"
+     },
+     "start": {
+      "type": "string",
+      "title": "Start"
+     },
+     "accept": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Accept"
+     },
+     "kind": {
+      "type": "string",
+      "const": "pda",
+      "title": "Kind"
+     },
+     "stackAlphabet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 32,
+      "title": "Stackalphabet"
+     },
+     "initialStack": {
+      "type": "string",
+      "maxLength": 1,
+      "minLength": 1,
+      "title": "Initialstack",
+      "default": "Z"
+     },
+     "acceptMode": {
+      "type": "string",
+      "enum": [
+       "final",
+       "empty"
+      ],
+      "title": "Acceptmode",
+      "default": "final"
+     },
+     "transitions": {
+      "items": {
+       "$ref": "#/components/schemas/PDATransition-Input"
+      },
+      "type": "array",
+      "maxItems": 512,
+      "title": "Transitions"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "alphabet",
+     "states",
+     "start",
+     "kind",
+     "stackAlphabet"
+    ],
+    "title": "PDAMachine"
+   },
+   "PDAMachine-Output": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 64,
+      "title": "Id",
+      "default": "untitled"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "Name",
+      "default": "Untitled"
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 400,
+      "title": "Description",
+      "default": ""
+     },
+     "alphabet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 32,
+      "title": "Alphabet"
+     },
+     "states": {
+      "items": {
+       "$ref": "#/components/schemas/State-Output"
+      },
+      "type": "array",
+      "maxItems": 64,
+      "title": "States"
+     },
+     "start": {
+      "type": "string",
+      "title": "Start"
+     },
+     "accept": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Accept"
+     },
+     "kind": {
+      "type": "string",
+      "const": "pda",
+      "title": "Kind"
+     },
+     "stackAlphabet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 32,
+      "title": "Stackalphabet"
+     },
+     "initialStack": {
+      "type": "string",
+      "maxLength": 1,
+      "minLength": 1,
+      "title": "Initialstack",
+      "default": "Z"
+     },
+     "acceptMode": {
+      "type": "string",
+      "enum": [
+       "final",
+       "empty"
+      ],
+      "title": "Acceptmode",
+      "default": "final"
+     },
+     "transitions": {
+      "items": {
+       "$ref": "#/components/schemas/PDATransition-Output"
+      },
+      "type": "array",
+      "maxItems": 512,
+      "title": "Transitions"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "description",
+     "alphabet",
+     "states",
+     "start",
+     "accept",
+     "kind",
+     "stackAlphabet",
+     "initialStack",
+     "acceptMode",
+     "transitions"
+    ],
+    "title": "PDAMachine"
+   },
+   "PDAResult": {
+    "properties": {
+     "kind": {
+      "type": "string",
+      "const": "pda",
+      "title": "Kind"
+     },
+     "accepted": {
+      "type": "boolean",
+      "title": "Accepted"
+     },
+     "halted": {
+      "type": "boolean",
+      "title": "Halted"
+     },
+     "reason": {
+      "type": "string",
+      "title": "Reason"
+     },
+     "explored": {
+      "type": "integer",
+      "title": "Explored"
+     },
+     "steps": {
+      "items": {
+       "$ref": "#/components/schemas/PDAStep"
+      },
+      "type": "array",
+      "title": "Steps"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "kind",
+     "accepted",
+     "halted",
+     "reason",
+     "explored",
+     "steps"
+    ],
+    "title": "PDAResult"
+   },
+   "PDAStep": {
+    "properties": {
+     "state": {
+      "type": "string",
+      "title": "State"
+     },
+     "inputIndex": {
+      "type": "integer",
+      "title": "Inputindex"
+     },
+     "stack": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Stack"
+     },
+     "transitionId": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Transitionid"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "state",
+     "inputIndex",
+     "stack",
+     "transitionId"
+    ],
+    "title": "PDAStep"
+   },
+   "PDATransition-Input": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "title": "Id"
+     },
+     "from": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "From"
+     },
+     "to": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "To"
+     },
+     "read": {
+      "type": "string",
+      "maxLength": 8,
+      "title": "Read"
+     },
+     "pop": {
+      "type": "string",
+      "maxLength": 8,
+      "title": "Pop",
+      "default": "ε"
+     },
+     "push": {
+      "type": "string",
+      "maxLength": 16,
+      "title": "Push",
+      "default": "ε"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "from",
+     "to",
+     "read"
+    ],
+    "title": "PDATransition"
+   },
+   "PDATransition-Output": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "title": "Id"
+     },
+     "from": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "From"
+     },
+     "to": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "To"
+     },
+     "read": {
+      "type": "string",
+      "maxLength": 8,
+      "title": "Read"
+     },
+     "pop": {
+      "type": "string",
+      "maxLength": 8,
+      "title": "Pop",
+      "default": "ε"
+     },
+     "push": {
+      "type": "string",
+      "maxLength": 16,
+      "title": "Push",
+      "default": "ε"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "from",
+     "to",
+     "read",
+     "pop",
+     "push"
+    ],
+    "title": "PDATransition"
+   },
+   "QuestionPublic": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "type": {
+      "type": "string",
+      "enum": [
+       "mcq",
+       "numeric"
+      ],
+      "title": "Type"
+     },
+     "prompt": {
+      "type": "string",
+      "title": "Prompt"
+     },
+     "options": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Options"
+     },
+     "hint": {
+      "type": "string",
+      "title": "Hint",
+      "default": ""
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "type",
+     "prompt",
+     "options",
+     "hint"
+    ],
+    "title": "QuestionPublic"
+   },
+   "SearchHit": {
+    "properties": {
+     "type": {
+      "type": "string",
+      "enum": [
+       "chapter",
+       "topic"
+      ],
+      "title": "Type"
+     },
+     "grade": {
+      "type": "integer",
+      "title": "Grade"
+     },
+     "chapterId": {
+      "type": "string",
+      "title": "Chapterid"
+     },
+     "topicId": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Topicid"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "snippet": {
+      "type": "string",
+      "title": "Snippet"
+     },
+     "available": {
+      "type": "boolean",
+      "title": "Available"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "type",
+     "grade",
+     "chapterId",
+     "topicId",
+     "title",
+     "snippet",
+     "available"
+    ],
+    "title": "SearchHit"
+   },
+   "SimulateRequest": {
+    "properties": {
+     "machine": {
+      "oneOf": [
+       {
+        "$ref": "#/components/schemas/FiniteMachine-Input"
+       },
+       {
+        "$ref": "#/components/schemas/PDAMachine-Input"
+       },
+       {
+        "$ref": "#/components/schemas/TMMachine-Input"
+       }
+      ],
+      "title": "Machine",
+      "discriminator": {
+       "propertyName": "kind",
+       "mapping": {
+        "dfa": "#/components/schemas/FiniteMachine-Input",
+        "nfa": "#/components/schemas/FiniteMachine-Input",
+        "pda": "#/components/schemas/PDAMachine-Input",
+        "tm": "#/components/schemas/TMMachine-Input"
+       }
+      }
+     },
+     "input": {
+      "type": "string",
+      "maxLength": 256,
+      "title": "Input",
+      "default": ""
+     },
+     "maxSteps": {
+      "type": "integer",
+      "maximum": 20000.0,
+      "minimum": 1.0,
+      "title": "Maxsteps",
+      "default": 2000
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "machine"
+    ],
+    "title": "SimulateRequest"
+   },
+   "State-Input": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "Id"
+     },
+     "label": {
+      "type": "string",
+      "maxLength": 32,
+      "title": "Label",
+      "default": ""
+     },
+     "x": {
+      "type": "number",
+      "title": "X",
+      "default": 0
+     },
+     "y": {
+      "type": "number",
+      "title": "Y",
+      "default": 0
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id"
+    ],
+    "title": "State"
+   },
+   "State-Output": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "Id"
+     },
+     "label": {
+      "type": "string",
+      "maxLength": 32,
+      "title": "Label",
+      "default": ""
+     },
+     "x": {
+      "type": "number",
+      "title": "X",
+      "default": 0
+     },
+     "y": {
+      "type": "number",
+      "title": "Y",
+      "default": 0
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "x",
+     "y"
+    ],
+    "title": "State"
+   },
+   "Step": {
+    "properties": {
+     "rule": {
+      "type": "string",
+      "title": "Rule"
+     },
+     "description": {
+      "type": "string",
+      "title": "Description"
+     },
+     "latex": {
+      "type": "string",
+      "title": "Latex"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "rule",
+     "description",
+     "latex"
+    ],
+    "title": "Step"
+   },
+   "SubsetStep": {
+    "properties": {
+     "from": {
+      "type": "string",
+      "title": "From"
+     },
+     "symbol": {
+      "type": "string",
+      "title": "Symbol"
+     },
+     "to": {
+      "type": "string",
+      "title": "To"
+     },
+     "targetSet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Targetset"
+     },
+     "isNew": {
+      "type": "boolean",
+      "title": "Isnew"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "from",
+     "symbol",
+     "to",
+     "targetSet",
+     "isNew"
+    ],
+    "title": "SubsetStep"
+   },
+   "TMMachine-Input": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 64,
+      "title": "Id",
+      "default": "untitled"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "Name",
+      "default": "Untitled"
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 400,
+      "title": "Description",
+      "default": ""
+     },
+     "alphabet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 32,
+      "title": "Alphabet"
+     },
+     "states": {
+      "items": {
+       "$ref": "#/components/schemas/State-Input"
+      },
+      "type": "array",
+      "maxItems": 64,
+      "title": "States"
+     },
+     "start": {
+      "type": "string",
+      "title": "Start"
+     },
+     "accept": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Accept"
+     },
+     "kind": {
+      "type": "string",
+      "const": "tm",
+      "title": "Kind"
+     },
+     "tapeAlphabet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 32,
+      "title": "Tapealphabet"
+     },
+     "blank": {
+      "type": "string",
+      "maxLength": 1,
+      "minLength": 1,
+      "title": "Blank",
+      "default": "_"
+     },
+     "transitions": {
+      "items": {
+       "$ref": "#/components/schemas/TMTransition"
+      },
+      "type": "array",
+      "maxItems": 512,
+      "title": "Transitions"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "alphabet",
+     "states",
+     "start",
+     "kind",
+     "tapeAlphabet"
+    ],
+    "title": "TMMachine"
+   },
+   "TMMachine-Output": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 64,
+      "title": "Id",
+      "default": "untitled"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "Name",
+      "default": "Untitled"
+     },
+     "description": {
+      "type": "string",
+      "maxLength": 400,
+      "title": "Description",
+      "default": ""
+     },
+     "alphabet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 32,
+      "title": "Alphabet"
+     },
+     "states": {
+      "items": {
+       "$ref": "#/components/schemas/State-Output"
+      },
+      "type": "array",
+      "maxItems": 64,
+      "title": "States"
+     },
+     "start": {
+      "type": "string",
+      "title": "Start"
+     },
+     "accept": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Accept"
+     },
+     "kind": {
+      "type": "string",
+      "const": "tm",
+      "title": "Kind"
+     },
+     "tapeAlphabet": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 32,
+      "title": "Tapealphabet"
+     },
+     "blank": {
+      "type": "string",
+      "maxLength": 1,
+      "minLength": 1,
+      "title": "Blank",
+      "default": "_"
+     },
+     "transitions": {
+      "items": {
+       "$ref": "#/components/schemas/TMTransition"
+      },
+      "type": "array",
+      "maxItems": 512,
+      "title": "Transitions"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "description",
+     "alphabet",
+     "states",
+     "start",
+     "accept",
+     "kind",
+     "tapeAlphabet",
+     "blank",
+     "transitions"
+    ],
+    "title": "TMMachine"
+   },
+   "TMResult": {
+    "properties": {
+     "kind": {
+      "type": "string",
+      "const": "tm",
+      "title": "Kind"
+     },
+     "accepted": {
+      "type": "boolean",
+      "title": "Accepted"
+     },
+     "halted": {
+      "type": "boolean",
+      "title": "Halted"
+     },
+     "reason": {
+      "type": "string",
+      "title": "Reason"
+     },
+     "output": {
+      "type": "string",
+      "title": "Output"
+     },
+     "steps": {
+      "items": {
+       "$ref": "#/components/schemas/TMStep"
+      },
+      "type": "array",
+      "title": "Steps"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "kind",
+     "accepted",
+     "halted",
+     "reason",
+     "output",
+     "steps"
+    ],
+    "title": "TMResult"
+   },
+   "TMStep": {
+    "properties": {
+     "state": {
+      "type": "string",
+      "title": "State"
+     },
+     "head": {
+      "type": "integer",
+      "title": "Head"
+     },
+     "tape": {
+      "type": "string",
+      "title": "Tape"
+     },
+     "tapeOffset": {
+      "type": "integer",
+      "title": "Tapeoffset"
+     },
+     "transitionId": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Transitionid"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "state",
+     "head",
+     "tape",
+     "tapeOffset",
+     "transitionId"
+    ],
+    "title": "TMStep"
+   },
+   "TMTransition": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "title": "Id"
+     },
+     "from": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "From"
+     },
+     "to": {
+      "type": "string",
+      "maxLength": 32,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "title": "To"
+     },
+     "read": {
+      "type": "string",
+      "maxLength": 1,
+      "minLength": 1,
+      "title": "Read"
+     },
+     "write": {
+      "type": "string",
+      "maxLength": 1,
+      "minLength": 1,
+      "title": "Write"
+     },
+     "move": {
+      "type": "string",
+      "enum": [
+       "L",
+       "R",
+       "S"
+      ],
+      "title": "Move"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "from",
+     "to",
+     "read",
+     "write",
+     "move"
+    ],
+    "title": "TMTransition"
+   },
+   "TopicPublic": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "notes": {
+      "type": "string",
+      "title": "Notes"
+     },
+     "examples": {
+      "items": {
+       "$ref": "#/components/schemas/WorkedExample"
+      },
+      "type": "array",
+      "title": "Examples"
+     },
+     "widget": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Widget"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "quiz": {
+      "items": {
+       "$ref": "#/components/schemas/QuestionPublic"
+      },
+      "type": "array",
+      "title": "Quiz"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "title",
+     "notes",
+     "examples",
+     "widget",
+     "quiz"
+    ],
+    "title": "TopicPublic"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   },
+   "ValidationReport": {
+    "properties": {
+     "valid": {
+      "type": "boolean",
+      "title": "Valid"
+     },
+     "errors": {
+      "items": {
+       "$ref": "#/components/schemas/Issue"
+      },
+      "type": "array",
+      "title": "Errors"
+     },
+     "warnings": {
+      "items": {
+       "$ref": "#/components/schemas/Issue"
+      },
+      "type": "array",
+      "title": "Warnings"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "valid",
+     "errors",
+     "warnings"
+    ],
+    "title": "ValidationReport"
+   },
+   "VivaQuestion": {
+    "properties": {
+     "question": {
+      "type": "string",
+      "title": "Question"
+     },
+     "answer": {
+      "type": "string",
+      "title": "Answer"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "question",
+     "answer"
+    ],
+    "title": "VivaQuestion"
+   },
+   "Widget": {
+    "properties": {
+     "module": {
+      "type": "string",
+      "enum": [
+       "graph",
+       "calculus",
+       "projectile",
+       "lab"
+      ],
+      "title": "Module"
+     },
+     "label": {
+      "type": "string",
+      "title": "Label"
+     },
+     "params": {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object",
+      "title": "Params"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "module",
+     "label",
+     "params"
+    ],
+    "title": "Widget"
+   },
+   "WorkedExample": {
+    "properties": {
+     "problem": {
+      "type": "string",
+      "title": "Problem"
+     },
+     "solution": {
+      "type": "string",
+      "title": "Solution"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "problem",
+     "solution"
+    ],
+    "title": "WorkedExample"
+   }
+  }
+ }
+}

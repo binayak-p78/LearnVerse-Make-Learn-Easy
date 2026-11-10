@@ -1,0 +1,123 @@
+{
+  "id": "c12-continuity-and-differentiability",
+  "grade": 12,
+  "number": 5,
+  "title": "Continuity and Differentiability",
+  "summary": "When a function is continuous, when it is differentiable, and the chain rule.",
+  "topics": [
+    {
+      "id": "continuity",
+      "title": "Continuity",
+      "notes": "$f$ is **continuous at $a$** if\n$$\\lim_{x \\to a^-} f(x) = \\lim_{x \\to a^+} f(x) = f(a)$$\n\n- Polynomials, $\\sin x$, $\\cos x$, $e^x$ and $|x|$ are continuous everywhere.\n- Sums, differences, products and compositions of continuous functions are continuous; so are quotients where the denominator is non-zero.\n- The greatest integer function $\\lfloor x \\rfloor$ is discontinuous at every integer.\n\nTo make a piecewise function continuous at a joining point, set its left-hand and right-hand values equal.",
+      "widget": {
+        "module": "graph",
+        "label": "A jump and a corner",
+        "params": {
+          "e1": "y = floor(x)",
+          "e2": "y = abs(x)"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find $k$ so that $f(x) = kx + 1$ for $x \\le 5$ and $3x - 5$ for $x > 5$ is continuous at $5$.",
+          "solution": "$5k + 1 = 10 \\Rightarrow k = \\frac{9}{5}$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "k1",
+          "type": "numeric",
+          "prompt": "Find k (as a decimal) in the worked example above.",
+          "answer": 1.8,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "k2",
+          "type": "numeric",
+          "prompt": "How many points of discontinuity does ⌊x⌋ have in the open interval (0, 3)?",
+          "answer": 2,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "k3",
+          "type": "mcq",
+          "prompt": "Is f(x) = |x| continuous at x = 0?",
+          "answer": 0,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "differentiability",
+      "title": "Differentiability and the chain rule",
+      "notes": "Differentiable at $a$ $\\Rightarrow$ continuous at $a$, but **not** conversely: $|x|$ is continuous at $0$ but has a corner there, so it is not differentiable.\n\n**Chain rule:** $\\dfrac{d}{dx} f(g(x)) = f'(g(x))\\,g'(x)$.\n\n**Implicit differentiation:** differentiate both sides with respect to $x$, treating $y$ as a function of $x$. For $x^2 + y^2 = 25$, $2x + 2y\\,y' = 0 \\Rightarrow y' = -\\dfrac{x}{y}$.\n\n**Inverse trigonometric derivatives**\n$$\\frac{d}{dx}\\sin^{-1}x = \\frac{1}{\\sqrt{1 - x^2}} \\qquad \\frac{d}{dx}\\tan^{-1}x = \\frac{1}{1 + x^2}$$",
+      "widget": {
+        "module": "calculus",
+        "label": "Tangent to |x| near the corner",
+        "params": {
+          "mode": "derivative",
+          "f": "abs(x)",
+          "x0": "0.5"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Differentiate $\\sin(x^2 + 5)$.",
+          "solution": "$\\cos(x^2 + 5) \\cdot 2x$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "c1",
+          "type": "mcq",
+          "prompt": "Is |x| differentiable at x = 0?",
+          "answer": 1,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01,
+          "options": [
+            "Yes",
+            "No"
+          ]
+        },
+        {
+          "id": "c2",
+          "type": "numeric",
+          "prompt": "d/dx (x² + 1)³ at x = 1?",
+          "answer": 24,
+          "hint": "",
+          "explanation": "3(x² + 1)² · 2x = 3 · 4 · 2 = 24.",
+          "tolerance": 0.01
+        },
+        {
+          "id": "c3",
+          "type": "numeric",
+          "prompt": "dy/dx for x² + y² = 25 at (3, 4)?",
+          "answer": -0.75,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "c4",
+          "type": "numeric",
+          "prompt": "d/dx tan⁻¹x at x = 1?",
+          "answer": 0.5,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    }
+  ]
+}

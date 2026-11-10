@@ -1,0 +1,117 @@
+{
+  "id": "c11-straight-lines",
+  "grade": 11,
+  "number": 9,
+  "title": "Straight Lines",
+  "summary": "Slope, the different forms of a line, and distances from a line.",
+  "topics": [
+    {
+      "id": "slope-and-forms",
+      "title": "Slope and forms of a line",
+      "notes": "The **slope** of the line through $(x_1, y_1)$ and $(x_2, y_2)$ is\n$$m = \\frac{y_2 - y_1}{x_2 - x_1} = \\tan\\theta$$\n\n- Parallel lines: $m_1 = m_2$. Perpendicular lines: $m_1 m_2 = -1$.\n\n**Forms of the equation**\n\n| Form | Equation |\n|---|---|\n| Point–slope | $y - y_1 = m(x - x_1)$ |\n| Slope–intercept | $y = mx + c$ |\n| Intercept | $\\dfrac{x}{a} + \\dfrac{y}{b} = 1$ |\n| General | $Ax + By + C = 0$, slope $-\\dfrac{A}{B}$ |",
+      "widget": {
+        "module": "graph",
+        "label": "Slope m and intercept c",
+        "params": {
+          "e1": "y = m x + c",
+          "e2": "m = 1",
+          "e3": "c = 2",
+          "e4": "(0, c)",
+          "e5": "y = -x/m + c"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find the line through $(2, 3)$ perpendicular to $y = 2x + 1$.",
+          "solution": "Slope $-\\tfrac12$: $y - 3 = -\\tfrac12(x - 2)$, i.e. $x + 2y - 8 = 0$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "s1",
+          "type": "numeric",
+          "prompt": "Slope of the line through (1, 2) and (3, 8)?",
+          "answer": 3,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "s2",
+          "type": "numeric",
+          "prompt": "Slope of a line perpendicular to one with slope 2?",
+          "answer": -0.5,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "s3",
+          "type": "numeric",
+          "prompt": "Slope of 3x + 4y − 12 = 0?",
+          "answer": -0.75,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "s4",
+          "type": "numeric",
+          "prompt": "y-intercept of 2x − y + 5 = 0?",
+          "answer": 5,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    },
+    {
+      "id": "distance",
+      "title": "Distance of a point from a line",
+      "notes": "The perpendicular distance of $(x_1, y_1)$ from $Ax + By + C = 0$ is\n$$d = \\frac{|Ax_1 + By_1 + C|}{\\sqrt{A^2 + B^2}}$$\n\nThe distance between the parallel lines $Ax + By + C_1 = 0$ and $Ax + By + C_2 = 0$ is\n$$d = \\frac{|C_1 - C_2|}{\\sqrt{A^2 + B^2}}$$",
+      "widget": {
+        "module": "graph",
+        "label": "A point and a line",
+        "params": {
+          "e1": "4x - 3y + 9 = 0",
+          "e2": "(2, 3)"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find the distance of $(3, -5)$ from $3x - 4y - 26 = 0$.",
+          "solution": "$\\frac{|9 + 20 - 26|}{5} = \\frac{3}{5}$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "d1",
+          "type": "numeric",
+          "prompt": "Distance of (0, 0) from 3x + 4y − 10 = 0?",
+          "answer": 2,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "d2",
+          "type": "numeric",
+          "prompt": "Distance of (2, 3) from 4x − 3y + 9 = 0?",
+          "answer": 1.6,
+          "hint": "",
+          "explanation": "|8 − 9 + 9| / 5 = 1.6.",
+          "tolerance": 0.01
+        },
+        {
+          "id": "d3",
+          "type": "numeric",
+          "prompt": "Distance between 6x + 8y − 5 = 0 and 6x + 8y + 15 = 0?",
+          "answer": 2,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    }
+  ]
+}

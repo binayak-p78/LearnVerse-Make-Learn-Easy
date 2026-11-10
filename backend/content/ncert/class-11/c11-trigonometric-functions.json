@@ -1,0 +1,126 @@
+{
+  "id": "c11-trigonometric-functions",
+  "grade": 11,
+  "number": 3,
+  "title": "Trigonometric Functions",
+  "summary": "Radian measure, trigonometric functions of any angle, and their graphs.",
+  "topics": [
+    {
+      "id": "radian-measure",
+      "title": "Angles and radian measure",
+      "notes": "One **radian** is the angle subtended at the centre by an arc equal in length to the radius.\n\n$$\\pi \\text{ radians} = 180^\\circ \\qquad 1 \\text{ rad} \\approx 57^\\circ 16'$$\n\n- Degrees to radians: multiply by $\\dfrac{\\pi}{180}$.\n- Radians to degrees: multiply by $\\dfrac{180}{\\pi}$.\n- Arc length: $l = r\\theta$ (with $\\theta$ in radians).\n\nOn the unit circle, the point at angle $x$ is $(\\cos x, \\sin x)$, so $\\sin^2 x + \\cos^2 x = 1$.\n\n| | $0$ | $\\frac{\\pi}{6}$ | $\\frac{\\pi}{4}$ | $\\frac{\\pi}{3}$ | $\\frac{\\pi}{2}$ |\n|---|---|---|---|---|---|\n| $\\sin$ | $0$ | $\\frac12$ | $\\frac{1}{\\sqrt2}$ | $\\frac{\\sqrt3}{2}$ | $1$ |\n| $\\cos$ | $1$ | $\\frac{\\sqrt3}{2}$ | $\\frac{1}{\\sqrt2}$ | $\\frac12$ | $0$ |",
+      "widget": {
+        "module": "graph",
+        "label": "Unit circle and the point (cos t, sin t)",
+        "params": {
+          "e1": "x^2 + y^2 = 1",
+          "e2": "(cos(t), sin(t))",
+          "e3": "t = 0.8",
+          "e4": "y = tan(t) x"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Convert $40^\\circ 20'$ to radians.",
+          "solution": "$40\\tfrac{1}{3}^\\circ \\times \\frac{\\pi}{180} = \\frac{121\\pi}{540}$ rad."
+        },
+        {
+          "problem": "Find the arc length cut by a central angle of $60^\\circ$ in a circle of radius 21 cm.",
+          "solution": "$l = r\\theta = 21 \\times \\frac{\\pi}{3} = 7\\pi \\approx 22$ cm."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "r1",
+          "type": "mcq",
+          "prompt": "135° in radians is …",
+          "answer": 1,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01,
+          "options": [
+            "π/4",
+            "3π/4",
+            "2π/3",
+            "5π/6"
+          ]
+        },
+        {
+          "id": "r2",
+          "type": "numeric",
+          "prompt": "A circle of radius 10 cm has a central angle of 0.5 rad. What is the arc length in cm?",
+          "answer": 5,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "r3",
+          "type": "numeric",
+          "prompt": "sin(π/6) = ?",
+          "answer": 0.5,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    },
+    {
+      "id": "graphs",
+      "title": "Graphs and transformations",
+      "notes": "$\\sin x$ and $\\cos x$ have period $2\\pi$ and range $[-1, 1]$. $\\tan x$ has period $\\pi$ and is undefined at odd multiples of $\\frac{\\pi}{2}$.\n\nFor $y = a\\sin(bx + c)$:\n- **amplitude** $|a|$ stretches the graph vertically,\n- **period** $\\dfrac{2\\pi}{|b|}$ squeezes it horizontally,\n- **phase shift** $-\\dfrac{c}{b}$ slides it left or right.\n\n**Sum and difference formulas**\n$$\\sin(x \\pm y) = \\sin x\\cos y \\pm \\cos x\\sin y \\qquad \\cos(x \\pm y) = \\cos x\\cos y \\mp \\sin x\\sin y$$\n\nDrag the sliders $a$, $b$ and $c$ in the graphing calculator to see each effect.",
+      "widget": {
+        "module": "graph",
+        "label": "Explore y = a sin(bx + c)",
+        "params": {
+          "e1": "y = a sin(b x + c)",
+          "e2": "a = 2",
+          "e3": "b = 1",
+          "e4": "c = 0",
+          "e5": "y = cos(x)"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find the period and amplitude of $y = 3\\cos 4x$.",
+          "solution": "Amplitude $3$, period $\\frac{2\\pi}{4} = \\frac{\\pi}{2}$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "g1",
+          "type": "numeric",
+          "prompt": "Period of sin 3x (as a decimal)?",
+          "answer": 2.094,
+          "hint": "2π / b",
+          "explanation": "2π/3 ≈ 2.094.",
+          "tolerance": 0.005
+        },
+        {
+          "id": "g2",
+          "type": "numeric",
+          "prompt": "Amplitude of y = −4 sin 2x?",
+          "answer": 4,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "g3",
+          "type": "mcq",
+          "prompt": "The range of cos x is …",
+          "answer": 1,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01,
+          "options": [
+            "[0, 1]",
+            "[−1, 1]",
+            "all real numbers",
+            "[−π, π]"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "simple-pendulum",
+  "title": "Simple Pendulum",
+  "subject": "physics",
+  "order": 1,
+  "minutes": 20,
+  "aim": "To find the acceleration due to gravity g from the L–T² graph of a simple pendulum.",
+  "apparatus": [
+    "Rigid stand with clamp",
+    "Bob and inextensible thread",
+    "Stopwatch",
+    "Metre scale",
+    "Vernier callipers"
+  ],
+  "theory": "For small oscillations (amplitude under about 10°) a simple pendulum swings with period\n\n$$T = 2\\pi\\sqrt{\\frac{L}{g}}$$\n\nso $T^2 = \\frac{4\\pi^2}{g}L$. A graph of $L$ against $T^2$ is a straight line through the origin with slope $\\frac{g}{4\\pi^2}$.",
+  "formula": "g = 4\\pi^2 \\frac{L}{T^2}",
+  "procedure": [
+    "Set the effective length L (thread length plus bob radius).",
+    "Displace the bob slightly (under 10°) and release it.",
+    "Time 20 complete oscillations and divide by 20 to get T.",
+    "Record the reading and repeat for at least five lengths.",
+    "Plot L against T² and compute g from the slope."
+  ],
+  "precautions": [
+    "Keep the amplitude small.",
+    "Start timing as the bob passes the mean position.",
+    "Make sure the bob swings in one vertical plane."
+  ],
+  "viva": [
+    {
+      "question": "Why must the amplitude be small?",
+      "answer": "T = 2π√(L/g) assumes sin θ ≈ θ, which is only accurate for small angles."
+    },
+    {
+      "question": "Does the period depend on the mass of the bob?",
+      "answer": "No. The period depends only on L and g."
+    },
+    {
+      "question": "What is a seconds pendulum?",
+      "answer": "A pendulum with a period of 2 s; its length is about 99.4 cm on Earth."
+    },
+    {
+      "question": "Why time 20 oscillations instead of one?",
+      "answer": "It spreads the reaction-time error over many swings, which reduces the error in T."
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "id": "c12-application-of-derivatives",
+  "grade": 12,
+  "number": 6,
+  "title": "Application of Derivatives",
+  "summary": "Rates of change, increasing and decreasing functions, tangents, normals and maxima–minima.",
+  "topics": [
+    {
+      "id": "maxima-minima",
+      "title": "Increasing functions and maxima–minima",
+      "notes": "- $f'(x) > 0$ on an interval $\\Rightarrow$ $f$ is **increasing** there; $f'(x) < 0$ $\\Rightarrow$ **decreasing**.\n- **Critical points** are where $f'(x) = 0$ (or $f'$ does not exist).\n\n**First derivative test:** if $f'$ changes from $+$ to $-$ at $c$, then $f$ has a local maximum at $c$; from $-$ to $+$, a local minimum.\n\n**Second derivative test:** at a critical point $c$, $f''(c) < 0$ gives a maximum and $f''(c) > 0$ a minimum.\n\nOn a closed interval, the absolute extremes occur at critical points or at the endpoints.",
+      "widget": {
+        "module": "graph",
+        "label": "Slide p to find where the tangent is flat",
+        "params": {
+          "e1": "f(x) = x^3 - 3x",
+          "e2": "y = f(p) + (3p^2 - 3)(x - p)",
+          "e3": "p = -1",
+          "e4": "(p, f(p))"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find the local extrema of $f(x) = x^3 - 3x$.",
+          "solution": "$f'(x) = 3x^2 - 3 = 0 \\Rightarrow x = \\pm 1$. $f''(-1) = -6 < 0$: maximum $f(-1) = 2$. $f''(1) = 6 > 0$: minimum $f(1) = -2$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m1",
+          "type": "numeric",
+          "prompt": "Local maximum value of f(x) = x³ − 3x?",
+          "answer": 2,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "m2",
+          "type": "mcq",
+          "prompt": "f(x) = x² − 4x is decreasing on …",
+          "answer": 0,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01,
+          "options": [
+            "(−∞, 2)",
+            "(2, ∞)",
+            "(−2, 2)",
+            "(0, 4)"
+          ]
+        },
+        {
+          "id": "m3",
+          "type": "numeric",
+          "prompt": "Maximum value of f(x) = −x² + 4x + 1?",
+          "answer": 5,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    },
+    {
+      "id": "tangents-rates",
+      "title": "Tangents, normals and rates of change",
+      "notes": "At $(x_0, y_0)$ on $y = f(x)$:\n- tangent: $y - y_0 = f'(x_0)(x - x_0)$,\n- normal: $y - y_0 = -\\dfrac{1}{f'(x_0)}(x - x_0)$.\n\n**Rate of change:** if $y$ depends on $x$ and $x$ depends on $t$, then $\\dfrac{dy}{dt} = \\dfrac{dy}{dx}\\cdot\\dfrac{dx}{dt}$.\n\nFor a circle, $A = \\pi r^2 \\Rightarrow \\dfrac{dA}{dt} = 2\\pi r\\dfrac{dr}{dt}$.",
+      "widget": {
+        "module": "graph",
+        "label": "Tangent and normal to y = x²",
+        "params": {
+          "e1": "y = x^2",
+          "e2": "y = 2 p x - p^2",
+          "e3": "y = p^2 - (x - p)/(2 p)",
+          "e4": "p = 1",
+          "e5": "(p, p^2)"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find the tangent to $y = x^2$ at $(1, 1)$.",
+          "solution": "Slope $2$: $y - 1 = 2(x - 1)$, i.e. $y = 2x - 1$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "t1",
+          "type": "numeric",
+          "prompt": "Slope of the tangent to y = x³ at x = 2?",
+          "answer": 12,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "t2",
+          "type": "numeric",
+          "prompt": "Slope of the normal to y = x² at x = 1?",
+          "answer": -0.5,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "t3",
+          "type": "numeric",
+          "prompt": "A circle's radius grows at 3 cm/s. How fast (cm²/s) is its area growing when r = 10 cm?",
+          "answer": 188.5,
+          "hint": "dA/dt = 2πr · dr/dt",
+          "explanation": "2π × 10 × 3 = 60π ≈ 188.5 cm²/s.",
+          "tolerance": 0.002
+        }
+      ]
+    }
+  ]
+}

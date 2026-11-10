@@ -1,0 +1,139 @@
+{
+  "id": "c12-integrals",
+  "grade": 12,
+  "number": 7,
+  "title": "Integrals",
+  "summary": "Antiderivatives, substitution, integration by parts and definite integrals.",
+  "topics": [
+    {
+      "id": "indefinite",
+      "title": "Indefinite integrals",
+      "notes": "$F$ is an **antiderivative** of $f$ if $F'(x) = f(x)$. We write\n$$\\int f(x)\\,dx = F(x) + C$$\n\n**Standard formulas**\n$$\\int x^n dx = \\frac{x^{n+1}}{n+1} + C\\ (n \\ne -1) \\qquad \\int \\frac{1}{x}dx = \\ln|x| + C$$\n$$\\int e^x dx = e^x + C \\qquad \\int \\sin x\\,dx = -\\cos x + C \\qquad \\int \\cos x\\,dx = \\sin x + C$$\n\nIntegration is linear: $\\int (af + bg)\\,dx = a\\int f\\,dx + b\\int g\\,dx$.",
+      "examples": [
+        {
+          "problem": "Find $\\int (3x^2 + 2\\cos x)\\,dx$.",
+          "solution": "$x^3 + 2\\sin x + C$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "i1",
+          "type": "mcq",
+          "prompt": "∫ cos x dx = ?",
+          "answer": 1,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01,
+          "options": [
+            "−sin x + C",
+            "sin x + C",
+            "cos x + C",
+            "tan x + C"
+          ]
+        },
+        {
+          "id": "i2",
+          "type": "numeric",
+          "prompt": "If ∫ 6x dx = kx² + C, what is k?",
+          "answer": 3,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    },
+    {
+      "id": "methods",
+      "title": "Substitution and integration by parts",
+      "notes": "**Substitution:** if the integrand contains $g(x)$ and $g'(x)$, set $u = g(x)$:\n$$\\int 2x\\cos(x^2)\\,dx = \\int \\cos u\\,du = \\sin(x^2) + C$$\n\n**By parts:**\n$$\\int u\\,dv = uv - \\int v\\,du$$\nChoose $u$ in the **ILATE** order: Inverse trig, Logarithmic, Algebraic, Trigonometric, Exponential.\n\n$$\\int x e^x dx = x e^x - \\int e^x dx = (x - 1)e^x + C$$",
+      "examples": [
+        {
+          "problem": "Find $\\int x\\ln x\\,dx$.",
+          "solution": "$u = \\ln x$, $dv = x\\,dx$: $\\frac{x^2}{2}\\ln x - \\frac{x^2}{4} + C$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "b1",
+          "type": "mcq",
+          "prompt": "∫ x eˣ dx = ?",
+          "answer": 0,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01,
+          "options": [
+            "(x − 1)eˣ + C",
+            "x eˣ + C",
+            "(x + 1)eˣ + C",
+            "x²eˣ/2 + C"
+          ]
+        },
+        {
+          "id": "b2",
+          "type": "mcq",
+          "prompt": "In ∫ x sin x dx (by parts), u should be …",
+          "answer": 0,
+          "hint": "",
+          "explanation": "By ILATE, the algebraic term x comes before trigonometric.",
+          "tolerance": 0.01,
+          "options": [
+            "x",
+            "sin x",
+            "cos x",
+            "x sin x"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "definite",
+      "title": "Definite integrals",
+      "notes": "**Fundamental Theorem of Calculus:** if $F' = f$ on $[a, b]$,\n$$\\int_a^b f(x)\\,dx = F(b) - F(a)$$\n\nGeometrically, this is the signed area between the curve and the x-axis. It is the limit of Riemann sums as the rectangles get thinner.\n\n**Useful properties:** $\\int_a^b f = -\\int_b^a f$, and $\\int_0^a f(x)\\,dx = \\int_0^a f(a - x)\\,dx$.",
+      "widget": {
+        "module": "calculus",
+        "label": "Riemann sums for x² on [0, 3]",
+        "params": {
+          "mode": "integral",
+          "f": "x^2",
+          "a": "0",
+          "b": "3"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Evaluate $\\int_0^{\\pi} \\sin x\\,dx$.",
+          "solution": "$[-\\cos x]_0^{\\pi} = 1 - (-1) = 2$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "df1",
+          "type": "numeric",
+          "prompt": "∫₀³ x² dx = ?",
+          "answer": 9,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "df2",
+          "type": "numeric",
+          "prompt": "∫₀^π sin x dx = ?",
+          "answer": 2,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "df3",
+          "type": "numeric",
+          "prompt": "∫₀¹ x² dx (as a decimal, 3 places)?",
+          "answer": 0.333,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.002
+        }
+      ]
+    }
+  ]
+}

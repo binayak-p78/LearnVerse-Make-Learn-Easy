@@ -1,0 +1,109 @@
+{
+  "id": "c12-application-of-integrals",
+  "grade": 12,
+  "number": 8,
+  "title": "Application of Integrals",
+  "summary": "Areas under curves and areas between two curves.",
+  "topics": [
+    {
+      "id": "area-under-curve",
+      "title": "Area under a curve",
+      "notes": "For $f(x) \\ge 0$ on $[a, b]$, the area between the curve, the x-axis and the lines $x = a$, $x = b$ is\n$$A = \\int_a^b f(x)\\,dx$$\n\nIf the curve dips below the axis, integrate $|f(x)|$, i.e. split the interval at the roots.\n\n**Standard results**\n- circle $x^2 + y^2 = a^2$: area $\\pi a^2$,\n- ellipse $\\dfrac{x^2}{a^2} + \\dfrac{y^2}{b^2} = 1$: area $\\pi ab$.",
+      "widget": {
+        "module": "calculus",
+        "label": "Area under y = x² from 1 to 2",
+        "params": {
+          "mode": "integral",
+          "f": "x^2",
+          "a": "1",
+          "b": "2"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find the area enclosed by the ellipse $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$.",
+          "solution": "$4\\int_0^a \\frac{b}{a}\\sqrt{a^2 - x^2}\\,dx = 4 \\cdot \\frac{b}{a} \\cdot \\frac{\\pi a^2}{4} = \\pi ab$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "a1",
+          "type": "numeric",
+          "prompt": "Area under y = x² between x = 1 and x = 2 (decimal)?",
+          "answer": 2.333,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.002
+        },
+        {
+          "id": "a2",
+          "type": "numeric",
+          "prompt": "Area of the ellipse x²/9 + y²/4 = 1 (decimal)?",
+          "answer": 18.85,
+          "hint": "",
+          "explanation": "πab = 6π ≈ 18.85.",
+          "tolerance": 0.002
+        },
+        {
+          "id": "a3",
+          "type": "numeric",
+          "prompt": "Area under y = sin x from 0 to π?",
+          "answer": 2,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    },
+    {
+      "id": "area-between",
+      "title": "Area between two curves",
+      "notes": "If $f(x) \\ge g(x)$ on $[a, b]$, the area between them is\n$$A = \\int_a^b \\big(f(x) - g(x)\\big)\\,dx$$\n\n1. Find where the curves meet by solving $f(x) = g(x)$; these give $a$ and $b$.\n2. Check which curve is on top in between.\n3. Integrate (top − bottom).",
+      "widget": {
+        "module": "graph",
+        "label": "Region between y = x and y = x²",
+        "params": {
+          "e1": "y = x",
+          "e2": "y = x^2",
+          "e3": "(0, 0)",
+          "e4": "(1, 1)"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find the area between $y = 2x$ and $y = x^2$.",
+          "solution": "They meet at $x = 0, 2$. $\\int_0^2 (2x - x^2)\\,dx = 4 - \\frac{8}{3} = \\frac{4}{3}$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "b1",
+          "type": "numeric",
+          "prompt": "Area between y = x and y = x² (decimal)?",
+          "answer": 0.1667,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.002
+        },
+        {
+          "id": "b2",
+          "type": "numeric",
+          "prompt": "Area between y = 2x and y = x² (decimal)?",
+          "answer": 1.333,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.002
+        },
+        {
+          "id": "b3",
+          "type": "numeric",
+          "prompt": "How many points do y = x² and y = x + 2 have in common?",
+          "answer": 2,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    }
+  ]
+}

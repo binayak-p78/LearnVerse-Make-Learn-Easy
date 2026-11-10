@@ -1,0 +1,44 @@
+{
+  "id": "meter-bridge",
+  "title": "Meter Bridge",
+  "subject": "electrical",
+  "order": 5,
+  "minutes": 20,
+  "aim": "To find the resistance of a given wire using a meter bridge (Wheatstone bridge principle).",
+  "apparatus": [
+    "Meter bridge",
+    "Resistance box",
+    "Unknown resistance wire",
+    "Galvanometer",
+    "Jockey",
+    "Leclanché cell",
+    "Plug key"
+  ],
+  "theory": "A meter bridge is a Wheatstone bridge whose ratio arms are the two segments of a uniform 100 cm wire. At the null point (zero galvanometer deflection) at length $l$ from the left end:\n\n$$\\frac{R}{X} = \\frac{l}{100 - l} \\Rightarrow X = R\\,\\frac{100 - l}{l}$$\n\nThe bridge is most sensitive when the null point is near the middle of the wire.",
+  "formula": "X = R\\,\\frac{100 - l}{l}",
+  "procedure": [
+    "Connect the resistance box in the left gap and the unknown wire in the right gap.",
+    "Take out a resistance R from the box.",
+    "Slide the jockey along the wire to find the null point; note l.",
+    "Repeat for different values of R.",
+    "Calculate X for each reading and take the mean."
+  ],
+  "precautions": [
+    "Press the jockey gently; do not slide it while pressing.",
+    "Choose R so that the null point is between 30 cm and 70 cm."
+  ],
+  "viva": [
+    {
+      "question": "Why is the null point method accurate?",
+      "answer": "At balance no current flows through the galvanometer, so its resistance does not affect the result."
+    },
+    {
+      "question": "What are end errors?",
+      "answer": "Errors from the resistance of the copper strips and imperfect contacts at the ends of the wire."
+    },
+    {
+      "question": "Why is the wire made of manganin or constantan?",
+      "answer": "They have a high resistivity and a low temperature coefficient of resistance."
+    }
+  ]
+}

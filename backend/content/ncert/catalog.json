@@ -1,0 +1,153 @@
+{
+  "classes": [
+    {
+      "grade": 11,
+      "title": "Class 11",
+      "book": "Mathematics",
+      "chapters": [
+        {
+          "id": "c11-sets",
+          "number": 1,
+          "title": "Sets"
+        },
+        {
+          "id": "c11-relations-and-functions",
+          "number": 2,
+          "title": "Relations and Functions"
+        },
+        {
+          "id": "c11-trigonometric-functions",
+          "number": 3,
+          "title": "Trigonometric Functions"
+        },
+        {
+          "id": "c11-complex-numbers-and-quadratic-equations",
+          "number": 4,
+          "title": "Complex Numbers and Quadratic Equations"
+        },
+        {
+          "id": "c11-linear-inequalities",
+          "number": 5,
+          "title": "Linear Inequalities"
+        },
+        {
+          "id": "c11-permutations-and-combinations",
+          "number": 6,
+          "title": "Permutations and Combinations"
+        },
+        {
+          "id": "c11-binomial-theorem",
+          "number": 7,
+          "title": "Binomial Theorem"
+        },
+        {
+          "id": "c11-sequences-and-series",
+          "number": 8,
+          "title": "Sequences and Series"
+        },
+        {
+          "id": "c11-straight-lines",
+          "number": 9,
+          "title": "Straight Lines"
+        },
+        {
+          "id": "c11-conic-sections",
+          "number": 10,
+          "title": "Conic Sections"
+        },
+        {
+          "id": "c11-introduction-to-three-dimensional-geometry",
+          "number": 11,
+          "title": "Introduction to Three Dimensional Geometry"
+        },
+        {
+          "id": "c11-limits-and-derivatives",
+          "number": 12,
+          "title": "Limits and Derivatives"
+        },
+        {
+          "id": "c11-statistics",
+          "number": 13,
+          "title": "Statistics"
+        },
+        {
+          "id": "c11-probability",
+          "number": 14,
+          "title": "Probability"
+        }
+      ]
+    },
+    {
+      "grade": 12,
+      "title": "Class 12",
+      "book": "Mathematics Part I & II",
+      "chapters": [
+        {
+          "id": "c12-relations-and-functions",
+          "number": 1,
+          "title": "Relations and Functions"
+        },
+        {
+          "id": "c12-inverse-trigonometric-functions",
+          "number": 2,
+          "title": "Inverse Trigonometric Functions"
+        },
+        {
+          "id": "c12-matrices",
+          "number": 3,
+          "title": "Matrices"
+        },
+        {
+          "id": "c12-determinants",
+          "number": 4,
+          "title": "Determinants"
+        },
+        {
+          "id": "c12-continuity-and-differentiability",
+          "number": 5,
+          "title": "Continuity and Differentiability"
+        },
+        {
+          "id": "c12-application-of-derivatives",
+          "number": 6,
+          "title": "Application of Derivatives"
+        },
+        {
+          "id": "c12-integrals",
+          "number": 7,
+          "title": "Integrals"
+        },
+        {
+          "id": "c12-application-of-integrals",
+          "number": 8,
+          "title": "Application of Integrals"
+        },
+        {
+          "id": "c12-differential-equations",
+          "number": 9,
+          "title": "Differential Equations"
+        },
+        {
+          "id": "c12-vector-algebra",
+          "number": 10,
+          "title": "Vector Algebra"
+        },
+        {
+          "id": "c12-three-dimensional-geometry",
+          "number": 11,
+          "title": "Three Dimensional Geometry"
+        },
+        {
+          "id": "c12-linear-programming",
+          "number": 12,
+          "title": "Linear Programming"
+        },
+        {
+          "id": "c12-probability",
+          "number": 13,
+          "title": "Probability"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "series-parallel",
+  "title": "Resistors in Series and Parallel",
+  "subject": "electrical",
+  "order": 6,
+  "minutes": 15,
+  "aim": "To verify the laws for the equivalent resistance of resistors in series and in parallel.",
+  "apparatus": [
+    "Two resistors",
+    "Battery eliminator",
+    "Ammeter",
+    "Voltmeter",
+    "Rheostat",
+    "Plug key",
+    "Connecting wires"
+  ],
+  "theory": "For resistors in **series** the same current flows through each:\n\n$$R_s = R_1 + R_2$$\n\nIn **parallel** they share the same voltage:\n\n$$\\frac{1}{R_p} = \\frac{1}{R_1} + \\frac{1}{R_2}$$\n\nEach equivalent resistance is measured as $V/I$ and compared with the formula.",
+  "formula": "R_s = R_1 + R_2,\\quad R_p = \\frac{R_1R_2}{R_1 + R_2}",
+  "procedure": [
+    "Measure R₁ and R₂ separately using V/I.",
+    "Connect them in series, take V and I readings, and compute R_s.",
+    "Connect them in parallel, take V and I readings, and compute R_p.",
+    "Compare the measured values with the formulas."
+  ],
+  "precautions": [
+    "Keep the connections tight.",
+    "Use small currents so the resistors do not heat up."
+  ],
+  "viva": [
+    {
+      "question": "Is the parallel resistance larger or smaller than the smallest resistor?",
+      "answer": "Smaller."
+    },
+    {
+      "question": "Why are household appliances connected in parallel?",
+      "answer": "Each gets the full mains voltage and can be switched independently."
+    }
+  ]
+}

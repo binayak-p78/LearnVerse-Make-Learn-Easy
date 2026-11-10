@@ -1,0 +1,223 @@
+@import "tailwindcss";
+@import "@fontsource-variable/plus-jakarta-sans";
+@import "katex/dist/katex.min.css";
+@import "@xyflow/react/dist/style.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #e6e4dd;
+  --surface: #f3f1eb;
+  --surface-2: #fdfcf9;
+  --border: #e0ddd4;
+  --text: #161614;
+  --muted: #84817a;
+  --primary: #141413;
+  --primary-hover: #2e2d2a;
+  --primary-text: #ffffff;
+  --accent: #e2604a;
+  --accent-strong: #c74a35;
+  --accent-soft: #fbe4dd;
+  --accent-text: #ffffff;
+  --lime: #dcf36c;
+  --lime-text: #3a4405;
+  --sun: #ece13a;
+  --salmon: #f28b7a;
+  --bright-text: #1b1a16;
+  --dots: #cdcac1;
+  --dots-strong: #3f3d39;
+  --nav-bg: #141413;
+  --nav-text: #d6d3cb;
+  --nav-active-bg: #ffffff;
+  --nav-active-text: #141413;
+  --card-edge: rgba(255, 255, 255, 0.75);
+  --card-shadow: 0 1px 2px rgba(40, 36, 24, 0.04), 0 12px 32px -18px rgba(40, 36, 24, 0.22);
+  --success: #2f8a57;
+  --success-soft: #e4f2e8;
+  --danger: #cf3b2e;
+  --danger-soft: #fbe6e3;
+  --warning: #a9650f;
+  --warning-soft: #f8eedc;
+  --plot-1: #e2604a;
+  --plot-2: #1c1b19;
+  --plot-3: #2f8f83;
+  --plot-4: #8f6ad8;
+  --plot-5: #c9a910;
+  --grid: #e7e4dc;
+  --bar-track: #e9e6de;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #11110f;
+  --surface: #1b1a18;
+  --surface-2: #242320;
+  --border: #2f2d29;
+  --text: #f2f0ea;
+  --muted: #9d998f;
+  --primary: #f2f0ea;
+  --primary-hover: #ffffff;
+  --primary-text: #121210;
+  --accent: #f07a63;
+  --accent-strong: #ff9a85;
+  --accent-soft: #3a221c;
+  --accent-text: #ffffff;
+  --lime: #cfe760;
+  --lime-text: #1e2504;
+  --sun: #e3d636;
+  --salmon: #f08877;
+  --bright-text: #1b1a16;
+  --dots: #383631;
+  --dots-strong: #dcd8ce;
+  --nav-bg: #080807;
+  --nav-text: #a6a299;
+  --nav-active-bg: #f2f0ea;
+  --nav-active-text: #121210;
+  --card-edge: rgba(255, 255, 255, 0.04);
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -18px rgba(0, 0, 0, 0.6);
+  --success: #5cc48a;
+  --success-soft: #16291f;
+  --danger: #f2786c;
+  --danger-soft: #35191a;
+  --warning: #f0b45a;
+  --warning-soft: #33261a;
+  --plot-1: #f07a63;
+  --plot-2: #ece8e0;
+  --plot-3: #4fc0b2;
+  --plot-4: #b49af0;
+  --plot-5: #e3d636;
+  --grid: #2a2825;
+  --bar-track: #2a2825;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--border);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--primary-text);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--accent-text);
+  --color-lime: var(--lime);
+  --color-on-lime: var(--lime-text);
+  --color-sun: var(--sun);
+  --color-salmon: var(--salmon);
+  --color-on-bright: var(--bright-text);
+  --color-nav: var(--nav-bg);
+  --color-nav-ink: var(--nav-text);
+  --color-nav-active: var(--nav-active-bg);
+  --color-on-nav-active: var(--nav-active-text);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --shadow-card: var(--card-shadow);
+  --font-sans: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@utility dots {
+  background-image: radial-gradient(circle, var(--dots) 1px, transparent 1.4px);
+  background-size: 6px 6px;
+}
+
+@utility dots-strong {
+  background-image: radial-gradient(circle, var(--dots-strong) 1px, transparent 1.4px);
+  background-size: 6px 6px;
+}
+
+@utility card-edge {
+  border: 1px solid var(--card-edge);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+.prose-notes h2,
+.prose-notes h3 {
+  font-weight: 600;
+  margin: 1.25rem 0 0.5rem;
+}
+.prose-notes p {
+  margin: 0.6rem 0;
+  line-height: 1.7;
+}
+.prose-notes ul,
+.prose-notes ol {
+  margin: 0.6rem 0 0.6rem 1.25rem;
+  list-style: disc;
+  line-height: 1.7;
+}
+.prose-notes ol {
+  list-style: decimal;
+}
+.prose-notes table {
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+}
+.prose-notes th,
+.prose-notes td {
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.75rem;
+  text-align: left;
+}
+.prose-notes th {
+  background: var(--surface-2);
+}
+.prose-notes strong {
+  font-weight: 600;
+}
+.prose-notes .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+.react-flow {
+  --xy-background-color: var(--surface);
+  --xy-node-color: var(--text);
+  --xy-edge-stroke: var(--muted);
+  --xy-controls-button-background-color: var(--surface);
+  --xy-controls-button-color: var(--text);
+  --xy-controls-button-border-color: var(--border);
+  --xy-controls-button-background-color-hover: var(--surface-2);
+  --xy-attribution-background-color: transparent;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+}

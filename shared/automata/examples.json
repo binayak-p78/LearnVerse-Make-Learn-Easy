@@ -1,0 +1,1556 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "machine": {
+        "id": "dfa-even-zeros",
+        "name": "Even number of 0s",
+        "description": "Accepts binary strings containing an even number of 0s.",
+        "kind": "dfa",
+        "alphabet": [
+          "0",
+          "1"
+        ],
+        "states": [
+          {
+            "id": "q0",
+            "label": "q0",
+            "x": 120,
+            "y": 160
+          },
+          {
+            "id": "q1",
+            "label": "q1",
+            "x": 360,
+            "y": 160
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q1",
+            "read": "0"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q0",
+            "read": "1"
+          },
+          {
+            "id": "t3",
+            "from": "q1",
+            "to": "q0",
+            "read": "0"
+          },
+          {
+            "id": "t4",
+            "from": "q1",
+            "to": "q1",
+            "read": "1"
+          }
+        ],
+        "start": "q0",
+        "accept": [
+          "q0"
+        ]
+      },
+      "cases": [
+        {
+          "input": "",
+          "accepted": true
+        },
+        {
+          "input": "1",
+          "accepted": true
+        },
+        {
+          "input": "0",
+          "accepted": false
+        },
+        {
+          "input": "1001",
+          "accepted": true
+        },
+        {
+          "input": "000",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "dfa-ends-ab",
+        "name": "Ends with \"ab\"",
+        "description": "Accepts strings over {a, b} that end with ab.",
+        "kind": "dfa",
+        "alphabet": [
+          "a",
+          "b"
+        ],
+        "states": [
+          {
+            "id": "q0",
+            "label": "q0",
+            "x": 100,
+            "y": 180
+          },
+          {
+            "id": "q1",
+            "label": "q1",
+            "x": 300,
+            "y": 180
+          },
+          {
+            "id": "q2",
+            "label": "q2",
+            "x": 500,
+            "y": 180
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q1",
+            "read": "a"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q0",
+            "read": "b"
+          },
+          {
+            "id": "t3",
+            "from": "q1",
+            "to": "q1",
+            "read": "a"
+          },
+          {
+            "id": "t4",
+            "from": "q1",
+            "to": "q2",
+            "read": "b"
+          },
+          {
+            "id": "t5",
+            "from": "q2",
+            "to": "q1",
+            "read": "a"
+          },
+          {
+            "id": "t6",
+            "from": "q2",
+            "to": "q0",
+            "read": "b"
+          }
+        ],
+        "start": "q0",
+        "accept": [
+          "q2"
+        ]
+      },
+      "cases": [
+        {
+          "input": "ab",
+          "accepted": true
+        },
+        {
+          "input": "aab",
+          "accepted": true
+        },
+        {
+          "input": "abb",
+          "accepted": false
+        },
+        {
+          "input": "",
+          "accepted": false
+        },
+        {
+          "input": "babab",
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "dfa-div-3",
+        "name": "Binary divisible by 3",
+        "description": "Accepts binary numbers whose value is divisible by 3.",
+        "kind": "dfa",
+        "alphabet": [
+          "0",
+          "1"
+        ],
+        "states": [
+          {
+            "id": "r0",
+            "label": "r0",
+            "x": 100,
+            "y": 180
+          },
+          {
+            "id": "r1",
+            "label": "r1",
+            "x": 300,
+            "y": 180
+          },
+          {
+            "id": "r2",
+            "label": "r2",
+            "x": 500,
+            "y": 180
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "r0",
+            "to": "r0",
+            "read": "0"
+          },
+          {
+            "id": "t2",
+            "from": "r0",
+            "to": "r1",
+            "read": "1"
+          },
+          {
+            "id": "t3",
+            "from": "r1",
+            "to": "r2",
+            "read": "0"
+          },
+          {
+            "id": "t4",
+            "from": "r1",
+            "to": "r0",
+            "read": "1"
+          },
+          {
+            "id": "t5",
+            "from": "r2",
+            "to": "r1",
+            "read": "0"
+          },
+          {
+            "id": "t6",
+            "from": "r2",
+            "to": "r2",
+            "read": "1"
+          }
+        ],
+        "start": "r0",
+        "accept": [
+          "r0"
+        ]
+      },
+      "cases": [
+        {
+          "input": "0",
+          "accepted": true
+        },
+        {
+          "input": "11",
+          "accepted": true
+        },
+        {
+          "input": "110",
+          "accepted": true
+        },
+        {
+          "input": "111",
+          "accepted": false
+        },
+        {
+          "input": "1001",
+          "accepted": true
+        },
+        {
+          "input": "1010",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "nfa-ends-ab",
+        "name": "Ends with \"ab\" (NFA)",
+        "description": "Guesses where the final ab begins.",
+        "kind": "nfa",
+        "alphabet": [
+          "a",
+          "b"
+        ],
+        "states": [
+          {
+            "id": "q0",
+            "label": "q0",
+            "x": 100,
+            "y": 180
+          },
+          {
+            "id": "q1",
+            "label": "q1",
+            "x": 300,
+            "y": 180
+          },
+          {
+            "id": "q2",
+            "label": "q2",
+            "x": 500,
+            "y": 180
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q0",
+            "read": "a"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q0",
+            "read": "b"
+          },
+          {
+            "id": "t3",
+            "from": "q0",
+            "to": "q1",
+            "read": "a"
+          },
+          {
+            "id": "t4",
+            "from": "q1",
+            "to": "q2",
+            "read": "b"
+          }
+        ],
+        "start": "q0",
+        "accept": [
+          "q2"
+        ]
+      },
+      "cases": [
+        {
+          "input": "ab",
+          "accepted": true
+        },
+        {
+          "input": "bbab",
+          "accepted": true
+        },
+        {
+          "input": "aba",
+          "accepted": false
+        },
+        {
+          "input": "",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "nfa-epsilon-abc",
+        "name": "a*b*c* (ε-NFA)",
+        "description": "Uses ε-moves to pass from the a-block to the b-block to the c-block.",
+        "kind": "nfa",
+        "alphabet": [
+          "a",
+          "b",
+          "c"
+        ],
+        "states": [
+          {
+            "id": "q0",
+            "label": "q0",
+            "x": 100,
+            "y": 180
+          },
+          {
+            "id": "q1",
+            "label": "q1",
+            "x": 300,
+            "y": 180
+          },
+          {
+            "id": "q2",
+            "label": "q2",
+            "x": 500,
+            "y": 180
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q0",
+            "read": "a"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q1",
+            "read": "ε"
+          },
+          {
+            "id": "t3",
+            "from": "q1",
+            "to": "q1",
+            "read": "b"
+          },
+          {
+            "id": "t4",
+            "from": "q1",
+            "to": "q2",
+            "read": "ε"
+          },
+          {
+            "id": "t5",
+            "from": "q2",
+            "to": "q2",
+            "read": "c"
+          }
+        ],
+        "start": "q0",
+        "accept": [
+          "q2"
+        ]
+      },
+      "cases": [
+        {
+          "input": "",
+          "accepted": true
+        },
+        {
+          "input": "aabbcc",
+          "accepted": true
+        },
+        {
+          "input": "ac",
+          "accepted": true
+        },
+        {
+          "input": "ba",
+          "accepted": false
+        },
+        {
+          "input": "cab",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "nfa-third-last-1",
+        "name": "Third symbol from the end is 1",
+        "description": "A small NFA whose equivalent DFA needs 8 states.",
+        "kind": "nfa",
+        "alphabet": [
+          "0",
+          "1"
+        ],
+        "states": [
+          {
+            "id": "q0",
+            "label": "q0",
+            "x": 80,
+            "y": 180
+          },
+          {
+            "id": "q1",
+            "label": "q1",
+            "x": 260,
+            "y": 180
+          },
+          {
+            "id": "q2",
+            "label": "q2",
+            "x": 440,
+            "y": 180
+          },
+          {
+            "id": "q3",
+            "label": "q3",
+            "x": 620,
+            "y": 180
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q0",
+            "read": "0"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q0",
+            "read": "1"
+          },
+          {
+            "id": "t3",
+            "from": "q0",
+            "to": "q1",
+            "read": "1"
+          },
+          {
+            "id": "t4",
+            "from": "q1",
+            "to": "q2",
+            "read": "0"
+          },
+          {
+            "id": "t5",
+            "from": "q1",
+            "to": "q2",
+            "read": "1"
+          },
+          {
+            "id": "t6",
+            "from": "q2",
+            "to": "q3",
+            "read": "0"
+          },
+          {
+            "id": "t7",
+            "from": "q2",
+            "to": "q3",
+            "read": "1"
+          }
+        ],
+        "start": "q0",
+        "accept": [
+          "q3"
+        ]
+      },
+      "cases": [
+        {
+          "input": "100",
+          "accepted": true
+        },
+        {
+          "input": "0110",
+          "accepted": true
+        },
+        {
+          "input": "011",
+          "accepted": false
+        },
+        {
+          "input": "10",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "pda-anbn",
+        "name": "aⁿbⁿ",
+        "description": "Pushes A for each a and pops one A for each b.",
+        "kind": "pda",
+        "alphabet": [
+          "a",
+          "b"
+        ],
+        "stackAlphabet": [
+          "A",
+          "Z"
+        ],
+        "initialStack": "Z",
+        "states": [
+          {
+            "id": "q0",
+            "label": "q0",
+            "x": 100,
+            "y": 240
+          },
+          {
+            "id": "q1",
+            "label": "q1",
+            "x": 330,
+            "y": 110
+          },
+          {
+            "id": "q2",
+            "label": "q2",
+            "x": 560,
+            "y": 240
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q0",
+            "read": "a",
+            "pop": "Z",
+            "push": "AZ"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q0",
+            "read": "a",
+            "pop": "A",
+            "push": "AA"
+          },
+          {
+            "id": "t3",
+            "from": "q0",
+            "to": "q1",
+            "read": "b",
+            "pop": "A",
+            "push": "ε"
+          },
+          {
+            "id": "t4",
+            "from": "q1",
+            "to": "q1",
+            "read": "b",
+            "pop": "A",
+            "push": "ε"
+          },
+          {
+            "id": "t5",
+            "from": "q1",
+            "to": "q2",
+            "read": "ε",
+            "pop": "Z",
+            "push": "Z"
+          },
+          {
+            "id": "t6",
+            "from": "q0",
+            "to": "q2",
+            "read": "ε",
+            "pop": "Z",
+            "push": "Z"
+          }
+        ],
+        "start": "q0",
+        "accept": [
+          "q2"
+        ],
+        "acceptMode": "final"
+      },
+      "cases": [
+        {
+          "input": "",
+          "accepted": true
+        },
+        {
+          "input": "ab",
+          "accepted": true
+        },
+        {
+          "input": "aaabbb",
+          "accepted": true
+        },
+        {
+          "input": "aab",
+          "accepted": false
+        },
+        {
+          "input": "abab",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "pda-balanced",
+        "name": "Balanced parentheses",
+        "description": "Accepts by empty stack when every ( has a matching ).",
+        "kind": "pda",
+        "alphabet": [
+          "(",
+          ")"
+        ],
+        "stackAlphabet": [
+          "X",
+          "Z"
+        ],
+        "initialStack": "Z",
+        "states": [
+          {
+            "id": "q0",
+            "label": "q0",
+            "x": 260,
+            "y": 200
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q0",
+            "read": "(",
+            "pop": "Z",
+            "push": "XZ"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q0",
+            "read": "(",
+            "pop": "X",
+            "push": "XX"
+          },
+          {
+            "id": "t3",
+            "from": "q0",
+            "to": "q0",
+            "read": ")",
+            "pop": "X",
+            "push": "ε"
+          },
+          {
+            "id": "t4",
+            "from": "q0",
+            "to": "q0",
+            "read": "ε",
+            "pop": "Z",
+            "push": "ε"
+          }
+        ],
+        "start": "q0",
+        "accept": [],
+        "acceptMode": "empty"
+      },
+      "cases": [
+        {
+          "input": "",
+          "accepted": true
+        },
+        {
+          "input": "(())()",
+          "accepted": true
+        },
+        {
+          "input": "(()",
+          "accepted": false
+        },
+        {
+          "input": ")(",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "pda-palindrome",
+        "name": "Palindromes over {a, b}",
+        "description": "Nondeterministically guesses the middle of the string.",
+        "kind": "pda",
+        "alphabet": [
+          "a",
+          "b"
+        ],
+        "stackAlphabet": [
+          "A",
+          "B",
+          "Z"
+        ],
+        "initialStack": "Z",
+        "states": [
+          {
+            "id": "q0",
+            "label": "push",
+            "x": 100,
+            "y": 180
+          },
+          {
+            "id": "q1",
+            "label": "match",
+            "x": 340,
+            "y": 180
+          },
+          {
+            "id": "q2",
+            "label": "accept",
+            "x": 580,
+            "y": 180
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q0",
+            "read": "a",
+            "pop": "Z",
+            "push": "AZ"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q0",
+            "read": "a",
+            "pop": "A",
+            "push": "AA"
+          },
+          {
+            "id": "t3",
+            "from": "q0",
+            "to": "q0",
+            "read": "a",
+            "pop": "B",
+            "push": "AB"
+          },
+          {
+            "id": "t4",
+            "from": "q0",
+            "to": "q0",
+            "read": "b",
+            "pop": "Z",
+            "push": "BZ"
+          },
+          {
+            "id": "t5",
+            "from": "q0",
+            "to": "q0",
+            "read": "b",
+            "pop": "A",
+            "push": "BA"
+          },
+          {
+            "id": "t6",
+            "from": "q0",
+            "to": "q0",
+            "read": "b",
+            "pop": "B",
+            "push": "BB"
+          },
+          {
+            "id": "t7",
+            "from": "q0",
+            "to": "q1",
+            "read": "ε",
+            "pop": "ε",
+            "push": "ε"
+          },
+          {
+            "id": "t8",
+            "from": "q0",
+            "to": "q1",
+            "read": "a",
+            "pop": "ε",
+            "push": "ε"
+          },
+          {
+            "id": "t9",
+            "from": "q0",
+            "to": "q1",
+            "read": "b",
+            "pop": "ε",
+            "push": "ε"
+          },
+          {
+            "id": "t10",
+            "from": "q1",
+            "to": "q1",
+            "read": "a",
+            "pop": "A",
+            "push": "ε"
+          },
+          {
+            "id": "t11",
+            "from": "q1",
+            "to": "q1",
+            "read": "b",
+            "pop": "B",
+            "push": "ε"
+          },
+          {
+            "id": "t12",
+            "from": "q1",
+            "to": "q2",
+            "read": "ε",
+            "pop": "Z",
+            "push": "Z"
+          }
+        ],
+        "start": "q0",
+        "accept": [
+          "q2"
+        ],
+        "acceptMode": "final"
+      },
+      "cases": [
+        {
+          "input": "",
+          "accepted": true
+        },
+        {
+          "input": "abba",
+          "accepted": true
+        },
+        {
+          "input": "aba",
+          "accepted": true
+        },
+        {
+          "input": "ab",
+          "accepted": false
+        },
+        {
+          "input": "abab",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "tm-binary-increment",
+        "name": "Binary increment",
+        "description": "Adds 1 to a binary number.",
+        "kind": "tm",
+        "alphabet": [
+          "0",
+          "1"
+        ],
+        "tapeAlphabet": [
+          "0",
+          "1",
+          "_"
+        ],
+        "blank": "_",
+        "states": [
+          {
+            "id": "q0",
+            "label": "right",
+            "x": 100,
+            "y": 180
+          },
+          {
+            "id": "q1",
+            "label": "carry",
+            "x": 320,
+            "y": 180
+          },
+          {
+            "id": "qa",
+            "label": "done",
+            "x": 540,
+            "y": 180
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q0",
+            "read": "0",
+            "write": "0",
+            "move": "R"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q0",
+            "read": "1",
+            "write": "1",
+            "move": "R"
+          },
+          {
+            "id": "t3",
+            "from": "q0",
+            "to": "q1",
+            "read": "_",
+            "write": "_",
+            "move": "L"
+          },
+          {
+            "id": "t4",
+            "from": "q1",
+            "to": "q1",
+            "read": "1",
+            "write": "0",
+            "move": "L"
+          },
+          {
+            "id": "t5",
+            "from": "q1",
+            "to": "qa",
+            "read": "0",
+            "write": "1",
+            "move": "S"
+          },
+          {
+            "id": "t6",
+            "from": "q1",
+            "to": "qa",
+            "read": "_",
+            "write": "1",
+            "move": "S"
+          }
+        ],
+        "start": "q0",
+        "accept": [
+          "qa"
+        ]
+      },
+      "cases": [
+        {
+          "input": "0",
+          "accepted": true,
+          "output": "1"
+        },
+        {
+          "input": "1011",
+          "accepted": true,
+          "output": "1100"
+        },
+        {
+          "input": "111",
+          "accepted": true,
+          "output": "1000"
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "tm-unary-add",
+        "name": "Unary addition",
+        "description": "Turns 111+11 into 11111.",
+        "kind": "tm",
+        "alphabet": [
+          "1",
+          "+"
+        ],
+        "tapeAlphabet": [
+          "1",
+          "+",
+          "_"
+        ],
+        "blank": "_",
+        "states": [
+          {
+            "id": "q0",
+            "label": "q0",
+            "x": 100,
+            "y": 180
+          },
+          {
+            "id": "q1",
+            "label": "q1",
+            "x": 300,
+            "y": 180
+          },
+          {
+            "id": "q2",
+            "label": "q2",
+            "x": 500,
+            "y": 180
+          },
+          {
+            "id": "qa",
+            "label": "done",
+            "x": 700,
+            "y": 180
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q0",
+            "read": "1",
+            "write": "1",
+            "move": "R"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q1",
+            "read": "+",
+            "write": "1",
+            "move": "R"
+          },
+          {
+            "id": "t3",
+            "from": "q1",
+            "to": "q1",
+            "read": "1",
+            "write": "1",
+            "move": "R"
+          },
+          {
+            "id": "t4",
+            "from": "q1",
+            "to": "q2",
+            "read": "_",
+            "write": "_",
+            "move": "L"
+          },
+          {
+            "id": "t5",
+            "from": "q2",
+            "to": "qa",
+            "read": "1",
+            "write": "_",
+            "move": "S"
+          }
+        ],
+        "start": "q0",
+        "accept": [
+          "qa"
+        ]
+      },
+      "cases": [
+        {
+          "input": "111+11",
+          "accepted": true,
+          "output": "11111"
+        },
+        {
+          "input": "1+",
+          "accepted": true,
+          "output": "1"
+        },
+        {
+          "input": "+1",
+          "accepted": true,
+          "output": "1"
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "tm-palindrome",
+        "name": "Palindrome checker",
+        "description": "Erases matching end symbols until the tape is empty.",
+        "kind": "tm",
+        "alphabet": [
+          "a",
+          "b"
+        ],
+        "tapeAlphabet": [
+          "a",
+          "b",
+          "_"
+        ],
+        "blank": "_",
+        "states": [
+          {
+            "id": "q0",
+            "label": "q0",
+            "x": 320,
+            "y": 60
+          },
+          {
+            "id": "q1a",
+            "label": "seek a",
+            "x": 120,
+            "y": 200
+          },
+          {
+            "id": "q2a",
+            "label": "check a",
+            "x": 120,
+            "y": 380
+          },
+          {
+            "id": "q1b",
+            "label": "seek b",
+            "x": 520,
+            "y": 200
+          },
+          {
+            "id": "q2b",
+            "label": "check b",
+            "x": 520,
+            "y": 380
+          },
+          {
+            "id": "q3",
+            "label": "back",
+            "x": 320,
+            "y": 380
+          },
+          {
+            "id": "qa",
+            "label": "accept",
+            "x": 320,
+            "y": 220
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "q0",
+            "to": "q1a",
+            "read": "a",
+            "write": "_",
+            "move": "R"
+          },
+          {
+            "id": "t2",
+            "from": "q0",
+            "to": "q1b",
+            "read": "b",
+            "write": "_",
+            "move": "R"
+          },
+          {
+            "id": "t3",
+            "from": "q0",
+            "to": "qa",
+            "read": "_",
+            "write": "_",
+            "move": "S"
+          },
+          {
+            "id": "t4",
+            "from": "q1a",
+            "to": "q1a",
+            "read": "a",
+            "write": "a",
+            "move": "R"
+          },
+          {
+            "id": "t5",
+            "from": "q1a",
+            "to": "q1a",
+            "read": "b",
+            "write": "b",
+            "move": "R"
+          },
+          {
+            "id": "t6",
+            "from": "q1a",
+            "to": "q2a",
+            "read": "_",
+            "write": "_",
+            "move": "L"
+          },
+          {
+            "id": "t7",
+            "from": "q2a",
+            "to": "q3",
+            "read": "a",
+            "write": "_",
+            "move": "L"
+          },
+          {
+            "id": "t8",
+            "from": "q2a",
+            "to": "qa",
+            "read": "_",
+            "write": "_",
+            "move": "S"
+          },
+          {
+            "id": "t9",
+            "from": "q1b",
+            "to": "q1b",
+            "read": "a",
+            "write": "a",
+            "move": "R"
+          },
+          {
+            "id": "t10",
+            "from": "q1b",
+            "to": "q1b",
+            "read": "b",
+            "write": "b",
+            "move": "R"
+          },
+          {
+            "id": "t11",
+            "from": "q1b",
+            "to": "q2b",
+            "read": "_",
+            "write": "_",
+            "move": "L"
+          },
+          {
+            "id": "t12",
+            "from": "q2b",
+            "to": "q3",
+            "read": "b",
+            "write": "_",
+            "move": "L"
+          },
+          {
+            "id": "t13",
+            "from": "q2b",
+            "to": "qa",
+            "read": "_",
+            "write": "_",
+            "move": "S"
+          },
+          {
+            "id": "t14",
+            "from": "q3",
+            "to": "q3",
+            "read": "a",
+            "write": "a",
+            "move": "L"
+          },
+          {
+            "id": "t15",
+            "from": "q3",
+            "to": "q3",
+            "read": "b",
+            "write": "b",
+            "move": "L"
+          },
+          {
+            "id": "t16",
+            "from": "q3",
+            "to": "q0",
+            "read": "_",
+            "write": "_",
+            "move": "R"
+          }
+        ],
+        "start": "q0",
+        "accept": [
+          "qa"
+        ]
+      },
+      "cases": [
+        {
+          "input": "",
+          "accepted": true
+        },
+        {
+          "input": "abba",
+          "accepted": true
+        },
+        {
+          "input": "aba",
+          "accepted": true
+        },
+        {
+          "input": "ab",
+          "accepted": false
+        },
+        {
+          "input": "aab",
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "machine": {
+        "id": "tm-unary-copy",
+        "name": "Copy machine",
+        "description": "Copies a unary string: 11 becomes 11#11.",
+        "kind": "tm",
+        "alphabet": [
+          "1"
+        ],
+        "tapeAlphabet": [
+          "1",
+          "X",
+          "#",
+          "_"
+        ],
+        "blank": "_",
+        "states": [
+          {
+            "id": "s",
+            "label": "mark end",
+            "x": 80,
+            "y": 80
+          },
+          {
+            "id": "r",
+            "label": "rewind",
+            "x": 300,
+            "y": 80
+          },
+          {
+            "id": "c",
+            "label": "copy",
+            "x": 300,
+            "y": 260
+          },
+          {
+            "id": "m",
+            "label": "to #",
+            "x": 520,
+            "y": 260
+          },
+          {
+            "id": "m2",
+            "label": "to end",
+            "x": 720,
+            "y": 260
+          },
+          {
+            "id": "b",
+            "label": "back",
+            "x": 520,
+            "y": 440
+          },
+          {
+            "id": "f",
+            "label": "restore",
+            "x": 80,
+            "y": 260
+          },
+          {
+            "id": "qa",
+            "label": "done",
+            "x": 80,
+            "y": 440
+          }
+        ],
+        "transitions": [
+          {
+            "id": "t1",
+            "from": "s",
+            "to": "s",
+            "read": "1",
+            "write": "1",
+            "move": "R"
+          },
+          {
+            "id": "t2",
+            "from": "s",
+            "to": "r",
+            "read": "_",
+            "write": "#",
+            "move": "L"
+          },
+          {
+            "id": "t3",
+            "from": "r",
+            "to": "r",
+            "read": "1",
+            "write": "1",
+            "move": "L"
+          },
+          {
+            "id": "t4",
+            "from": "r",
+            "to": "c",
+            "read": "_",
+            "write": "_",
+            "move": "R"
+          },
+          {
+            "id": "t5",
+            "from": "c",
+            "to": "m",
+            "read": "1",
+            "write": "X",
+            "move": "R"
+          },
+          {
+            "id": "t6",
+            "from": "c",
+            "to": "f",
+            "read": "#",
+            "write": "#",
+            "move": "L"
+          },
+          {
+            "id": "t7",
+            "from": "m",
+            "to": "m",
+            "read": "1",
+            "write": "1",
+            "move": "R"
+          },
+          {
+            "id": "t8",
+            "from": "m",
+            "to": "m2",
+            "read": "#",
+            "write": "#",
+            "move": "R"
+          },
+          {
+            "id": "t9",
+            "from": "m2",
+            "to": "m2",
+            "read": "1",
+            "write": "1",
+            "move": "R"
+          },
+          {
+            "id": "t10",
+            "from": "m2",
+            "to": "b",
+            "read": "_",
+            "write": "1",
+            "move": "L"
+          },
+          {
+            "id": "t11",
+            "from": "b",
+            "to": "b",
+            "read": "1",
+            "write": "1",
+            "move": "L"
+          },
+          {
+            "id": "t12",
+            "from": "b",
+            "to": "b",
+            "read": "#",
+            "write": "#",
+            "move": "L"
+          },
+          {
+            "id": "t13",
+            "from": "b",
+            "to": "c",
+            "read": "X",
+            "write": "X",
+            "move": "R"
+          },
+          {
+            "id": "t14",
+            "from": "f",
+            "to": "f",
+            "read": "X",
+            "write": "1",
+            "move": "L"
+          },
+          {
+            "id": "t15",
+            "from": "f",
+            "to": "qa",
+            "read": "_",
+            "write": "_",
+            "move": "R"
+          }
+        ],
+        "start": "s",
+        "accept": [
+          "qa"
+        ]
+      },
+      "cases": [
+        {
+          "input": "",
+          "accepted": true,
+          "output": "#"
+        },
+        {
+          "input": "1",
+          "accepted": true,
+          "output": "1#1"
+        },
+        {
+          "input": "111",
+          "accepted": true,
+          "output": "111#111"
+        }
+      ]
+    }
+  ]
+}

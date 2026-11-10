@@ -1,0 +1,43 @@
+{
+  "id": "rc-circuit",
+  "title": "RC Circuit: Charging and Discharging",
+  "subject": "electrical",
+  "order": 3,
+  "minutes": 20,
+  "aim": "To study the charging and discharging of a capacitor through a resistor and find the time constant τ = RC.",
+  "apparatus": [
+    "DC supply",
+    "Resistor",
+    "Electrolytic capacitor",
+    "Two-way key",
+    "Voltmeter",
+    "Stopwatch"
+  ],
+  "theory": "While charging through $R$ from a supply $V_0$:\n\n$$V_C(t) = V_0\\left(1 - e^{-t/RC}\\right)$$\n\nWhile discharging:\n\n$$V_C(t) = V_0 e^{-t/RC}$$\n\nThe **time constant** $\\tau = RC$ is the time to reach about 63% of $V_0$ while charging (or to fall to about 37% while discharging). Plotting $\\ln(V_C)$ against $t$ during discharge gives a line with slope $-1/\\tau$.",
+  "formula": "\\tau = RC,\\quad \\ln V_C = \\ln V_0 - \\frac{t}{\\tau}",
+  "procedure": [
+    "Choose R, C and the supply voltage V₀.",
+    "Charge the capacitor fully, then switch to discharge and start the stopwatch.",
+    "Record V_C at regular time intervals.",
+    "Plot ln V_C against t and find τ from the slope.",
+    "Compare with the calculated value RC."
+  ],
+  "precautions": [
+    "Observe the polarity of the electrolytic capacitor.",
+    "Use a high-resistance voltmeter so it does not discharge the capacitor."
+  ],
+  "viva": [
+    {
+      "question": "What is the unit of RC?",
+      "answer": "Seconds: ohm × farad = second."
+    },
+    {
+      "question": "How much charge remains after 5τ?",
+      "answer": "About 0.7%, so the capacitor is practically fully discharged."
+    },
+    {
+      "question": "Why does the current decrease while charging?",
+      "answer": "The capacitor voltage opposes the supply, so the voltage across R, and hence the current, falls."
+    }
+  ]
+}

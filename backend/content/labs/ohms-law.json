@@ -1,0 +1,44 @@
+{
+  "id": "ohms-law",
+  "title": "Ohm's Law",
+  "subject": "electrical",
+  "order": 2,
+  "minutes": 15,
+  "aim": "To verify Ohm's law and find the resistance of a given resistor from its V–I graph.",
+  "apparatus": [
+    "Battery eliminator",
+    "Resistor (unknown)",
+    "Rheostat",
+    "Ammeter (0–1 A)",
+    "Voltmeter (0–10 V)",
+    "Plug key",
+    "Connecting wires"
+  ],
+  "theory": "At constant temperature the current through a conductor is proportional to the potential difference across it:\n\n$$V = IR$$\n\nA plot of $V$ against $I$ is a straight line through the origin whose slope is the resistance $R$.",
+  "formula": "R = \\frac{V}{I}",
+  "procedure": [
+    "Connect the resistor in series with the ammeter, rheostat and key; connect the voltmeter across the resistor.",
+    "Close the key and set the rheostat for a small current.",
+    "Note the ammeter and voltmeter readings.",
+    "Change the rheostat to take at least five readings.",
+    "Plot V against I and find R from the slope."
+  ],
+  "precautions": [
+    "Connect the meters with the correct polarity.",
+    "Open the key between readings so the resistor does not heat up."
+  ],
+  "viva": [
+    {
+      "question": "Why is the voltmeter connected in parallel?",
+      "answer": "It measures the potential difference between two points, and its high resistance draws almost no current."
+    },
+    {
+      "question": "What happens to R if the wire heats up?",
+      "answer": "For most metals R increases with temperature."
+    },
+    {
+      "question": "What is an ohmic conductor?",
+      "answer": "One whose V–I graph is a straight line through the origin."
+    }
+  ]
+}

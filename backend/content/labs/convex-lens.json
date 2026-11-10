@@ -1,0 +1,42 @@
+{
+  "id": "convex-lens",
+  "title": "Focal Length of a Convex Lens",
+  "subject": "physics",
+  "order": 4,
+  "minutes": 20,
+  "aim": "To find the focal length of a convex lens by plotting 1/v against 1/u.",
+  "apparatus": [
+    "Optical bench",
+    "Convex lens with holder",
+    "Object needle",
+    "Image needle (or screen)",
+    "Metre scale"
+  ],
+  "theory": "The thin lens formula (Cartesian sign convention) is\n\n$$\\frac{1}{v} - \\frac{1}{u} = \\frac{1}{f}$$\n\nFor a real object, $u$ is negative. Using distances $|u|$ and $v$, this becomes $\\frac{1}{v} + \\frac{1}{|u|} = \\frac{1}{f}$, so a graph of $1/v$ against $1/|u|$ is a straight line meeting both axes at $1/f$.",
+  "formula": "\\frac{1}{f} = \\frac{1}{v} + \\frac{1}{|u|}",
+  "procedure": [
+    "Place the object beyond the focal length of the lens.",
+    "Move the image needle until there is no parallax with the image.",
+    "Record the object distance |u| and image distance v.",
+    "Repeat for at least five object positions.",
+    "Plot 1/v against 1/|u| and find f from the intercepts."
+  ],
+  "precautions": [
+    "Keep the tips of the needles and the lens centre at the same height.",
+    "Remove parallax tip to tip."
+  ],
+  "viva": [
+    {
+      "question": "What is the power of a lens?",
+      "answer": "P = 1/f with f in metres; the unit is the dioptre."
+    },
+    {
+      "question": "Where must the object be for a real, same-size image?",
+      "answer": "At 2F, so |u| = 2f."
+    },
+    {
+      "question": "What is parallax?",
+      "answer": "The apparent relative shift of two objects when the eye moves; it vanishes when they coincide."
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "id": "c11-conic-sections",
+  "grade": 11,
+  "number": 10,
+  "title": "Conic Sections",
+  "summary": "Circles, parabolas, ellipses and hyperbolas in standard form.",
+  "topics": [
+    {
+      "id": "circle-parabola",
+      "title": "Circle and parabola",
+      "notes": "**Circle** with centre $(h, k)$ and radius $r$:\n$$(x - h)^2 + (y - k)^2 = r^2$$\nThe general form $x^2 + y^2 + 2gx + 2fy + c = 0$ has centre $(-g, -f)$ and radius $\\sqrt{g^2 + f^2 - c}$.\n\n**Parabola** $y^2 = 4ax$ ($a > 0$):\n- focus $(a, 0)$, directrix $x = -a$,\n- axis $y = 0$, latus rectum of length $4a$.\n\nEvery point on a parabola is equally far from the focus and the directrix.",
+      "widget": {
+        "module": "graph",
+        "label": "Circle and parabola with sliders",
+        "params": {
+          "e1": "(x - h)^2 + (y - k)^2 = r^2",
+          "e2": "h = 2",
+          "e3": "k = -3",
+          "e4": "r = 5",
+          "e5": "y^2 = 4 a x",
+          "e6": "a = 3",
+          "e7": "(a, 0)",
+          "e8": "x = -a"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find the centre and radius of $x^2 + y^2 + 8x + 10y - 8 = 0$.",
+          "solution": "$g = 4, f = 5, c = -8$: centre $(-4, -5)$, radius $\\sqrt{16 + 25 + 8} = 7$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "c1",
+          "type": "numeric",
+          "prompt": "Radius of x² + y² − 4x + 6y − 12 = 0?",
+          "answer": 5,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "c2",
+          "type": "mcq",
+          "prompt": "Focus of y² = 12x?",
+          "answer": 0,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01,
+          "options": [
+            "(3, 0)",
+            "(0, 3)",
+            "(12, 0)",
+            "(−3, 0)"
+          ]
+        },
+        {
+          "id": "c3",
+          "type": "numeric",
+          "prompt": "Length of the latus rectum of y² = 12x?",
+          "answer": 12,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    },
+    {
+      "id": "ellipse-hyperbola",
+      "title": "Ellipse and hyperbola",
+      "notes": "**Ellipse** $\\dfrac{x^2}{a^2} + \\dfrac{y^2}{b^2} = 1$ with $a > b$:\n- $c^2 = a^2 - b^2$, foci $(\\pm c, 0)$,\n- eccentricity $e = \\dfrac{c}{a} < 1$, latus rectum $\\dfrac{2b^2}{a}$.\n\n**Hyperbola** $\\dfrac{x^2}{a^2} - \\dfrac{y^2}{b^2} = 1$:\n- $c^2 = a^2 + b^2$, foci $(\\pm c, 0)$,\n- eccentricity $e = \\dfrac{c}{a} > 1$, asymptotes $y = \\pm\\dfrac{b}{a}x$.\n\nFor any point on an ellipse, the sum of its distances to the two foci is $2a$.",
+      "widget": {
+        "module": "graph",
+        "label": "Ellipse, foci and hyperbola",
+        "params": {
+          "e1": "x^2/a^2 + y^2/b^2 = 1",
+          "e2": "a = 5",
+          "e3": "b = 4",
+          "e4": "(sqrt(a^2 - b^2), 0)",
+          "e5": "(-sqrt(a^2 - b^2), 0)",
+          "e6": "x^2/a^2 - y^2/b^2 = 1",
+          "e7": "y = b x / a"
+        }
+      },
+      "examples": [
+        {
+          "problem": "Find the foci and eccentricity of $\\frac{x^2}{36} + \\frac{y^2}{16} = 1$.",
+          "solution": "$c = \\sqrt{20} = 2\\sqrt5$, foci $(\\pm 2\\sqrt5, 0)$, $e = \\frac{\\sqrt5}{3}$."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "e1",
+          "type": "numeric",
+          "prompt": "Eccentricity of x²/25 + y²/16 = 1?",
+          "answer": 0.6,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        },
+        {
+          "id": "e2",
+          "type": "mcq",
+          "prompt": "Foci of x²/9 − y²/16 = 1?",
+          "answer": 0,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01,
+          "options": [
+            "(±5, 0)",
+            "(±√7, 0)",
+            "(0, ±5)",
+            "(±3, 0)"
+          ]
+        },
+        {
+          "id": "e3",
+          "type": "numeric",
+          "prompt": "Latus rectum of x²/25 + y²/16 = 1?",
+          "answer": 6.4,
+          "hint": "",
+          "explanation": "",
+          "tolerance": 0.01
+        }
+      ]
+    }
+  ]
+}
