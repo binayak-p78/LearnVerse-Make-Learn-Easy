@@ -34,7 +34,7 @@
           "type": "numeric",
           "prompt": "lim (x→2) (x² − 4)/(x − 2) = ?",
           "answer": 4,
-          "hint": "",
+          "hint": "Direct substitution gives 0/0, so factor x² − 4 and cancel (x − 2).",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -43,7 +43,7 @@
           "type": "numeric",
           "prompt": "lim (x→0) sin(3x)/x = ?",
           "answer": 3,
-          "hint": "",
+          "hint": "Rewrite as 3 · sin(3x)/(3x) and use lim sin θ/θ = 1.",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -83,7 +83,7 @@
           "type": "numeric",
           "prompt": "If f(x) = x³, what is f′(2)?",
           "answer": 12,
-          "hint": "",
+          "hint": "Use the power rule d/dx xⁿ = n xⁿ⁻¹, then substitute x = 2.",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -92,7 +92,7 @@
           "type": "numeric",
           "prompt": "What is d/dx (sin x · cos x) at x = 0?",
           "answer": 1,
-          "hint": "",
+          "hint": "Use the product rule, or write sin x cos x = ½ sin 2x first.",
           "explanation": "The derivative is cos 2x, and cos 0 = 1.",
           "tolerance": 0.01
         },
@@ -101,7 +101,7 @@
           "type": "mcq",
           "prompt": "What is d/dx (1/x)?",
           "answer": 1,
-          "hint": "",
+          "hint": "Write 1/x as x⁻¹ and apply the power rule.",
           "explanation": "",
           "tolerance": 0.01,
           "options": [
@@ -109,6 +109,12 @@
             "−1/x²",
             "ln x",
             "−1/x"
+          ],
+          "optionFeedback": [
+            "The minus sign is missing: x⁻¹ differentiates to −1·x⁻².",
+            "",
+            "ln x is the antiderivative of 1/x, not its derivative.",
+            "The power must go down by one: x⁻¹ becomes x⁻²."
           ]
         }
       ]

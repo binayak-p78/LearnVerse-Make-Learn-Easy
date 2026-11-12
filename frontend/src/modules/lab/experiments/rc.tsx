@@ -16,7 +16,7 @@ type Phase = "idle" | "charging" | "charged" | "discharging";
 
 const tau = (t: Truth) => (t.R * 1e3 * t.C * 1e-6);
 
-function RCSim({ truth, onRecord }: SimulationProps<Truth>) {
+function RCSim({ truth, bench, onRecord }: SimulationProps<Truth>) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [voltage, setVoltage] = useState(0);
   const [clock, setClock] = useState(0);
@@ -46,7 +46,8 @@ function RCSim({ truth, onRecord }: SimulationProps<Truth>) {
     setPhase(next);
   };
 
-  const reading = roundTo(voltage + gaussian(0.005), 0.01);
+  const reading = bench.read("voltmeter", voltage + gaussian(0.005));
+  const hidden = bench.mode === "mystery";
   const level = voltage / truth.V0;
 
   return (
@@ -55,9 +56,9 @@ function RCSim({ truth, onRecord }: SimulationProps<Truth>) {
         <g fill="none" stroke="currentColor" strokeWidth="1.8">
           <path d="M40 150 V50 H110" />
           <rect x="110" y="40" width="60" height="20" />
-          <text x="112" y="32" fill="currentColor" stroke="none" fontSize="11">R = {truth.R} kΩ</text>
+          <text x="112" y="32" fill="currentColor" stroke="none" fontSize="11">R = {hidden ? "?" : truth.R} kΩ</text>
           <path d="M170 50 H240 V85 M225 85 H255 M225 95 H255 M240 95 V150 H40" />
-          <text x="258" y="94" fill="currentColor" stroke="none" fontSize="11">{truth.C} µF</text>
+          <text x="258" y="94" fill="currentColor" stroke="none" fontSize="11">{hidden ? "?" : truth.C} µF</text>
           <rect x="268" y="110" width="14" height="60" />
         </g>
         <rect x="269" y={170 - 59 * level} width="12" height={59 * level} className="fill-accent" />
@@ -75,7 +76,7 @@ function RCSim({ truth, onRecord }: SimulationProps<Truth>) {
           <Button variant="primary" icon={<TimerReset size={16} />} onClick={() => begin("discharging")} disabled={phase !== "charged"}>
             Discharge and start stopwatch
           </Button>
-          <Button icon={<Plus size={16} />} disabled={phase !== "discharging"} onClick={() => onRecord({ t: roundTo(clock, 0.1), V: reading, lnV: Math.log(reading) })}>
+          <Button icon={<Plus size={16} />} disabled={phase !== "discharging"} onClick={() => onRecord({ t: roundTo(clock, 0.1), V: reading })}>
             Record reading
           </Button>
           {phase === "discharging" && (
@@ -97,11 +98,20 @@ export const rc: ExperimentDef<Truth> = {
     { key: "V", label: "V_C (V)", digits: 2 },
     { key: "lnV", label: "ln V_C", digits: 3 },
   ],
+  instruments: [
+    { key: "voltmeter", label: "Voltmeter", unit: "V", fields: ["V"], leastCount: 0.01, maxZeroError: 0.15, analog: true, digits: 2 },
+  ],
   graph: { x: "t", y: "lnV", xLabel: "t (s)", yLabel: "ln V_C", fit: "linear" },
+  sweep: (t) => ({ field: "t", label: "time t (s)", min: 0, max: 3 * tau(t) }),
+  target: { symbol: "τ", label: "Time constant", unit: "s", value: tau },
+  derive: (raw) => {
+    const V = Number(raw.V);
+    return { ...raw, lnV: V > 0 ? Math.log(V) : Number.NaN };
+  },
   setup: () => ({ R: [10, 22, 47][Math.floor(Math.random() * 3)], C: [100, 220][Math.floor(Math.random() * 2)], V0: 9 }),
   Simulation: RCSim,
   results: (rows, truth) => {
-    const valid = rows.filter((r) => Number(r.V) > 0);
+    const valid = rows.filter((r) => Number.isFinite(Number(r.lnV)));
     const fit = linearFit(valid.map((r) => Number(r.t)), valid.map((r) => Number(r.lnV)));
     if (!fit || fit.slope >= 0) return [];
     return [{ label: "Time constant from the slope", symbol: "τ", value: -1 / fit.slope, unit: "s", expected: tau(truth), expectedLabel: "RC" }];

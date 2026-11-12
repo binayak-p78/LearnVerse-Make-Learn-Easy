@@ -10,8 +10,12 @@ from app.schemas.content import (
     ChapterSummary,
     ClassDetail,
     ClassSummary,
+    ConceptMap,
+    MapNode,
+    Question,
     QuestionPublic,
     SearchHit,
+    Topic,
     TopicPublic,
 )
 
@@ -108,3 +112,26 @@ def search(query: str, grade: int | None, limit: int = 30) -> list[SearchHit]:
                                           snippet=_snippet(topic.notes, q), available=True))
     return hits[:limit]
 
+
+
+def concept_map() -> ConceptMap:
+    authored = chapters()
+    return ConceptMap(nodes=[
+        MapNode(
+            id=ch.id, grade=c.grade, number=ch.number, title=ch.title,
+            available=ch.id in authored,
+            topic_ids=[t.id for t in authored[ch.id].topics] if ch.id in authored else [],
+            prerequisites=ch.prerequisites,
+        )
+        for c in catalog().classes
+        for ch in c.chapters
+    ])
+
+
+def find_question(
+    chapter_id: str, topic_id: str, question_id: str,
+) -> tuple[Topic, Question] | None:
+    chapter = chapters().get(chapter_id)
+    topic = next((t for t in chapter.topics if t.id == topic_id), None) if chapter else None
+    question = next((q for q in topic.quiz if q.id == question_id), None) if topic else None
+    return (topic, question) if topic and question else None

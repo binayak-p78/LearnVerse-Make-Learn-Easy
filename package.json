@@ -1,0 +1,15 @@
+{
+  "name": "make-learn-easy",
+  "private": true,
+  "description": "Cross-platform shortcuts for the backend and frontend. Works on Windows, macOS and Linux.",
+  "scripts": {
+    "setup": "node scripts/run.mjs setup",
+    "dev": "node scripts/run.mjs dev",
+    "test": "node scripts/run.mjs test",
+    "build": "node scripts/run.mjs build",
+    "start": "node scripts/run.mjs start"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

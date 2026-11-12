@@ -259,6 +259,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/content/map": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Concept Map */
+        get: operations["concept_map_api_content_map_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/content/search": {
         parameters: {
             query?: never;
@@ -287,6 +304,23 @@ export interface paths {
         put?: never;
         /** Check Answer */
         post: operations["check_answer_api_quiz_check_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/quiz/hint": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Get Hint */
+        post: operations["get_hint_api_quiz_hint_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -350,6 +384,7 @@ export interface components {
             correctAnswer: number;
             /** Explanation */
             explanation: string;
+            diagnosis: components["schemas"]["Diagnosis"] | null;
         };
         /** CalculusResult */
         CalculusResult: {
@@ -428,6 +463,11 @@ export interface components {
             /** Topiccount */
             topicCount: number;
         };
+        /** ConceptMap */
+        ConceptMap: {
+            /** Nodes */
+            nodes: components["schemas"]["MapNode"][];
+        };
         /** ConvertResponse */
         ConvertResponse: {
             dfa: components["schemas"]["FiniteMachine-Output"];
@@ -452,6 +492,16 @@ export interface components {
              * @default 1
              */
             order?: number;
+        };
+        /** Diagnosis */
+        Diagnosis: {
+            /**
+             * Code
+             * @enum {string}
+             */
+            code: "OPTION" | "SIGN" | "RECIPROCAL" | "NEGATIVE_RECIPROCAL" | "SQUARED" | "SQUARE_ROOT" | "FACTOR_TWO" | "PLACE_VALUE" | "DEGREES_RADIANS" | "FACTOR_PI" | "ROUNDING" | "OFF_BY_ONE";
+            /** Message */
+            message: string;
         };
         /** ErrorBody */
         ErrorBody: {
@@ -603,6 +653,35 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** HintRequest */
+        HintRequest: {
+            /** Chapterid */
+            chapterId: string;
+            /** Topicid */
+            topicId: string;
+            /** Questionid */
+            questionId: string;
+            /** Level */
+            level: number;
+        };
+        /** HintResult */
+        HintResult: {
+            /** Level */
+            level: number;
+            /** Maxlevel */
+            maxLevel: number;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "strategy" | "example" | "eliminate" | "range";
+            /** Text */
+            text: string;
+            /** Exampleindex */
+            exampleIndex: number | null;
+            /** Eliminate */
+            eliminate: number | null;
+        };
         /** ImportResponse */
         ImportResponse: {
             /** Machine */
@@ -726,6 +805,23 @@ export interface components {
         MachineRequest: {
             /** Machine */
             machine: components["schemas"]["FiniteMachine-Input"] | components["schemas"]["PDAMachine-Input"] | components["schemas"]["TMMachine-Input"];
+        };
+        /** MapNode */
+        MapNode: {
+            /** Id */
+            id: string;
+            /** Grade */
+            grade: number;
+            /** Number */
+            number: number;
+            /** Title */
+            title: string;
+            /** Available */
+            available: boolean;
+            /** Topicids */
+            topicIds: string[];
+            /** Prerequisites */
+            prerequisites: string[];
         };
         /** MinimizeResponse */
         MinimizeResponse: {
@@ -1807,6 +1903,35 @@ export interface operations {
             };
         };
     };
+    concept_map_api_content_map_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConceptMap"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     search_api_content_search_get: {
         parameters: {
             query: {
@@ -1868,6 +1993,48 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AnswerResult"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_hint_api_quiz_hint_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HintRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HintResult"];
                 };
             };
             /** @description Not Found */

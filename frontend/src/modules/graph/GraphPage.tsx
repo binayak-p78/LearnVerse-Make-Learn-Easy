@@ -1,4 +1,4 @@
-import { Check, Link2, Maximize, Pause, Play, Plus, Trash2, X, ZoomIn, ZoomOut } from "lucide-react";
+import { Check, Headphones, Link2, Maximize, Pause, Play, Plus, Square, Trash2, X, ZoomIn, ZoomOut } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import { BookmarkButton } from "@/components/BookmarkButton";
@@ -10,8 +10,10 @@ import { useAnimationLoop } from "@/hooks/useAnimationLoop";
 import { cssVar, useResolvedTheme } from "@/hooks/useTheme";
 import { useTrackVisit } from "@/hooks/useTrackVisit";
 import { type Curve, PlotCanvas, type Transform, type Viewport, zoomViewport } from "../calculus/PlotCanvas";
-import { contour } from "./implicit";
+import { AudioGraph } from "./audioGraph";
 import { buildScope, type Item, missingParams, parseRow, userFunctionName } from "./parse";
+import { drawCursor, drawItem, itemCurve } from "./render";
+import { analyzeCurve, buildPlan, describeCurve, frequencyFor, panFor, sampleCurve } from "./sonify";
 import { makeRows, type Row, type SliderBounds, useGraph } from "./store";
 
 const DEFAULT_VIEW: Viewport = { xMin: -10, xMax: 10, yMin: -6, yMax: 6 };
@@ -28,6 +30,14 @@ const EXAMPLES: Record<string, string[]> = {
 };
 
 const PALETTE = ["--plot-1", "--plot-2", "--plot-3", "--plot-4", "--plot-5"];
+const LISTEN_SECONDS = 4;
+
+interface Listenable {
+  id: string;
+  label: string;
+  color: string;
+  f: (x: number) => number;
+}
 
 function SliderRow({ row, value, bounds, onChange, onBounds, playing, onTogglePlay }: {
   row: Row;
@@ -106,58 +116,104 @@ export default function GraphPage() {
     items.forEach((item, i) => {
       const row = rows[i];
       if (row.hidden || missingParams(item, scope).length) return;
-      if (item.kind === "explicit") list.push({ fn: (x) => item.at(x, scope), color: colorOf(row) });
-      if (item.kind === "function" && item.plotted) list.push({ fn: (x) => item.at(x, scope), color: colorOf(row) });
+      const curve = itemCurve(item, scope, colorOf(row));
+      if (curve) list.push(curve);
     });
     return list;
   }, [items, rows, scope, colors]);
+
+  // Audio graph: explicit curves that can be played as sound
+  const listenable = useMemo<Listenable[]>(
+    () =>
+      items.flatMap((item, i) => {
+        const row = rows[i];
+        if (row.hidden || missingParams(item, scope).length) return [];
+        if (item.kind !== "explicit" && !(item.kind === "function" && item.plotted)) return [];
+        return [{ id: row.id, label: row.text.trim(), color: colorOf(row), f: (x: number) => item.at(x, scope) }];
+      }),
+    [items, rows, scope, colors],
+  );
+  const [listenId, setListenId] = useState<string | null>(null);
+  const sound = listenable.find((c) => c.id === listenId) ?? listenable[0] ?? null;
+  const audioOk = useMemo(() => AudioGraph.supported(), []);
+  const audio = useRef<AudioGraph | null>(null);
+  const shown = useRef<Viewport>(view);
+  const [listening, setListening] = useState<{ startedAt: number; range: Viewport } | null>(null);
+  const [cursorX, setCursorX] = useState<number | null>(null);
+  const [announce, setAnnounce] = useState("");
+  const [summary, setSummary] = useState("");
+  useEffect(() => () => audio.current?.close(), []);
+  const getAudio = () => (audio.current ??= new AudioGraph());
+
+  const stopListening = () => {
+    audio.current?.stop();
+    setListening(null);
+    setCursorX(null);
+  };
+
+  const listen = () => {
+    if (!sound) return;
+    const range = shown.current;
+    const samples = sampleCurve(sound.f, range.xMin, range.xMax, 400);
+    const text = describeCurve(analyzeCurve(samples, (range.yMax - range.yMin) * 2), range.xMin, range.xMax);
+    setSummary(text);
+    setAnnounce(text);
+    try {
+      getAudio().play(buildPlan(samples, range, LISTEN_SECONDS));
+    } catch {
+      return;
+    }
+    setListening({ startedAt: performance.now() + 50, range });
+  };
+
+  useAnimationLoop(listening !== null, () => {
+    if (!listening) return false;
+    const progress = (performance.now() - listening.startedAt) / 1000 / LISTEN_SECONDS;
+    if (progress >= 1) {
+      setListening(null);
+      setCursorX(null);
+      return false;
+    }
+    setCursorX(listening.range.xMin + Math.max(0, progress) * (listening.range.xMax - listening.range.xMin));
+  });
+
+  // Arrow keys walk a cursor along the curve, playing its pitch and reading the coordinates
+  const explore = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!sound) return;
+    const range = shown.current;
+    const step = ((range.xMax - range.xMin) / 40) * (event.shiftKey ? 0.2 : 1);
+    const current = cursorX ?? (range.xMin + range.xMax) / 2;
+    const moves: Record<string, number> = {
+      ArrowRight: current + step,
+      ArrowLeft: current - step,
+      Home: range.xMin,
+      End: range.xMax,
+    };
+    if (event.key === "Escape") {
+      setCursorX(null);
+      return;
+    }
+    if (!(event.key in moves)) return;
+    event.preventDefault();
+    if (listening) stopListening();
+    const x = Math.min(range.xMax, Math.max(range.xMin, cursorX === null && event.key.startsWith("Arrow") ? current : moves[event.key]));
+    const y = sound.f(x);
+    setCursorX(x);
+    setAnnounce(Number.isFinite(y) ? `x = ${formatNumber(x, 2)}, y = ${formatNumber(y, 2)}` : `x = ${formatNumber(x, 2)}, undefined`);
+    if (audioOk) getAudio().tone(frequencyFor(y, range.yMin, range.yMax), panFor(x, range.xMin, range.xMax));
+  };
 
   const overlay = useCallback(
     (ctx: CanvasRenderingContext2D, t: Transform) => {
       items.forEach((item, i) => {
         const row = rows[i];
         if (row.hidden || missingParams(item, scope).length) return;
-        const color = colors[row.color % colors.length];
-        ctx.strokeStyle = color;
-        ctx.fillStyle = color;
-        ctx.lineWidth = 2.5;
-        if (item.kind === "implicit") {
-          ctx.beginPath();
-          for (const [x1, y1, x2, y2] of contour((x, y) => item.at(x, y, scope), t.width, t.height, t.toWorld)) {
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(x2, y2);
-          }
-          ctx.stroke();
-        }
-        if (item.kind === "vertical") {
-          ctx.beginPath();
-          let pen = false;
-          for (let py = 0; py <= t.height; py += 1) {
-            const [, y] = t.toWorld(0, py);
-            const x = item.at(y, scope);
-            if (!Number.isFinite(x)) { pen = false; continue; }
-            const [px] = t.toPx(x, y);
-            if (pen) ctx.lineTo(px, py);
-            else ctx.moveTo(px, py);
-            pen = true;
-          }
-          ctx.stroke();
-        }
-        if (item.kind === "point") {
-          const [x, y] = item.at(scope);
-          if (!Number.isFinite(x) || !Number.isFinite(y)) return;
-          const [px, py] = t.toPx(x, y);
-          ctx.beginPath();
-          ctx.arc(px, py, 5.5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.font = "12px ui-sans-serif, system-ui";
-          ctx.fillStyle = cssVar("--text");
-          ctx.textAlign = "left";
-          ctx.fillText(`(${formatNumber(x, 2)}, ${formatNumber(y, 2)})`, px + 9, py - 8);
-        }
+        drawItem(ctx, t, item, scope, colors[row.color % colors.length], cssVar("--text"));
       });
+      shown.current = t.viewport;
+      if (cursorX !== null && sound) drawCursor(ctx, t, cursorX, sound.f(cursorX), sound.color);
     },
-    [items, rows, scope, colors],
+    [items, rows, scope, colors, cursorX, sound],
   );
 
   useAnimationLoop(playing.size > 0, (dt) => {
@@ -308,15 +364,44 @@ export default function GraphPage() {
         <Card className="order-1 min-w-0 lg:order-2">
           <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-2">
             <p className="font-mono text-xs tabular-nums text-muted" aria-live="off">
-              {hover ? `x = ${formatNumber(hover[0], 3)}, y = ${formatNumber(hover[1], 3)}` : "Drag to pan · scroll or pinch to zoom"}
+              {hover ? `x = ${formatNumber(hover[0], 3)}, y = ${formatNumber(hover[1], 3)}` : "Drag to pan · scroll or pinch to zoom · arrow keys to explore"}
             </p>
-            <div className="flex gap-1">
+            <div className="flex flex-wrap items-center gap-1">
+              {listenable.length > 1 && (
+                <select
+                  aria-label="Curve to listen to"
+                  className="h-8 max-w-36 rounded-xl border border-line/60 bg-surface-2 px-2 font-mono text-xs"
+                  value={sound?.id ?? ""}
+                  onChange={(e) => { stopListening(); setListenId(e.target.value); }}
+                >
+                  {listenable.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}
+                </select>
+              )}
+              {listening ? (
+                <Button size="sm" variant="primary" icon={<Square size={13} />} onClick={stopListening}>Stop</Button>
+              ) : (
+                <Button
+                  size="sm"
+                  icon={<Headphones size={14} />}
+                  disabled={!audioOk || !sound}
+                  title={!audioOk ? "This browser has no Web Audio support" : !sound ? "Add a y = … curve to listen to it" : "Play the curve as sound: pitch is height, clicks mark x-axis crossings"}
+                  onClick={listen}
+                >
+                  Listen
+                </Button>
+              )}
               <IconButton size="sm" variant="ghost" label="Zoom in" icon={<ZoomIn size={16} />} onClick={() => setView((v) => zoomViewport(v, 1 / 1.4, centre.x, centre.y))} />
               <IconButton size="sm" variant="ghost" label="Zoom out" icon={<ZoomOut size={16} />} onClick={() => setView((v) => zoomViewport(v, 1.4, centre.x, centre.y))} />
               <IconButton size="sm" variant="ghost" label="Reset view" icon={<Maximize size={16} />} onClick={() => setView(DEFAULT_VIEW)} />
             </div>
           </div>
-          <div className="p-3">
+          <div
+            className="rounded-[22px] p-3"
+            tabIndex={0}
+            role="group"
+            aria-label="Graph area. Use the left and right arrow keys to explore the curve by sound, Home and End to jump to the edges."
+            onKeyDown={explore}
+          >
             <PlotCanvas
               viewport={view}
               onViewportChange={setView}
@@ -327,6 +412,8 @@ export default function GraphPage() {
               onHover={setHover}
               label={`Graph of ${rows.filter((r) => r.text.trim()).map((r) => r.text).join("; ") || "nothing yet"}`}
             />
+            {summary && <p className="mt-2 text-xs text-muted">{summary}</p>}
+            <p className="sr-only" aria-live="polite">{announce}</p>
           </div>
         </Card>
       </div>

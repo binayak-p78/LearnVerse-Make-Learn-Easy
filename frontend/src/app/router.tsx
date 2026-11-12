@@ -14,6 +14,11 @@ const ClassPage = lazy(() => import("@/modules/ncert/ClassPage"));
 const ChapterPage = lazy(() => import("@/modules/ncert/ChapterPage"));
 const LabHome = lazy(() => import("@/modules/lab/LabHome"));
 const ExperimentPage = lazy(() => import("@/modules/lab/ExperimentPage"));
+const MatchPage = lazy(() => import("@/modules/graph/MatchPage"));
+const ConceptMapPage = lazy(() => import("@/modules/ncert/ConceptMapPage"));
+const ReviewPage = lazy(() => import("@/modules/review/ReviewPage"));
+const AssignmentBuilder = lazy(() => import("@/modules/assign/AssignmentBuilder"));
+const AssignmentPage = lazy(() => import("@/modules/assign/AssignmentPage"));
 
 function NotFound() {
   return (
@@ -34,12 +39,17 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: Dashboard },
       { path: "graph", Component: GraphPage },
+      { path: "match", Component: MatchPage },
       { path: "projectile", Component: ProjectilePage },
       { path: "calculus", Component: CalculusPage },
       { path: "automata", Component: FiniteAutomataPage },
       { path: "pda", Component: PDAPage },
       { path: "turing", Component: TuringPage },
       { path: "ncert", Component: NcertHome },
+      { path: "ncert/map", Component: ConceptMapPage },
+      { path: "review", Component: ReviewPage },
+      { path: "assign", Component: AssignmentBuilder },
+      { path: "assignment", Component: AssignmentPage },
       { path: "ncert/class/:grade", Component: ClassPage },
       { path: "ncert/chapter/:chapterId/:topicId?", Component: ChapterPage },
       { path: "lab", Component: LabHome },

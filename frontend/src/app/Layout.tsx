@@ -1,6 +1,7 @@
 import { BookOpen, ChevronDown, FlaskConical, Home, Menu, Moon, Search, Sun, X } from "lucide-react";
 import { type ReactNode, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router";
+import { Ambient } from "@/components/Ambient";
 import { Skeleton } from "@/components/ui/Card";
 import { useDismiss } from "@/hooks/useDismiss";
 import { useApplyTheme } from "@/hooks/useTheme";
@@ -255,10 +256,23 @@ function PageFallback() {
   );
 }
 
+// True once the page has scrolled, so the header only frosts when content passes under it
+function useScrolled(threshold = 8) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > threshold);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, [threshold]);
+  return scrolled;
+}
+
 export function Layout() {
   useApplyTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { pathname } = useLocation();
+  const scrolled = useScrolled();
 
   useEffect(() => {
     setDrawerOpen(false);
@@ -267,6 +281,7 @@ export function Layout() {
 
   return (
     <div className="flex min-h-full flex-col">
+      <Ambient />
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-xl focus:bg-surface focus:px-3 focus:py-2">
         Skip to content
       </a>
@@ -274,7 +289,7 @@ export function Layout() {
       {drawerOpen && (
         <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation">
           <button type="button" aria-label="Close navigation" className="absolute inset-0 bg-black/30" onClick={() => setDrawerOpen(false)} />
-          <div className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col rounded-r-[28px] bg-surface py-5 shadow-xl">
+          <div className="glass absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col rounded-r-[28px] py-5 shadow-xl">
             <div className="flex items-center justify-between px-5">
               <Brand />
               <RoundButton label="Close navigation" onClick={() => setDrawerOpen(false)}>
@@ -288,7 +303,7 @@ export function Layout() {
         </div>
       )}
 
-      <header className="no-print sticky top-0 z-30 bg-bg/85 backdrop-blur-md">
+      <header className={`no-print sticky top-0 z-30 transition-[background-color,backdrop-filter,box-shadow] duration-300 ${scrolled ? "bg-bg/45 shadow-[0_1px_0_var(--glass-edge)] backdrop-blur-xl" : "bg-transparent"}`}>
         <div className="mx-auto flex h-[76px] w-full max-w-[1440px] items-center gap-3 px-4 sm:px-6">
           <RoundButton label="Open navigation" onClick={() => setDrawerOpen(true)} className="lg:hidden">
             <Menu size={18} />

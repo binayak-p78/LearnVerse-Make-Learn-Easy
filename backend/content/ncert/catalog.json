@@ -8,72 +8,110 @@
         {
           "id": "c11-sets",
           "number": 1,
-          "title": "Sets"
+          "title": "Sets",
+          "prerequisites": []
         },
         {
           "id": "c11-relations-and-functions",
           "number": 2,
-          "title": "Relations and Functions"
+          "title": "Relations and Functions",
+          "prerequisites": [
+            "c11-sets"
+          ]
         },
         {
           "id": "c11-trigonometric-functions",
           "number": 3,
-          "title": "Trigonometric Functions"
+          "title": "Trigonometric Functions",
+          "prerequisites": [
+            "c11-relations-and-functions"
+          ]
         },
         {
           "id": "c11-complex-numbers-and-quadratic-equations",
           "number": 4,
-          "title": "Complex Numbers and Quadratic Equations"
+          "title": "Complex Numbers and Quadratic Equations",
+          "prerequisites": [
+            "c11-relations-and-functions"
+          ]
         },
         {
           "id": "c11-linear-inequalities",
           "number": 5,
-          "title": "Linear Inequalities"
+          "title": "Linear Inequalities",
+          "prerequisites": [
+            "c11-sets"
+          ]
         },
         {
           "id": "c11-permutations-and-combinations",
           "number": 6,
-          "title": "Permutations and Combinations"
+          "title": "Permutations and Combinations",
+          "prerequisites": []
         },
         {
           "id": "c11-binomial-theorem",
           "number": 7,
-          "title": "Binomial Theorem"
+          "title": "Binomial Theorem",
+          "prerequisites": [
+            "c11-permutations-and-combinations"
+          ]
         },
         {
           "id": "c11-sequences-and-series",
           "number": 8,
-          "title": "Sequences and Series"
+          "title": "Sequences and Series",
+          "prerequisites": [
+            "c11-relations-and-functions"
+          ]
         },
         {
           "id": "c11-straight-lines",
           "number": 9,
-          "title": "Straight Lines"
+          "title": "Straight Lines",
+          "prerequisites": [
+            "c11-relations-and-functions"
+          ]
         },
         {
           "id": "c11-conic-sections",
           "number": 10,
-          "title": "Conic Sections"
+          "title": "Conic Sections",
+          "prerequisites": [
+            "c11-straight-lines"
+          ]
         },
         {
           "id": "c11-introduction-to-three-dimensional-geometry",
           "number": 11,
-          "title": "Introduction to Three Dimensional Geometry"
+          "title": "Introduction to Three Dimensional Geometry",
+          "prerequisites": [
+            "c11-straight-lines"
+          ]
         },
         {
           "id": "c11-limits-and-derivatives",
           "number": 12,
-          "title": "Limits and Derivatives"
+          "title": "Limits and Derivatives",
+          "prerequisites": [
+            "c11-relations-and-functions",
+            "c11-trigonometric-functions"
+          ]
         },
         {
           "id": "c11-statistics",
           "number": 13,
-          "title": "Statistics"
+          "title": "Statistics",
+          "prerequisites": []
         },
         {
           "id": "c11-probability",
           "number": 14,
-          "title": "Probability"
+          "title": "Probability",
+          "prerequisites": [
+            "c11-sets",
+            "c11-permutations-and-combinations"
+          ]
         }
       ]
     },
@@ -85,67 +123,108 @@
         {
           "id": "c12-relations-and-functions",
           "number": 1,
-          "title": "Relations and Functions"
+          "title": "Relations and Functions",
+          "prerequisites": [
+            "c11-relations-and-functions"
+          ]
         },
         {
           "id": "c12-inverse-trigonometric-functions",
           "number": 2,
-          "title": "Inverse Trigonometric Functions"
+          "title": "Inverse Trigonometric Functions",
+          "prerequisites": [
+            "c11-trigonometric-functions",
+            "c12-relations-and-functions"
+          ]
         },
         {
           "id": "c12-matrices",
           "number": 3,
-          "title": "Matrices"
+          "title": "Matrices",
+          "prerequisites": []
         },
         {
           "id": "c12-determinants",
           "number": 4,
-          "title": "Determinants"
+          "title": "Determinants",
+          "prerequisites": [
+            "c12-matrices"
+          ]
         },
         {
           "id": "c12-continuity-and-differentiability",
           "number": 5,
-          "title": "Continuity and Differentiability"
+          "title": "Continuity and Differentiability",
+          "prerequisites": [
+            "c11-limits-and-derivatives",
+            "c12-inverse-trigonometric-functions"
+          ]
         },
         {
           "id": "c12-application-of-derivatives",
           "number": 6,
-          "title": "Application of Derivatives"
+          "title": "Application of Derivatives",
+          "prerequisites": [
+            "c12-continuity-and-differentiability"
+          ]
         },
         {
           "id": "c12-integrals",
           "number": 7,
-          "title": "Integrals"
+          "title": "Integrals",
+          "prerequisites": [
+            "c12-continuity-and-differentiability"
+          ]
         },
         {
           "id": "c12-application-of-integrals",
           "number": 8,
-          "title": "Application of Integrals"
+          "title": "Application of Integrals",
+          "prerequisites": [
+            "c12-integrals",
+            "c11-conic-sections"
+          ]
         },
         {
           "id": "c12-differential-equations",
           "number": 9,
-          "title": "Differential Equations"
+          "title": "Differential Equations",
+          "prerequisites": [
+            "c12-integrals"
+          ]
         },
         {
           "id": "c12-vector-algebra",
           "number": 10,
-          "title": "Vector Algebra"
+          "title": "Vector Algebra",
+          "prerequisites": [
+            "c11-introduction-to-three-dimensional-geometry"
+          ]
         },
         {
           "id": "c12-three-dimensional-geometry",
           "number": 11,
-          "title": "Three Dimensional Geometry"
+          "title": "Three Dimensional Geometry",
+          "prerequisites": [
+            "c12-vector-algebra"
+          ]
         },
         {
           "id": "c12-linear-programming",
           "number": 12,
-          "title": "Linear Programming"
+          "title": "Linear Programming",
+          "prerequisites": [
+            "c11-linear-inequalities",
+            "c11-straight-lines"
+          ]
         },
         {
           "id": "c12-probability",
           "number": 13,
-          "title": "Probability"
+          "title": "Probability",
+          "prerequisites": [
+            "c11-probability"
+          ]
         }
       ]
     }

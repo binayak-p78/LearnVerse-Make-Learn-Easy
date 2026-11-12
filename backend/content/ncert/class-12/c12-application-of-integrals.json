@@ -31,7 +31,7 @@
           "type": "numeric",
           "prompt": "Area under y = x² between x = 1 and x = 2 (decimal)?",
           "answer": 2.333,
-          "hint": "",
+          "hint": "Evaluate ∫₁² x² dx = [x³/3] from 1 to 2.",
           "explanation": "",
           "tolerance": 0.002
         },
@@ -40,7 +40,7 @@
           "type": "numeric",
           "prompt": "Area of the ellipse x²/9 + y²/4 = 1 (decimal)?",
           "answer": 18.85,
-          "hint": "",
+          "hint": "The area of an ellipse is πab.",
           "explanation": "πab = 6π ≈ 18.85.",
           "tolerance": 0.002
         },
@@ -49,7 +49,7 @@
           "type": "numeric",
           "prompt": "Area under y = sin x from 0 to π?",
           "answer": 2,
-          "hint": "",
+          "hint": "∫ sin x dx = −cos x. Evaluate from 0 to π.",
           "explanation": "",
           "tolerance": 0.01
         }
@@ -81,7 +81,7 @@
           "type": "numeric",
           "prompt": "Area between y = x and y = x² (decimal)?",
           "answer": 0.1667,
-          "hint": "",
+          "hint": "Find where the curves meet, then integrate (top − bottom) between those x-values.",
           "explanation": "",
           "tolerance": 0.002
         },
@@ -90,7 +90,7 @@
           "type": "numeric",
           "prompt": "Area between y = 2x and y = x² (decimal)?",
           "answer": 1.333,
-          "hint": "",
+          "hint": "They meet where 2x = x². Integrate (2x − x²) between those roots.",
           "explanation": "",
           "tolerance": 0.002
         },
@@ -99,7 +99,7 @@
           "type": "numeric",
           "prompt": "How many points do y = x² and y = x + 2 have in common?",
           "answer": 2,
-          "hint": "",
+          "hint": "Solve x² = x + 2 and count the real roots.",
           "explanation": "",
           "tolerance": 0.01
         }

@@ -10,9 +10,12 @@ from app.schemas.content import (
     ChapterPublic,
     ClassDetail,
     ClassSummary,
+    ConceptMap,
+    HintRequest,
+    HintResult,
     SearchHit,
 )
-from app.services import content_loader
+from app.services import content_loader, tutor
 
 router = APIRouter(tags=["content"], responses={404: {"model": ErrorResponse}})
 
@@ -38,6 +41,11 @@ def get_chapter(chapter_id: str) -> ChapterPublic:
     return content_loader.to_public(chapter)
 
 
+@router.get("/content/map", response_model=ConceptMap)
+def concept_map() -> ConceptMap:
+    return content_loader.concept_map()
+
+
 @router.get("/content/search", response_model=list[SearchHit])
 def search(
     q: Annotated[str, Query(min_length=2, max_length=60)],
@@ -48,15 +56,24 @@ def search(
 
 @router.post("/quiz/check", response_model=AnswerResult)
 def check_answer(body: AnswerRequest) -> AnswerResult:
-    chapter = content_loader.chapters().get(body.chapter_id)
-    topic = next((t for t in chapter.topics if t.id == body.topic_id), None) if chapter else None
-    question = next((q for q in topic.quiz if q.id == body.question_id), None) if topic else None
-    if question is None:
+    found = content_loader.find_question(body.chapter_id, body.topic_id, body.question_id)
+    if found is None:
         raise ApiError(404, "NOT_FOUND", "Question not found.")
+    _, question = found
     if question.type == "mcq":
         correct = int(body.answer) == int(question.answer)
     else:
         scale = max(1.0, abs(question.answer))
         correct = abs(body.answer - question.answer) <= question.tolerance * scale
     return AnswerResult(correct=correct, correct_answer=question.answer,
-                        explanation=question.explanation)
+                        explanation=question.explanation,
+                        diagnosis=None if correct else tutor.diagnose(question, body.answer))
+
+
+@router.post("/quiz/hint", response_model=HintResult)
+def get_hint(body: HintRequest) -> HintResult:
+    found = content_loader.find_question(body.chapter_id, body.topic_id, body.question_id)
+    if found is None:
+        raise ApiError(404, "NOT_FOUND", "Question not found.")
+    topic, question = found
+    return tutor.hint(question, topic, body.level)

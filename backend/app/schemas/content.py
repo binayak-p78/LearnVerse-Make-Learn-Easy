@@ -1,6 +1,6 @@
-from typing import Literal
+from typing import Literal, Self
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from app.schemas.base import ApiModel
 
@@ -28,6 +28,13 @@ class Question(QuestionPublic):
     answer: float
     tolerance: float = 0.01
     explanation: str = ""
+    option_feedback: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _feedback_matches_options(self) -> Self:
+        if self.option_feedback and len(self.option_feedback) != len(self.options or []):
+            raise ValueError(f"{self.id}: optionFeedback needs one entry per option")
+        return self
 
 
 class TopicBase(ApiModel):
@@ -68,6 +75,7 @@ class CatalogChapter(ApiModel):
     id: str
     number: int
     title: str
+    prerequisites: list[str] = Field(default_factory=list)
 
 
 class CatalogClass(ApiModel):
@@ -124,7 +132,46 @@ class AnswerRequest(ApiModel):
     answer: float
 
 
+class Diagnosis(ApiModel):
+    code: Literal[
+        "OPTION", "SIGN", "RECIPROCAL", "NEGATIVE_RECIPROCAL", "SQUARED", "SQUARE_ROOT",
+        "FACTOR_TWO", "PLACE_VALUE", "DEGREES_RADIANS", "FACTOR_PI", "ROUNDING", "OFF_BY_ONE",
+    ]
+    message: str
+
+
 class AnswerResult(ApiModel):
     correct: bool
     correct_answer: float
     explanation: str
+    diagnosis: Diagnosis | None = None
+
+
+class HintRequest(ApiModel):
+    chapter_id: str
+    topic_id: str
+    question_id: str
+    level: int = Field(ge=1, le=3)
+
+
+class HintResult(ApiModel):
+    level: int
+    max_level: int
+    kind: Literal["strategy", "example", "eliminate", "range"]
+    text: str
+    example_index: int | None = None
+    eliminate: int | None = None
+
+
+class MapNode(ApiModel):
+    id: str
+    grade: int
+    number: int
+    title: str
+    available: bool
+    topic_ids: list[str]
+    prerequisites: list[str]
+
+
+class ConceptMap(ApiModel):
+    nodes: list[MapNode]

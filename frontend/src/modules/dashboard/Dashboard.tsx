@@ -7,7 +7,9 @@ import { Badge, Card } from "@/components/ui/Card";
 import { useAsync } from "@/hooks/useAsync";
 import { fetchClasses } from "@/modules/ncert/content";
 import { dayKey, gradeOfChapter, streak, useProgress, type Visit } from "@/services/progressStore";
+import { dueCards, useReviews } from "@/services/reviewStore";
 import { CurveHero } from "./CurveHero";
+import { PromptHero } from "./PromptHero";
 import { ActivityBars, ago, type DayActivity, ListRow, SectionCard, StatCard } from "./widgets";
 
 const LAB_EXPERIMENTS = 6;
@@ -37,10 +39,10 @@ function HeroHeader({ days, lastVisit }: { days: number; lastVisit?: Visit }) {
         <BookOpen size={28} strokeWidth={1.75} aria-hidden />
       </span>
       <div className="min-w-0 flex-1">
-        <h1 className="flex flex-wrap items-center gap-2 text-2xl font-semibold tracking-tight">
+        <h2 className="flex flex-wrap items-center gap-2 text-2xl font-semibold tracking-tight">
           {greeting}
           {days > 0 ? <Badge tone="lime">Active</Badge> : <Badge>Start today</Badge>}
-        </h1>
+        </h2>
         <dl className="mt-2 flex flex-wrap gap-x-5 gap-y-2">
           {facts.map((f) => (
             <div key={f.label} className="flex items-center gap-2.5">
@@ -165,6 +167,9 @@ function RecentTable({ items }: { items: Visit[] }) {
 export default function Dashboard() {
   const { visits, bookmarks, completedTopics, quizScores, experiments, activeDays, activity, toggleBookmark, reset } = useProgress();
   const classes = useAsync(fetchClasses, []);
+  const reviewCards = useReviews((s) => s.cards);
+  const reviewsDue = dueCards(reviewCards).length;
+  const reviewTotal = Object.keys(reviewCards).length;
 
   const recent = Object.values(visits).sort((a, b) => b.at - a.at);
   const lastVisit = recent[0];
@@ -201,6 +206,7 @@ export default function Dashboard() {
     .sort((a, b) => doneIn(Number(b.badge)) - doneIn(Number(a.badge)));
   const planRows: PlanRow[] = [
     ...classRows,
+    ...(reviewTotal ? [{ id: "review", badge: "Rev", title: "Daily review", subtitle: "Spaced repetition", metric: String(reviewsDue), metricHint: "cards due", trailing: reviewsDue ? "Now" : "Done", to: "/review" }] : []),
     { id: "lab", badge: "Lab", title: "Engineering lab", subtitle: "Physics & circuits", metric: `${labDone}/${LAB_EXPERIMENTS}`, metricHint: "experiments", trailing: `${Math.round((labDone / LAB_EXPERIMENTS) * 100)}%`, to: "/lab" },
   ];
 
@@ -209,135 +215,139 @@ export default function Dashboard() {
     { label: "Mark an NCERT topic complete", done: Object.values(completedTopics).some(isToday) },
     { label: "Finish a practice quiz", done: scores.some((q) => isToday(q.at)) },
     { label: "Record a lab experiment", done: Object.values(experiments).some((e) => isToday(e.at)) },
+    ...(reviewTotal ? [{ label: "Clear today's review cards", done: reviewsDue === 0 }] : []),
   ];
   const goalsDone = goals.filter((g) => g.done).length;
   const bookmarkList = Object.values(bookmarks).sort((a, b) => b.at - a.at);
 
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[290px_minmax(0,1fr)] xl:grid-cols-[290px_minmax(0,1fr)_380px]">
-      <div className="order-2 min-w-0 space-y-4 lg:order-1">
-        <SectionCard title="All modules" subtitle={`${MODULES.length} available`}>
-          <ul className="space-y-1">
-            {modules.map((m, i) => {
-              const used = lastUsed.get(m.key);
-              return (
-                <ListRow
-                  key={m.key}
-                  to={m.path}
-                  icon={<m.icon size={16} aria-hidden />}
-                  title={m.title}
-                  subtitle={used ? `${m.short} · ${ago(used)}` : m.group}
-                  highlighted={i === 0 && used !== undefined}
-                />
-              );
-            })}
-          </ul>
-        </SectionCard>
-
-        <SectionCard title="Bookmarks">
-          {bookmarkList.length === 0 ? (
-            <p className="px-1.5 pb-2 text-sm text-muted">Bookmark any simulator or lesson to find it here.</p>
-          ) : (
+    <>
+      <PromptHero reviewsDue={reviewsDue} />
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[290px_minmax(0,1fr)] xl:grid-cols-[290px_minmax(0,1fr)_380px]">
+        <div className="order-2 min-w-0 space-y-4 lg:order-1">
+          <SectionCard title="All modules" subtitle={`${MODULES.length} available`}>
             <ul className="space-y-1">
-              {bookmarkList.map((v) => {
-                const Icon = moduleByKey[v.module]?.icon ?? Clock;
+              {modules.map((m, i) => {
+                const used = lastUsed.get(m.key);
                 return (
                   <ListRow
-                    key={v.path}
-                    to={v.path}
-                    icon={<Icon size={16} aria-hidden />}
-                    title={v.title}
-                    subtitle={moduleByKey[v.module]?.short ?? ""}
-                    trailing={<IconButton size="sm" variant="ghost" label={`Remove bookmark ${v.title}`} icon={<X size={13} />} onClick={() => toggleBookmark(v)} />}
+                    key={m.key}
+                    to={m.path}
+                    icon={<m.icon size={16} aria-hidden />}
+                    title={m.title}
+                    subtitle={used ? `${m.short} · ${ago(used)}` : m.group}
+                    highlighted={i === 0 && used !== undefined}
                   />
                 );
               })}
             </ul>
-          )}
-        </SectionCard>
+          </SectionCard>
 
-        <SectionCard
-          title="Today's goals"
-          action={
-            <span className="flex h-10 min-w-10 items-center justify-center rounded-2xl bg-primary px-3 text-sm font-semibold tabular-nums text-on-primary">
-              {goalsDone}/{goals.length}
-            </span>
-          }
-        >
-          <div className="card-edge rounded-2xl bg-surface-2 p-3.5">
-            <p className="text-sm font-medium">Small steps that count today:</p>
-            <ul className="mt-2.5 space-y-2.5">
-              {goals.map((g) => (
-                <li key={g.label} className={`flex items-center gap-2.5 text-[13px] ${g.done ? "text-muted line-through" : ""}`}>
-                  {g.done ? <CheckSquare size={16} className="shrink-0 text-ink" aria-hidden /> : <Square size={16} className="shrink-0 text-muted" aria-hidden />}
-                  <span>{g.label}</span>
-                  <span className="sr-only">{g.done ? "(done)" : "(not done)"}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </SectionCard>
-      </div>
+          <SectionCard title="Bookmarks">
+            {bookmarkList.length === 0 ? (
+              <p className="px-1.5 pb-2 text-sm text-muted">Bookmark any simulator or lesson to find it here.</p>
+            ) : (
+              <ul className="space-y-1">
+                {bookmarkList.map((v) => {
+                  const Icon = moduleByKey[v.module]?.icon ?? Clock;
+                  return (
+                    <ListRow
+                      key={v.path}
+                      to={v.path}
+                      icon={<Icon size={16} aria-hidden />}
+                      title={v.title}
+                      subtitle={moduleByKey[v.module]?.short ?? ""}
+                      trailing={<IconButton size="sm" variant="ghost" label={`Remove bookmark ${v.title}`} icon={<X size={13} />} onClick={() => toggleBookmark(v)} />}
+                    />
+                  );
+                })}
+              </ul>
+            )}
+          </SectionCard>
 
-      <div className="order-1 min-w-0 space-y-4 lg:order-2">
-        <HeroHeader days={days} lastVisit={lastVisit} />
-        <CurveHero overlay={<PlanCard rows={planRows} />} />
-        <div className="grid gap-4 sm:grid-cols-2">
-          <StatCard
-            label="Quiz average"
-            badge={scores.length ? `${scores.length} done` : undefined}
-            value={average === null ? "—" : `${average}%`}
-            meter={(average ?? 0) / 100}
-            footer={best === null ? "Finish a quiz to see your score" : `Best score ${best}%`}
-            tone="sun"
-          />
-          <StatCard
-            label="Topics completed"
-            badge={goals[1].done ? "+ today" : undefined}
-            value={String(topicsDone)}
-            meter={topicsTotal ? topicsDone / topicsTotal : 0}
-            footer={topicsTotal ? `${topicsDone} of ${topicsTotal} NCERT topics` : "Start the backend to see totals"}
-            tone="salmon"
-          />
-        </div>
-      </div>
-
-      <div className="order-3 grid min-w-0 content-start gap-4 lg:col-span-2 lg:grid-cols-2 xl:col-span-1 xl:grid-cols-1">
-        <Card className="p-4 sm:p-5">
-          <div className="mb-5 flex items-start justify-between gap-3">
-            <div>
-              <h2 className="text-xl font-semibold tracking-tight">Learning activity</h2>
-              <p className="mt-1 text-xs text-muted">Lessons, simulations and quizzes, last 14 days</p>
+          <SectionCard
+            title="Today's goals"
+            action={
+              <span className="flex h-10 min-w-10 items-center justify-center rounded-2xl bg-primary px-3 text-sm font-semibold tabular-nums text-on-primary">
+                {goalsDone}/{goals.length}
+              </span>
+            }
+          >
+            <div className="card-edge rounded-2xl bg-surface-2 p-3.5">
+              <p className="text-sm font-medium">Small steps that count today:</p>
+              <ul className="mt-2.5 space-y-2.5">
+                {goals.map((g) => (
+                  <li key={g.label} className={`flex items-center gap-2.5 text-[13px] ${g.done ? "text-muted line-through" : ""}`}>
+                    {g.done ? <CheckSquare size={16} className="shrink-0 text-ink" aria-hidden /> : <Square size={16} className="shrink-0 text-muted" aria-hidden />}
+                    <span>{g.label}</span>
+                    <span className="sr-only">{g.done ? "(done)" : "(not done)"}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <Badge tone="lime">{weekTotal} this week</Badge>
+          </SectionCard>
+        </div>
+
+        <div className="order-1 min-w-0 space-y-4 lg:order-2">
+          <HeroHeader days={days} lastVisit={lastVisit} />
+          <CurveHero overlay={<PlanCard rows={planRows} />} />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <StatCard
+              label="Quiz average"
+              badge={scores.length ? `${scores.length} done` : undefined}
+              value={average === null ? "—" : `${average}%`}
+              meter={(average ?? 0) / 100}
+              footer={best === null ? "Finish a quiz to see your score" : `Best score ${best}%`}
+              tone="sun"
+            />
+            <StatCard
+              label="Topics completed"
+              badge={goals[1].done ? "+ today" : undefined}
+              value={String(topicsDone)}
+              meter={topicsTotal ? topicsDone / topicsTotal : 0}
+              footer={topicsTotal ? `${topicsDone} of ${topicsTotal} NCERT topics` : "Start the backend to see totals"}
+              tone="salmon"
+            />
           </div>
-          <ActivityBars days={week} />
-        </Card>
+        </div>
 
-        <RecentTable items={recent} />
-
-        {labDone > 0 && (
+        <div className="order-3 grid min-w-0 content-start gap-4 lg:col-span-2 lg:grid-cols-2 xl:col-span-1 xl:grid-cols-1">
           <Card className="p-4 sm:p-5">
-            <h2 className="mb-3 text-xl font-semibold tracking-tight">Lab results</h2>
-            <ul className="divide-y divide-line/80 text-sm">
-              {Object.entries(experiments).map(([id, r]) => (
-                <li key={id}>
-                  <Link to={`/lab/${id}`} className="flex items-center justify-between gap-3 px-1 py-3 hover:underline">
-                    <span className="truncate font-medium">{r.title}</span>
-                    <span className="shrink-0 rounded-full bg-surface-2 px-2.5 py-1 font-mono text-[11px]">{r.errorPercent !== null ? `${r.errorPercent.toFixed(1)}% err` : "saved"}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="mb-5 flex items-start justify-between gap-3">
+              <div>
+                <h2 className="text-xl font-semibold tracking-tight">Learning activity</h2>
+                <p className="mt-1 text-xs text-muted">Lessons, simulations and quizzes, last 14 days</p>
+              </div>
+              <Badge tone="lime">{weekTotal} this week</Badge>
+            </div>
+            <ActivityBars days={week} />
           </Card>
-        )}
 
-        <div className="text-right lg:col-span-2 xl:col-span-1">
-          <Button size="sm" variant="ghost" onClick={() => { if (window.confirm("Clear all saved progress, bookmarks and history on this device?")) reset(); }}>
-            Reset progress
-          </Button>
+          <RecentTable items={recent} />
+
+          {labDone > 0 && (
+            <Card className="p-4 sm:p-5">
+              <h2 className="mb-3 text-xl font-semibold tracking-tight">Lab results</h2>
+              <ul className="divide-y divide-line/80 text-sm">
+                {Object.entries(experiments).map(([id, r]) => (
+                  <li key={id}>
+                    <Link to={`/lab/${id}`} className="flex items-center justify-between gap-3 px-1 py-3 hover:underline">
+                      <span className="truncate font-medium">{r.title}</span>
+                      <span className="shrink-0 rounded-full bg-surface-2 px-2.5 py-1 font-mono text-[11px]">{r.mode === "mystery" && r.score !== undefined ? `mystery ${r.score}/100` : r.errorPercent !== null ? `${r.errorPercent.toFixed(1)}% err` : "saved"}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          )}
+
+          <div className="text-right lg:col-span-2 xl:col-span-1">
+            <Button size="sm" variant="ghost" onClick={() => { if (window.confirm("Clear all saved progress, review cards, bookmarks and history on this device?")) { reset(); useReviews.getState().reset(); } }}>
+              Reset progress
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
