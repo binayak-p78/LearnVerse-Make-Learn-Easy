@@ -31,7 +31,7 @@
           "type": "numeric",
           "prompt": "Local maximum value of f(x) = x³ − 3x?",
           "answer": 2,
-          "hint": "",
+          "hint": "Solve f′(x) = 0, then check the sign of f″ to find which point is the maximum.",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -40,7 +40,7 @@
           "type": "mcq",
           "prompt": "f(x) = x² − 4x is decreasing on …",
           "answer": 0,
-          "hint": "",
+          "hint": "f decreases where f′(x) < 0.",
           "explanation": "",
           "tolerance": 0.01,
           "options": [
@@ -48,6 +48,12 @@
             "(2, ∞)",
             "(−2, 2)",
             "(0, 4)"
+          ],
+          "optionFeedback": [
+            "",
+            "f′(x) = 2x − 4 is positive for x > 2, so f increases there.",
+            "Solving 2x − 4 < 0 gives x < 2 with no lower limit.",
+            "0 and 4 are where f(x) = 0, not where f′ changes sign."
           ]
         },
         {
@@ -55,7 +61,7 @@
           "type": "numeric",
           "prompt": "Maximum value of f(x) = −x² + 4x + 1?",
           "answer": 5,
-          "hint": "",
+          "hint": "Set f′(x) = 0 or complete the square; the parabola opens downward.",
           "explanation": "",
           "tolerance": 0.01
         }
@@ -88,7 +94,7 @@
           "type": "numeric",
           "prompt": "Slope of the tangent to y = x³ at x = 2?",
           "answer": 12,
-          "hint": "",
+          "hint": "The slope of the tangent is dy/dx at the point.",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -97,7 +103,7 @@
           "type": "numeric",
           "prompt": "Slope of the normal to y = x² at x = 1?",
           "answer": -0.5,
-          "hint": "",
+          "hint": "The normal is perpendicular to the tangent: slope of normal = −1/(dy/dx).",
           "explanation": "",
           "tolerance": 0.01
         },

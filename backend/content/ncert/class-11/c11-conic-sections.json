@@ -35,7 +35,7 @@
           "type": "numeric",
           "prompt": "Radius of x² + y² − 4x + 6y − 12 = 0?",
           "answer": 5,
-          "hint": "",
+          "hint": "Complete the square in x and in y to reach (x − h)² + (y − k)² = r².",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -44,7 +44,7 @@
           "type": "mcq",
           "prompt": "Focus of y² = 12x?",
           "answer": 0,
-          "hint": "",
+          "hint": "Match y² = 12x with y² = 4ax to find a; the focus of this form is (a, 0).",
           "explanation": "",
           "tolerance": 0.01,
           "options": [
@@ -52,6 +52,12 @@
             "(0, 3)",
             "(12, 0)",
             "(−3, 0)"
+          ],
+          "optionFeedback": [
+            "",
+            "That is the focus of x² = 12y. For y² = 4ax the focus lies on the x-axis.",
+            "12 is 4a, not a. Here 4a = 12, so a = 3.",
+            "y² = 12x opens to the right, so the focus is on the positive x-axis."
           ]
         },
         {
@@ -59,7 +65,7 @@
           "type": "numeric",
           "prompt": "Length of the latus rectum of y² = 12x?",
           "answer": 12,
-          "hint": "",
+          "hint": "For y² = 4ax the latus rectum has length 4a.",
           "explanation": "",
           "tolerance": 0.01
         }
@@ -94,7 +100,7 @@
           "type": "numeric",
           "prompt": "Eccentricity of x²/25 + y²/16 = 1?",
           "answer": 0.6,
-          "hint": "",
+          "hint": "For an ellipse c² = a² − b² and e = c/a.",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -103,7 +109,7 @@
           "type": "mcq",
           "prompt": "Foci of x²/9 − y²/16 = 1?",
           "answer": 0,
-          "hint": "",
+          "hint": "For a hyperbola c² = a² + b²; the foci are (±c, 0) when x² comes first.",
           "explanation": "",
           "tolerance": 0.01,
           "options": [
@@ -111,6 +117,12 @@
             "(±√7, 0)",
             "(0, ±5)",
             "(±3, 0)"
+          ],
+          "optionFeedback": [
+            "",
+            "c² = a² − b² is the ellipse rule. For a hyperbola c² = a² + b².",
+            "The x² term is positive, so the foci lie on the x-axis.",
+            "(±a, 0) are the vertices, not the foci."
           ]
         },
         {
@@ -118,7 +130,7 @@
           "type": "numeric",
           "prompt": "Latus rectum of x²/25 + y²/16 = 1?",
           "answer": 6.4,
-          "hint": "",
+          "hint": "The latus rectum of x²/a² + y²/b² = 1 (a > b) is 2b²/a.",
           "explanation": "",
           "tolerance": 0.01
         }

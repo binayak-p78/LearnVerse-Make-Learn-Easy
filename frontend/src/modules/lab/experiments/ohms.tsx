@@ -20,14 +20,17 @@ export function Circuit({ caption, children }: { caption: string; children: Reac
   );
 }
 
-function OhmSim({ truth, onRecord }: SimulationProps<Truth>) {
+const MIN_RHEOSTAT = 2;
+const MAX_RHEOSTAT = 42;
+
+function OhmSim({ truth, bench, onRecord }: SimulationProps<Truth>) {
   const [position, setPosition] = useState(50);
-  const rheostat = 2 + 40 * (1 - position / 100);
+  const rheostat = MIN_RHEOSTAT + (MAX_RHEOSTAT - MIN_RHEOSTAT) * (1 - position / 100);
   const current = SUPPLY / (truth.R + rheostat);
   // Fresh meter jitter each time the rheostat moves
   const noise = useMemo(() => ({ i: gaussian(0.002), v: gaussian(0.015) }), [position]);
-  const ammeter = roundTo(current + noise.i, 0.005);
-  const voltmeter = roundTo(current * truth.R + noise.v, 0.01);
+  const ammeter = bench.read("ammeter", current + noise.i);
+  const voltmeter = bench.read("voltmeter", current * truth.R + noise.v);
 
   return (
     <div className="grid gap-4 md:grid-cols-[320px_1fr]">
@@ -55,7 +58,7 @@ function OhmSim({ truth, onRecord }: SimulationProps<Truth>) {
           <Meter label="Voltmeter" value={voltmeter} unit="V" />
           <Meter label="Ammeter" value={ammeter} unit="A" digits={3} />
         </div>
-        <Button variant="primary" icon={<Plus size={16} />} onClick={() => onRecord({ V: voltmeter, I: ammeter, ratio: voltmeter / ammeter })}>
+        <Button variant="primary" icon={<Plus size={16} />} onClick={() => onRecord({ V: voltmeter, I: ammeter })}>
           Record reading
         </Button>
         <p className="text-xs text-muted">The resistor's value is hidden. Find it from the slope of the V–I graph.</p>
@@ -73,9 +76,16 @@ export const ohms: ExperimentDef<Truth> = {
     { key: "I", label: "I (A)", digits: 3 },
     { key: "ratio", label: "V / I (Ω)", digits: 2 },
   ],
+  instruments: [
+    { key: "voltmeter", label: "Voltmeter", unit: "V", fields: ["V"], leastCount: 0.01, maxZeroError: 0.2, analog: true, digits: 2 },
+    { key: "ammeter", label: "Ammeter", unit: "A", fields: ["I"], leastCount: 0.005, maxZeroError: 0.02, analog: true, digits: 3 },
+  ],
   graph: { x: "I", y: "V", xLabel: "I (A)", yLabel: "V (V)", fit: "origin" },
+  sweep: (t) => ({ field: "V", label: "voltage V (V)", min: (SUPPLY * t.R) / (t.R + MAX_RHEOSTAT), max: (SUPPLY * t.R) / (t.R + MIN_RHEOSTAT) }),
+  target: { symbol: "R", label: "Resistance", unit: "Ω", value: (t) => t.R },
   setup: () => ({ R: roundTo(4.7 + Math.random() * 7, 0.1) }),
   Simulation: OhmSim,
+  derive: (raw) => ({ ...raw, ratio: Number(raw.V) / Number(raw.I) }),
   results: (rows, truth) => {
     const fit = originFit(rows.map((r) => Number(r.I)), rows.map((r) => Number(r.V)));
     return fit ? [{ label: "Resistance from the slope", symbol: "R", value: fit.slope, unit: "Ω", expected: truth.R, expectedLabel: "true value" }] : [];

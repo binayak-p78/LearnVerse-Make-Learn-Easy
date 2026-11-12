@@ -1,7 +1,7 @@
 import type { HTMLAttributes, ReactNode } from "react";
 
 export function Card({ className = "", ...rest }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={`card-edge rounded-[26px] bg-surface shadow-card ${className}`} {...rest} />;
+  return <div className={`glass rounded-[26px] shadow-card ${className}`} {...rest} />;
 }
 
 export function CardHeader({
@@ -100,5 +100,5 @@ export function PageHeader({
 }
 
 export function Skeleton({ className = "" }: { className?: string }) {
-  return <div className={`animate-pulse rounded-[26px] bg-surface ${className}`} />;
+  return <div className={`glass animate-pulse rounded-[26px] ${className}`} />;
 }

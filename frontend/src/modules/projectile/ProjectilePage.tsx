@@ -11,6 +11,7 @@ import { useAnimationLoop } from "@/hooks/useAnimationLoop";
 import { cssVar } from "@/hooks/useTheme";
 import { useTrackVisit } from "@/hooks/useTrackVisit";
 import { GRAVITY_PRESETS, type LaunchParams, sampleAt, simulate, vec } from "./engine";
+import { MotionGraphs } from "./MotionGraphs";
 import { type PlottedTrajectory, ProjectileCanvas } from "./ProjectileCanvas";
 
 const SPEEDS = ["0.25", "0.5", "1", "2"] as const;
@@ -227,6 +228,8 @@ export default function ProjectilePage() {
               </div>
             </Card>
           </div>
+
+          <MotionGraphs trajectory={trajectory} time={time} params={effective} />
         </div>
       </div>
     </>

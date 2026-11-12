@@ -21,7 +21,7 @@
           "type": "mcq",
           "prompt": "∫ cos x dx = ?",
           "answer": 1,
-          "hint": "",
+          "hint": "Ask which function has cos x as its derivative.",
           "explanation": "",
           "tolerance": 0.01,
           "options": [
@@ -29,6 +29,12 @@
             "sin x + C",
             "cos x + C",
             "tan x + C"
+          ],
+          "optionFeedback": [
+            "Sign slip: d/dx(sin x) = cos x. The minus belongs to ∫ sin x dx = −cos x.",
+            "",
+            "Check by differentiating: d/dx(cos x) = −sin x, not cos x.",
+            "d/dx(tan x) = sec² x."
           ]
         },
         {
@@ -36,7 +42,7 @@
           "type": "numeric",
           "prompt": "If ∫ 6x dx = kx² + C, what is k?",
           "answer": 3,
-          "hint": "",
+          "hint": "∫ 6x dx = 6 · x²/2 + C.",
           "explanation": "",
           "tolerance": 0.01
         }
@@ -58,7 +64,7 @@
           "type": "mcq",
           "prompt": "∫ x eˣ dx = ?",
           "answer": 0,
-          "hint": "",
+          "hint": "Integrate by parts with u = x and dv = eˣ dx.",
           "explanation": "",
           "tolerance": 0.01,
           "options": [
@@ -66,6 +72,12 @@
             "x eˣ + C",
             "(x + 1)eˣ + C",
             "x²eˣ/2 + C"
+          ],
+          "optionFeedback": [
+            "",
+            "Differentiate to check: d/dx(x eˣ) = eˣ + x eˣ, one eˣ too many.",
+            "Sign slip in by parts: uv − ∫ v du = x eˣ − eˣ.",
+            "You cannot integrate each factor separately. Use parts with u = x."
           ]
         },
         {
@@ -73,7 +85,7 @@
           "type": "mcq",
           "prompt": "In ∫ x sin x dx (by parts), u should be …",
           "answer": 0,
-          "hint": "",
+          "hint": "ILATE order: choose u from the type that comes first (Inverse, Log, Algebraic, Trig, Exponential).",
           "explanation": "By ILATE, the algebraic term x comes before trigonometric.",
           "tolerance": 0.01,
           "options": [
@@ -81,6 +93,12 @@
             "sin x",
             "cos x",
             "x sin x"
+          ],
+          "optionFeedback": [
+            "",
+            "With u = sin x the leftover integral gets harder. Algebraic comes before trigonometric in ILATE.",
+            "cos x is not a factor of x sin x.",
+            "Then dv = dx and nothing simplifies."
           ]
         }
       ]
@@ -111,7 +129,7 @@
           "type": "numeric",
           "prompt": "∫₀³ x² dx = ?",
           "answer": 9,
-          "hint": "",
+          "hint": "Antiderivative x³/3, then evaluate from 0 to 3.",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -120,7 +138,7 @@
           "type": "numeric",
           "prompt": "∫₀^π sin x dx = ?",
           "answer": 2,
-          "hint": "",
+          "hint": "∫ sin x dx = −cos x; −cos π − (−cos 0).",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -129,7 +147,7 @@
           "type": "numeric",
           "prompt": "∫₀¹ x² dx (as a decimal, 3 places)?",
           "answer": 0.333,
-          "hint": "",
+          "hint": "[x³/3] from 0 to 1.",
           "explanation": "",
           "tolerance": 0.002
         }

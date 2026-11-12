@@ -12,11 +12,13 @@ interface Truth {
 
 const BOX = [1, 2, 3, 4, 5, 6, 8, 10];
 
-function BridgeSim({ truth, onRecord }: SimulationProps<Truth>) {
+function BridgeSim({ truth, bench, onRecord }: SimulationProps<Truth>) {
   const [R, setR] = useState(4);
   const [l, setL] = useState(30);
+  // The slider is the scale reading under the jockey; a zero offset moves the real contact point
+  const contact = bench.actual("scale", l);
   const balance = (100 * R) / (R + truth.X);
-  const deflection = Math.max(-30, Math.min(30, (l - balance) * 2.5));
+  const deflection = Math.max(-30, Math.min(30, (contact - balance) * 2.5));
   const nulled = Math.abs(deflection) < 0.6;
   const angle = (deflection / 30) * 60;
 
@@ -34,15 +36,15 @@ function BridgeSim({ truth, onRecord }: SimulationProps<Truth>) {
             <path d="M260 41 V70" />
             <circle cx="260" cy="88" r="18" />
             <path d={`M260 88 L${260 + 14 * Math.sin((angle * Math.PI) / 180)} ${88 - 14 * Math.cos((angle * Math.PI) / 180)}`} className={nulled ? "stroke-success" : "stroke-danger"} strokeWidth="2.5" />
-            <path d={`M260 106 L${40 + 4.4 * l} 146`} strokeDasharray="4 3" />
+            <path d={`M260 106 L${40 + 4.4 * contact} 146`} strokeDasharray="4 3" />
           </g>
-          <path d={`M${40 + 4.4 * l} 146 l-6 -10 h12 z`} className="fill-accent" />
+          <path d={`M${40 + 4.4 * contact} 146 l-6 -10 h12 z`} className="fill-accent" />
           {[0, 25, 50, 75, 100].map((cm) => (
             <text key={cm} x={36 + 4.4 * cm} y="172" fontSize="10" className="fill-muted">{cm}</text>
           ))}
           <text x="248" y="128" fontSize="11" className="fill-muted">G</text>
         </svg>
-        <SliderField label="Jockey position l" unit="cm" value={l} min={1} max={99} step={0.1} onChange={(v) => setL(roundTo(v, 0.1))} format={(v) => v.toFixed(1)} />
+        <SliderField label="Jockey position l (scale reading)" unit="cm" value={l} min={1} max={99} step={0.1} onChange={(v) => setL(roundTo(v, 0.1))} format={(v) => v.toFixed(1)} />
       </div>
       <div className="space-y-3">
         <SelectField label="Resistance from box R" value={R} onChange={(e) => setR(Number(e.target.value))}>
@@ -50,7 +52,7 @@ function BridgeSim({ truth, onRecord }: SimulationProps<Truth>) {
         </SelectField>
         <Meter label="Galvanometer" value={deflection} unit="div" digits={1} />
         <p className={`text-xs ${nulled ? "text-success" : "text-muted"}`}>{nulled ? "Null point found." : "Slide the jockey until the needle reads zero."}</p>
-        <Button variant="primary" icon={<Plus size={16} />} disabled={!nulled} onClick={() => onRecord({ R, l, X: (R * (100 - l)) / l })}>
+        <Button variant="primary" icon={<Plus size={16} />} disabled={!nulled} onClick={() => onRecord({ R, l })}>
           Record null point
         </Button>
       </div>
@@ -67,8 +69,19 @@ export const meterBridge: ExperimentDef<Truth> = {
     { key: "l", label: "l (cm)", digits: 1 },
     { key: "X", label: "X = R(100 − l)/l (Ω)", digits: 3 },
   ],
+  instruments: [
+    { key: "scale", label: "Bridge scale", unit: "cm", fields: ["l"], leastCount: 0.1, maxZeroError: 0.5, analog: true, digits: 1 },
+  ],
+  sweep: () => ({ field: "R", label: "box resistance R (Ω)", min: BOX[0], max: BOX[BOX.length - 1] }),
+  consistency: "X",
+  target: { symbol: "X", label: "Unknown resistance", unit: "Ω", value: (t) => t.X },
   setup: () => ({ X: roundTo(2 + Math.random() * 7, 0.1) }),
   Simulation: BridgeSim,
+  derive: (raw) => {
+    const R = Number(raw.R);
+    const l = Number(raw.l);
+    return { ...raw, X: (R * (100 - l)) / l };
+  },
   results: (rows, truth) => [
     { label: "Mean unknown resistance", symbol: "X", value: mean(rows.map((r) => Number(r.X))), unit: "Ω", expected: truth.X, expectedLabel: "true value" },
   ],

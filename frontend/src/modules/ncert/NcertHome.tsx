@@ -1,11 +1,13 @@
-import { GraduationCap, Search } from "lucide-react";
+import { GraduationCap, Network, Repeat, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { LoadError } from "@/components/OfflineNotice";
+import { SaveOfflineButton } from "@/components/SaveOfflineButton";
 import { Badge, Card, PageHeader, Skeleton } from "@/components/ui/Card";
 import { useAsync } from "@/hooks/useAsync";
 import { useTrackVisit } from "@/hooks/useTrackVisit";
 import { gradeOfChapter, useProgress } from "@/services/progressStore";
+import { dueCards, useReviews } from "@/services/reviewStore";
 import { fetchClasses, type SearchHit, searchContent } from "./content";
 
 function useDebounced<T>(value: T, ms: number): T {
@@ -30,6 +32,7 @@ export default function NcertHome() {
   useTrackVisit("NCERT Mathematics", "ncert");
   const classes = useAsync(fetchClasses, []);
   const completed = useProgress((s) => s.completedTopics);
+  const due = dueCards(useReviews((s) => s.cards)).length;
   const [params] = useSearchParams();
   const [query, setQuery] = useState(params.get("q") ?? "");
   const [grade, setGrade] = useState<number | undefined>();
@@ -43,6 +46,17 @@ export default function NcertHome() {
       <PageHeader
         title="NCERT Mathematics"
         description="Class 11 and 12, organised by the NCERT textbooks. Each topic has notes, worked examples, a practice quiz and links into the graphing calculator."
+        actions={
+          <>
+            <Link to="/ncert/map" className="inline-flex h-8 items-center gap-1.5 rounded-xl bg-primary px-3 text-xs font-semibold text-on-primary hover:bg-primary-hover">
+              <Network size={14} aria-hidden /> Concept map
+            </Link>
+            <Link to="/review" className="inline-flex h-8 items-center gap-1.5 rounded-xl border border-line/60 bg-surface-2 px-3 text-xs font-semibold hover:bg-line/70">
+              <Repeat size={14} aria-hidden /> Review{due > 0 && <Badge tone="accent">{due} due</Badge>}
+            </Link>
+            <SaveOfflineButton />
+          </>
+        }
       />
 
       <Card className="mb-5 p-4">

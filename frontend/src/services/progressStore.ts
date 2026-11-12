@@ -10,7 +10,11 @@ export type ModuleKey =
   | "pda"
   | "turing"
   | "ncert"
-  | "lab";
+  | "lab"
+  | "match"
+  | "review"
+  | "map"
+  | "assign";
 
 export interface Visit {
   path: string;
@@ -25,11 +29,23 @@ export interface QuizScore {
   at: number;
 }
 
+export type LabMode = "guided" | "realistic" | "mystery";
+
 export interface ExperimentRecord {
   title: string;
   result: string;
   errorPercent: number | null;
+  mode?: LabMode;
+  score?: number;
   at: number;
+}
+
+export interface MatchRecord {
+  title: string;
+  score: number;
+  at: number;
+  lastScore: number;
+  lastAt: number;
 }
 
 interface ProgressState {
@@ -38,6 +54,7 @@ interface ProgressState {
   completedTopics: Record<string, number>;
   quizScores: Record<string, QuizScore>;
   experiments: Record<string, ExperimentRecord>;
+  matches: Record<string, MatchRecord>;
   activeDays: string[];
   activity: Record<string, number>;
   recordVisit: (visit: Omit<Visit, "at">) => void;
@@ -45,6 +62,7 @@ interface ProgressState {
   setTopicComplete: (key: string, done: boolean) => void;
   saveQuizScore: (key: string, correct: number, total: number) => void;
   saveExperiment: (id: string, record: Omit<ExperimentRecord, "at">) => void;
+  saveMatch: (id: string, title: string, score: number) => void;
   reset: () => void;
 }
 
@@ -75,6 +93,7 @@ const initial = {
   completedTopics: {},
   quizScores: {},
   experiments: {},
+  matches: {},
   activeDays: [],
   activity: {},
 };
@@ -118,6 +137,14 @@ export const useProgress = create<ProgressState>()(
           experiments: { ...s.experiments, [id]: { ...record, at: Date.now() } },
           ...bump(s),
         })),
+      // Keeps the best score per challenge plus the latest attempt
+      saveMatch: (id, title, score) =>
+        set((s) => {
+          const now = Date.now();
+          const previous = s.matches[id];
+          const best = previous && previous.score >= score ? { score: previous.score, at: previous.at } : { score, at: now };
+          return { matches: { ...s.matches, [id]: { title, ...best, lastScore: score, lastAt: now } }, ...bump(s) };
+        }),
       reset: () => set(initial),
     }),
     { name: "mle-progress", version: 1, storage: createJSONStorage(() => safeStorage) },

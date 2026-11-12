@@ -7,7 +7,12 @@ import { fileURLToPath } from "node:url";
 const BASE = process.argv[2] ?? "http://localhost:5173";
 const OUT = join(dirname(fileURLToPath(import.meta.url)), "screenshots");
 const PORT = 9339;
-const CHROME = process.env.CHROME ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const DEFAULT_CHROME = {
+  darwin: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  win32: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  linux: "google-chrome",
+};
+const CHROME = process.env.CHROME ?? DEFAULT_CHROME[process.platform] ?? "google-chrome";
 
 const PAGES = [
   ["02-graphing-calculator", "/graph"],

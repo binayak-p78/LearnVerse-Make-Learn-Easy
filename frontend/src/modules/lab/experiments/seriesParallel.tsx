@@ -2,7 +2,7 @@ import { Plus } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Segmented, SliderField } from "@/components/ui/Field";
-import { gaussian, mean, roundTo } from "../fit";
+import { gaussian, mean } from "../fit";
 import { Meter } from "../Meter";
 import type { ExperimentDef, ResultLine, Row, SimulationProps } from "../types";
 
@@ -51,12 +51,13 @@ function Diagram({ config }: { config: Config }) {
   );
 }
 
-function SeriesParallelSim({ truth, onRecord }: SimulationProps<Truth>) {
+function SeriesParallelSim({ truth, bench, onRecord }: SimulationProps<Truth>) {
   const [config, setConfig] = useState<Config>("R1");
   const [voltage, setVoltage] = useState(3);
   const req = equivalent(truth, config);
-  const noise = useMemo(() => gaussian(0.004), [config, voltage]);
-  const current = roundTo(voltage / req + noise, 0.002);
+  const noise = useMemo(() => ({ i: gaussian(0.004), v: gaussian(0.005) }), [config, voltage]);
+  const voltmeter = bench.read("voltmeter", voltage + noise.v);
+  const current = bench.read("ammeter", voltage / req + noise.i);
 
   return (
     <div className="grid gap-4 md:grid-cols-[320px_1fr]">
@@ -70,10 +71,10 @@ function SeriesParallelSim({ truth, onRecord }: SimulationProps<Truth>) {
         ]} />
         <SliderField label="Supply voltage" unit="V" value={voltage} min={1} max={6} step={0.1} onChange={setVoltage} />
         <div className="grid grid-cols-2 gap-2">
-          <Meter label="Voltmeter" value={voltage} unit="V" />
+          <Meter label="Voltmeter" value={voltmeter} unit="V" />
           <Meter label="Ammeter" value={current} unit="A" digits={3} />
         </div>
-        <Button variant="primary" icon={<Plus size={16} />} onClick={() => onRecord({ config, V: voltage, I: current, R: voltage / current })}>
+        <Button variant="primary" icon={<Plus size={16} />} onClick={() => onRecord({ config, V: voltmeter, I: current })}>
           Record reading
         </Button>
       </div>
@@ -93,8 +94,15 @@ export const seriesParallel: ExperimentDef<Truth> = {
     { key: "I", label: "I (A)", digits: 3 },
     { key: "R", label: "V / I (Ω)", digits: 2 },
   ],
+  instruments: [
+    { key: "voltmeter", label: "Voltmeter", unit: "V", fields: ["V"], leastCount: 0.01, maxZeroError: 0.1, analog: true, digits: 2 },
+    { key: "ammeter", label: "Ammeter", unit: "A", fields: ["I"], leastCount: 0.002, maxZeroError: 0.02, analog: true, digits: 3 },
+  ],
+  sweep: () => ({ field: "V", label: "supply voltage V (V)", min: 1, max: 6 }),
+  target: { symbol: "R_p", label: "Parallel combination", unit: "Ω", value: (t) => (t.R1 * t.R2) / (t.R1 + t.R2) },
   setup: () => ({ R1: 2 + Math.floor(Math.random() * 10), R2: 3 + Math.floor(Math.random() * 15) }),
   Simulation: SeriesParallelSim,
+  derive: (raw) => ({ ...raw, R: Number(raw.V) / Number(raw.I) }),
   results: (rows) => {
     const r1 = measured(rows, "R1");
     const r2 = measured(rows, "R2");

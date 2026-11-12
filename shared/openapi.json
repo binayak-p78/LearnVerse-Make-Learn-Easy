@@ -770,6 +770,37 @@
     }
    }
   },
+  "/api/content/map": {
+   "get": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Concept Map",
+    "operationId": "concept_map_api_content_map_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ConceptMap"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/api/content/search": {
    "get": {
     "tags": [
@@ -870,6 +901,57 @@
        "application/json": {
         "schema": {
          "$ref": "#/components/schemas/AnswerResult"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/quiz/hint": {
+   "post": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Get Hint",
+    "operationId": "get_hint_api_quiz_hint_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/HintRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HintResult"
         }
        }
       }
@@ -1029,6 +1111,16 @@
      "explanation": {
       "type": "string",
       "title": "Explanation"
+     },
+     "diagnosis": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Diagnosis"
+       },
+       {
+        "type": "null"
+       }
+      ]
      }
     },
     "additionalProperties": false,
@@ -1036,7 +1128,8 @@
     "required": [
      "correct",
      "correctAnswer",
-     "explanation"
+     "explanation",
+     "diagnosis"
     ],
     "title": "AnswerResult"
    },
@@ -1246,6 +1339,23 @@
     ],
     "title": "ClassSummary"
    },
+   "ConceptMap": {
+    "properties": {
+     "nodes": {
+      "items": {
+       "$ref": "#/components/schemas/MapNode"
+      },
+      "type": "array",
+      "title": "Nodes"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "nodes"
+    ],
+    "title": "ConceptMap"
+   },
    "ConvertResponse": {
     "properties": {
      "dfa": {
@@ -1306,6 +1416,39 @@
      "expression"
     ],
     "title": "DerivativeRequest"
+   },
+   "Diagnosis": {
+    "properties": {
+     "code": {
+      "type": "string",
+      "enum": [
+       "OPTION",
+       "SIGN",
+       "RECIPROCAL",
+       "NEGATIVE_RECIPROCAL",
+       "SQUARED",
+       "SQUARE_ROOT",
+       "FACTOR_TWO",
+       "PLACE_VALUE",
+       "DEGREES_RADIANS",
+       "FACTOR_PI",
+       "ROUNDING",
+       "OFF_BY_ONE"
+      ],
+      "title": "Code"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "code",
+     "message"
+    ],
+    "title": "Diagnosis"
    },
    "ErrorBody": {
     "properties": {
@@ -1733,6 +1876,96 @@
     "type": "object",
     "title": "HTTPValidationError"
    },
+   "HintRequest": {
+    "properties": {
+     "chapterId": {
+      "type": "string",
+      "title": "Chapterid"
+     },
+     "topicId": {
+      "type": "string",
+      "title": "Topicid"
+     },
+     "questionId": {
+      "type": "string",
+      "title": "Questionid"
+     },
+     "level": {
+      "type": "integer",
+      "maximum": 3.0,
+      "minimum": 1.0,
+      "title": "Level"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "chapterId",
+     "topicId",
+     "questionId",
+     "level"
+    ],
+    "title": "HintRequest"
+   },
+   "HintResult": {
+    "properties": {
+     "level": {
+      "type": "integer",
+      "title": "Level"
+     },
+     "maxLevel": {
+      "type": "integer",
+      "title": "Maxlevel"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "strategy",
+       "example",
+       "eliminate",
+       "range"
+      ],
+      "title": "Kind"
+     },
+     "text": {
+      "type": "string",
+      "title": "Text"
+     },
+     "exampleIndex": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Exampleindex"
+     },
+     "eliminate": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Eliminate"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "level",
+     "maxLevel",
+     "kind",
+     "text",
+     "exampleIndex",
+     "eliminate"
+    ],
+    "title": "HintResult"
+   },
    "ImportResponse": {
     "properties": {
      "machine": {
@@ -2145,6 +2378,56 @@
      "machine"
     ],
     "title": "MachineRequest"
+   },
+   "MapNode": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "grade": {
+      "type": "integer",
+      "title": "Grade"
+     },
+     "number": {
+      "type": "integer",
+      "title": "Number"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "available": {
+      "type": "boolean",
+      "title": "Available"
+     },
+     "topicIds": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Topicids"
+     },
+     "prerequisites": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Prerequisites"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "grade",
+     "number",
+     "title",
+     "available",
+     "topicIds",
+     "prerequisites"
+    ],
+    "title": "MapNode"
    },
    "MinimizeResponse": {
     "properties": {

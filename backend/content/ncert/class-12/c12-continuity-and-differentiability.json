@@ -29,7 +29,7 @@
           "type": "numeric",
           "prompt": "Find k (as a decimal) in the worked example above.",
           "answer": 1.8,
-          "hint": "",
+          "hint": "Set the left-hand limit equal to the right-hand limit at the joining point and solve for k.",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -38,7 +38,7 @@
           "type": "numeric",
           "prompt": "How many points of discontinuity does ⌊x⌋ have in the open interval (0, 3)?",
           "answer": 2,
-          "hint": "",
+          "hint": "⌊x⌋ jumps at every integer. Count the integers strictly inside the interval.",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -47,12 +47,16 @@
           "type": "mcq",
           "prompt": "Is f(x) = |x| continuous at x = 0?",
           "answer": 0,
-          "hint": "",
+          "hint": "Compare lim x→0⁻, lim x→0⁺ and f(0).",
           "explanation": "",
           "tolerance": 0.01,
           "options": [
             "Yes",
             "No"
+          ],
+          "optionFeedback": [
+            "",
+            "A sharp corner is not a break. Both one-sided limits equal 0 = f(0)."
           ]
         }
       ]
@@ -82,12 +86,16 @@
           "type": "mcq",
           "prompt": "Is |x| differentiable at x = 0?",
           "answer": 1,
-          "hint": "",
+          "hint": "Compute the left-hand and right-hand derivatives at 0 and compare them.",
           "explanation": "",
           "tolerance": 0.01,
           "options": [
             "Yes",
             "No"
+          ],
+          "optionFeedback": [
+            "The left derivative is −1 and the right derivative is +1. They differ, so there is no derivative at 0.",
+            ""
           ]
         },
         {
@@ -95,7 +103,7 @@
           "type": "numeric",
           "prompt": "d/dx (x² + 1)³ at x = 1?",
           "answer": 24,
-          "hint": "",
+          "hint": "Use the chain rule: 3(x² + 1)² · 2x.",
           "explanation": "3(x² + 1)² · 2x = 3 · 4 · 2 = 24.",
           "tolerance": 0.01
         },
@@ -104,7 +112,7 @@
           "type": "numeric",
           "prompt": "dy/dx for x² + y² = 25 at (3, 4)?",
           "answer": -0.75,
-          "hint": "",
+          "hint": "Differentiate implicitly: 2x + 2y·dy/dx = 0.",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -113,7 +121,7 @@
           "type": "numeric",
           "prompt": "d/dx tan⁻¹x at x = 1?",
           "answer": 0.5,
-          "hint": "",
+          "hint": "d/dx tan⁻¹x = 1/(1 + x²).",
           "explanation": "",
           "tolerance": 0.01
         }

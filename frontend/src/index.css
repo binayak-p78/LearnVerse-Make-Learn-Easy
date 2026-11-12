@@ -45,6 +45,14 @@
   --plot-5: #c9a910;
   --grid: #e7e4dc;
   --bar-track: #e9e6de;
+  --mesh-sky: #8fb4ff;
+  --mesh-blue: #5f8df5;
+  --mesh-pink: #f29ac0;
+  --mesh-orange: #ff8a3d;
+  --mesh-ember: #f2603a;
+  --glass: rgba(246, 244, 239, 0.6);
+  --glass-edge: rgba(255, 255, 255, 0.7);
+  --ambient-opacity: 0.85;
   color-scheme: light;
 }
 
@@ -88,6 +96,14 @@
   --plot-5: #e3d636;
   --grid: #2a2825;
   --bar-track: #2a2825;
+  --mesh-sky: #23345e;
+  --mesh-blue: #2b4fa8;
+  --mesh-pink: #8a3a63;
+  --mesh-orange: #b5531f;
+  --mesh-ember: #9a3420;
+  --glass: rgba(27, 26, 24, 0.55);
+  --glass-edge: rgba(255, 255, 255, 0.06);
+  --ambient-opacity: 0.42;
   color-scheme: dark;
 }
 
@@ -135,8 +151,69 @@
   background-size: 6px 6px;
 }
 
+@utility mesh-glow {
+  background:
+    radial-gradient(55% 60% at 50% 108%, var(--mesh-orange) 0%, transparent 70%),
+    radial-gradient(35% 45% at 30% 100%, var(--mesh-ember) 0%, transparent 72%),
+    radial-gradient(60% 55% at 50% 88%, var(--mesh-pink) 0%, transparent 72%),
+    radial-gradient(40% 55% at 12% 70%, var(--mesh-blue) 0%, transparent 72%),
+    radial-gradient(40% 55% at 88% 70%, var(--mesh-blue) 0%, transparent 72%),
+    radial-gradient(75% 60% at 50% 62%, var(--mesh-sky) 0%, transparent 75%),
+    var(--surface);
+  /* Paint under the border too, otherwise the tile repeats into it as a coloured edge */
+  background-origin: border-box;
+  background-repeat: no-repeat;
+}
+
+@utility glass {
+  background: var(--glass);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid var(--glass-edge);
+}
+
 @utility card-edge {
   border: 1px solid var(--card-edge);
+}
+
+/* Ambient backdrop: four soft light pools whose colours follow the current section */
+@property --glow-a { syntax: "<color>"; inherits: true; initial-value: #9cbcff; }
+@property --glow-b { syntax: "<color>"; inherits: true; initial-value: #f6a8c9; }
+@property --glow-c { syntax: "<color>"; inherits: true; initial-value: #ffb07a; }
+@property --glow-d { syntax: "<color>"; inherits: true; initial-value: #7fa3f5; }
+
+.ambient {
+  --glow-a: #9cbcff;
+  --glow-b: #f6a8c9;
+  --glow-c: #ffb07a;
+  --glow-d: #7fa3f5;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: var(--ambient-opacity);
+  transition: --glow-a 1.2s ease, --glow-b 1.2s ease, --glow-c 1.2s ease, --glow-d 1.2s ease;
+  background:
+    radial-gradient(42vmax 34vmax at 8% 4%, var(--glow-a), transparent 70%),
+    radial-gradient(40vmax 32vmax at 94% 10%, var(--glow-b), transparent 70%),
+    radial-gradient(48vmax 30vmax at 60% 104%, var(--glow-c), transparent 70%),
+    radial-gradient(36vmax 30vmax at 2% 78%, var(--glow-d), transparent 70%);
+}
+.ambient[data-tint="sim"] { --glow-a: #8ec5ff; --glow-b: #b4b8ff; --glow-c: #86e3d4; --glow-d: #a9c9ff; }
+.ambient[data-tint="automata"] { --glow-a: #c4b0ff; --glow-b: #f3a6d8; --glow-c: #a9b8ff; --glow-d: #e2c4ff; }
+.ambient[data-tint="learn"] { --glow-a: #ffc792; --glow-b: #f7a8bc; --glow-c: #ffd970; --glow-d: #a6c2ff; }
+.ambient[data-tint="lab"] { --glow-a: #cdef80; --glow-b: #93dcc4; --glow-c: #ffd486; --glow-d: #a2caff; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .ambient {
+    display: none;
+  }
+  .glass {
+    background: var(--surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 html,
@@ -214,7 +291,8 @@ input[type="range"] {
 }
 
 @media print {
-  .no-print {
+  .no-print,
+  .ambient {
     display: none !important;
   }
   body {

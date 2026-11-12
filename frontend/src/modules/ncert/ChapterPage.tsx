@@ -110,7 +110,7 @@ export default function ChapterPage() {
           )}
 
           <Card className="p-5 sm:p-6">
-            <Quiz key={key} chapterId={data.id} topicId={topic.id} questions={topic.quiz} />
+            <Quiz key={key} chapterId={data.id} topicId={topic.id} questions={topic.quiz} examples={topic.examples} />
           </Card>
 
           <div className="flex flex-wrap justify-between gap-2">

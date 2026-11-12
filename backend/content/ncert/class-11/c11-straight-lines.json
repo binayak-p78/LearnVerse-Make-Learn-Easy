@@ -32,7 +32,7 @@
           "type": "numeric",
           "prompt": "Slope of the line through (1, 2) and (3, 8)?",
           "answer": 3,
-          "hint": "",
+          "hint": "Slope = (y₂ − y₁)/(x₂ − x₁).",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -41,7 +41,7 @@
           "type": "numeric",
           "prompt": "Slope of a line perpendicular to one with slope 2?",
           "answer": -0.5,
-          "hint": "",
+          "hint": "Perpendicular slopes multiply to −1.",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -50,7 +50,7 @@
           "type": "numeric",
           "prompt": "Slope of 3x + 4y − 12 = 0?",
           "answer": -0.75,
-          "hint": "",
+          "hint": "Rearrange to y = mx + c, or use slope = −(coefficient of x)/(coefficient of y).",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -59,7 +59,7 @@
           "type": "numeric",
           "prompt": "y-intercept of 2x − y + 5 = 0?",
           "answer": 5,
-          "hint": "",
+          "hint": "Put x = 0 and solve for y.",
           "explanation": "",
           "tolerance": 0.01
         }
@@ -89,7 +89,7 @@
           "type": "numeric",
           "prompt": "Distance of (0, 0) from 3x + 4y − 10 = 0?",
           "answer": 2,
-          "hint": "",
+          "hint": "Distance from (x₁, y₁) to ax + by + c = 0 is |ax₁ + by₁ + c| / √(a² + b²).",
           "explanation": "",
           "tolerance": 0.01
         },
@@ -98,7 +98,7 @@
           "type": "numeric",
           "prompt": "Distance of (2, 3) from 4x − 3y + 9 = 0?",
           "answer": 1.6,
-          "hint": "",
+          "hint": "Substitute the point into |ax₁ + by₁ + c| / √(a² + b²).",
           "explanation": "|8 − 9 + 9| / 5 = 1.6.",
           "tolerance": 0.01
         },
@@ -107,7 +107,7 @@
           "type": "numeric",
           "prompt": "Distance between 6x + 8y − 5 = 0 and 6x + 8y + 15 = 0?",
           "answer": 2,
-          "hint": "",
+          "hint": "For parallel lines ax + by + c₁ = 0 and ax + by + c₂ = 0, d = |c₁ − c₂| / √(a² + b²).",
           "explanation": "",
           "tolerance": 0.01
         }
